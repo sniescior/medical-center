@@ -5,6 +5,7 @@ import NavBar from "../components/utility/NavBar";
 export default function PatientsView() {
 
     const [pageNumber, setPageNumber] = useState(0);
+    const [order, setOrder] = 'DESC';
     const [count, setCount] = useState(5);
 
     useEffect(() => {
@@ -22,8 +23,9 @@ export default function PatientsView() {
 
     return (
         <div>
-            <NavBar currentPage="patients" />
-            <PatientList  />
+            <div className="content">
+                <PatientList  />
+            </div>
         </div>
     );
 }

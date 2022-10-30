@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import AppRouter from './routes/AppRouter';
+import AppView from './routes/AppView';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AppRouter />
+    <AppView />
   </React.StrictMode>
 );

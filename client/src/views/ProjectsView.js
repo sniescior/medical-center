@@ -21,8 +21,7 @@ export default function ProjectsView() {
     }, []);
 
     return (
-        <div>
-            <NavBar currentPage="projects" />
+        <div className="content">
             <ProjectList />
         </div>
     );
