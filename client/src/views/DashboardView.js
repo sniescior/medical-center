@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import NavBar from '../components/utility/NavBar';
 
 export default function DashboardView() {
 
@@ -13,6 +14,9 @@ export default function DashboardView() {
     }, []);
 
     return (
-        <h2>Podsumowanie</h2>
-    )
+        <div>
+            <NavBar currentPage='dashboard' />
+            <h2>Podsumowanie</h2>
+        </div>
+    );
 }

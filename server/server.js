@@ -23,6 +23,10 @@ app.get('/api', (req, res) => {
 app.use('/api/patients', patientRouter);
 app.use('/api/projects', projectRouter);
 
+app.get('*', (req, res) => {
+    res.send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, 'Route does not exist'));
+});
+
 /**
  * ------------- SERVER -------------
  */
