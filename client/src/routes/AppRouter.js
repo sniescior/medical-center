@@ -1,7 +1,7 @@
+import React from "react";
 import {
     createBrowserRouter,
-    RouterProvider,
-    Route
+    RouterProvider
   } from "react-router-dom";
 import DashboardView from '../views/DashboardView';
 import ErrorView from '../views/ErrorView';

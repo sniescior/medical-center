@@ -1,8 +1,6 @@
-import { React, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 export default function DashboardView() {
-
-    const [welcomeMessage, setWelcomeMessage] = useState([{}])
 
     useEffect(() => {
         fetch('/api').then(
@@ -16,5 +14,5 @@ export default function DashboardView() {
 
     return (
         <h2>Podsumowanie</h2>
-    );
+    )
 }
