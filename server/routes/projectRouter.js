@@ -10,8 +10,27 @@ const queries = {
     SELECT_PROJECT: 'SELECT * FROM projects WHERE id = ?',
     CREATE_PROJECT: 'INSERT INTO projects (name) VALUES (?)',
     UPDATE_PROJECT: 'UPDATE projects SET name = ? WHERE id = ?',
-    DELETE_PROJECT: 'DELETE FROM projects WHERE id = ?'
+    DELETE_PROJECT: 'DELETE FROM projects WHERE id = ?',
+
+    COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
+
+const normalizeResult = (result) => {
+    return Object.assign({}, result[0]);
+}
+
+router.get('/count-projects', async (req, res) => {
+    database.query(queries.COUNT_PROJECTS, (err, result) => {
+        try {
+            const normalResult = normalizeResult(result);
+            console.log(normalResult);
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { projectsCount: normalResult.projectsCount }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    })
+});
 
 router.get('/:id', async (req, res) => {
     console.log('Retrieving project');

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-    createBrowserRouter,
-    RouterProvider
-  } from "react-router-dom";
 import NavBar from "../components/utility/NavBar";
-import DashboardView from '../views/DashboardView';
+import DashboardView from './DashboardView';
 import TestsView from "../components/tests/TestsView";
-import PatientsView from '../views/PatientsView';
-import ProjectsView from '../views/ProjectsView';
+import PatientsView from './PatientsView';
+import ProjectsView from './ProjectsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
+import '../styles/index/index.css'
 
 export default function AppView() {
 
@@ -16,7 +13,7 @@ export default function AppView() {
 
   const views = [
     {
-      view: <DashboardView />,
+      view: <DashboardView setCurrentPage={setCurrentPage} />,
       name: 'dashboard'
     },
     {
@@ -40,7 +37,6 @@ export default function AppView() {
     for(var i = 0; i < views.length; i++) {
       if(views[i].name == currentPage) {
         setView(views[i]);
-        console.log(view);
       }
     }
   }, [currentPage]);

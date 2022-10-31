@@ -2,16 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 $font_color: #182747;
-$primary_color: #FFD384;
+// $primary_color: #FFD384;
+$primary_color: #ffecc97d;
 
 body {
-    background-color: $primary_color;
+    // background-color: $primary_color;
     color: #111;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Roboto Condensed', sans-serif;
     position: relative;
+    overflow-x: hidden;
+    width: 100vw;
 
     .wrapper {
         display: flex;
@@ -27,24 +30,31 @@ body {
     .container {
         height: 100%;
         min-height: 100vh;
-        background-color: rgba(238, 238, 238, 0.75);
+        background-color: rgba(238, 238, 238, 0.3);
         padding-top: 0;
         margin-top: 0;
         transition: .2s ease-in-out;
+        overflow-x: hidden;
 
         &.offset {
             .content {
                 transform: translateX(250px);
                 width: calc(100% - 250px);
             }
+
+            @media (max-width: 620px) {
+                .content {
+                    width: 100vw;
+                }    
+            }
         }
-        
+
         .content {
             padding-top: 0;
             margin-top: 0;
             height: 100%;
             width: calc(100% - 80px);
-            padding: 20px 12px;
+            padding: 20px 24px;
             transform: translateX(80px);
             box-sizing: border-box;
             transition: transform .3s ease-in-out;

@@ -1,0 +1,90 @@
+.summary-wrapper {
+  margin-top: 30px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  max-width: 800px;
+}
+@media (max-width: 620px) {
+  .summary-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+.summary-wrapper .card.tile {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 12px 20px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  box-sizing: border-box;
+  opacity: 1;
+}
+.summary-wrapper .card.tile .header {
+  transition: 0.3s ease-in-out;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.summary-wrapper .card.tile .header h3 {
+  font-weight: normal;
+  margin: 0;
+  color: #182747;
+}
+.summary-wrapper .card.tile .header button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.4em;
+  cursor: pointer;
+  color: rgba(24, 39, 71, 0.6078431373);
+  margin: 0;
+  padding: 0;
+  transition: 0.2s ease-in-out;
+}
+.summary-wrapper .card.tile .header button:hover {
+  color: #182747;
+  transform: translateX(2px);
+}
+.summary-wrapper .card.tile .divider {
+  transition: 0.3s ease-in-out;
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: 2px;
+  width: 100%;
+  background-color: rgba(17, 17, 17, 0.1);
+  margin: 12px 0;
+}
+.summary-wrapper .card.tile .details {
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+}
+.summary-wrapper .card.tile .details .dummy {
+  opacity: 0;
+  pointer-events: none;
+}
+.summary-wrapper .card.tile .details .text-danger {
+  color: #be0000;
+}
+.summary-wrapper .card.tile .details .text-success {
+  color: #379237;
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0.2;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0.2;
+  }
+}
+.summary-wrapper .card.tile.loading {
+  opacity: 0.6;
+  -webkit-animation: fadeIn 2s infinite alternate;
+          animation: fadeIn 2s infinite alternate;
+}
+.summary-wrapper .card.tile.loading .divider, .summary-wrapper .card.tile.loading .details, .summary-wrapper .card.tile.loading .header {
+  opacity: 0;
+}/*# sourceMappingURL=dashboard.css.map */

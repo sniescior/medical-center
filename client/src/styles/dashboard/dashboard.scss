@@ -1,0 +1,99 @@
+$font_color: #182747;
+$dimmed_font_color: #1827479b;
+
+.summary-wrapper {
+    margin-top: 30px;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    max-width: 800px;
+    
+    @media (max-width: 620px) {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        &.tile {
+            background-color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            padding: 12px 20px;
+            border: 1px solid rgba(17, 17, 17, 0.1);
+            box-sizing: border-box;
+            opacity: 1;
+
+            .header {
+                transition: .3s ease-in-out;
+                opacity: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                h3 {
+                    font-weight: normal;
+                    margin: 0;
+                    color: $font_color;
+                }
+
+                button {
+                    background-color: transparent;
+                    border: none;
+                    font-size: 1.4em;
+                    cursor: pointer;
+                    color: $dimmed_font_color;
+                    margin: 0;
+                    padding: 0;
+                    transition: .2s ease-in-out;
+
+                    &:hover {
+                        color: $font_color;
+                        transform: translateX(2px);
+                    }
+                }
+            }
+
+            .divider {
+                transition: .3s ease-in-out;
+                opacity: 1;
+                display: block;
+                width: 100%;
+                height: 2px;
+                width: 100%;
+                background-color: rgba(17, 17, 17, 0.1);
+                margin: 12px 0;
+            }
+
+            .details {
+                opacity: 1;
+                display: flex;
+                justify-content: space-between;
+                transition: .3s ease-in-out;
+
+                .dummy {
+                    opacity: 0;
+                    pointer-events: none;
+                }
+
+                .text-danger {
+                    color: #be0000;
+                }
+
+                .text-success {
+                    color: #379237;
+                }
+            }
+
+            @keyframes fadeIn { 
+                from { opacity: 0.2; }
+            }
+
+            &.loading {
+                opacity: 0.6;
+                animation: fadeIn 2s infinite alternate;
+
+                .divider, .details, .header {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

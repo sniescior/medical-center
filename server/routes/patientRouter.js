@@ -10,11 +10,29 @@ const queries = {
     SELECT_PATIENT: 'SELECT * FROM patients WHERE id = ?',
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
-    DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?'
+    DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
+
+    COUNT_PATIENTS: 'SELECT COUNT(*) AS patientsCount FROM patients '
 };
 
+const normalizeResult = (result) => {
+    return Object.assign({}, result[0]);
+}
+
+router.get('/count-patients', async (req, res) => {
+    database.query(queries.COUNT_PATIENTS, (err, result) => {
+        try {
+            const normalResult = normalizeResult(result);
+            console.log(normalResult);
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    })
+});
+
 router.get('/:id', async (req, res) => {
-    console.log('Retrieving patient');
     database.query(queries.SELECT_PATIENT, [req.params.id], (err, result) => {
         try {
             if(!result[0]) {
@@ -27,7 +45,7 @@ router.get('/:id', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 router.post('/', async (req, res) => {
     console.log('Creating patient');
@@ -46,7 +64,7 @@ router.post('/', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 router.put('/:id', async (req, res) => {
     console.log('Updating patient');
@@ -70,7 +88,7 @@ router.put('/:id', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 router.delete('/:id', async (req, res) => {
     console.log('Deleting patient');
@@ -87,10 +105,9 @@ router.delete('/:id', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 router.get('/*', async (req, res) => {
-    
     const count = parseInt(req.query.count);
     const page = parseInt(req.query.page);
 
@@ -106,6 +123,6 @@ router.get('/*', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 module.exports = router;
