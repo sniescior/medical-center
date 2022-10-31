@@ -46,6 +46,14 @@ VALUES ('Norbert', 'Piekarz', 'norbert.piekarz@mail.com', 'plac Szczepański 20'
 INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth)
 VALUES ('Bartłomiej', 'Kaminsky', 'bartlomiej.kaminsky@mail.com', 'Złota 59', 'Warszawa', 'Poland', STR_TO_DATE('14-11-1998', '%d-%m-%Y'));
 
+
+INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth)
+VALUES ('Czarek', 'Michalak', 'czarek.michalak@mail.com', 'Jurowiecka 1', 'Białystok', 'Poland', STR_TO_DATE('13-12-1999', '%d-%m-%Y'));
+INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth)
+VALUES ('Krystyna', 'Kowalczyk', 'krystyna.kowalczyk@mail.com', 'Stary Rynek 25', 'Poznań', 'Poland', STR_TO_DATE('11-11-1996', '%d-%m-%Y'));
+INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth)
+VALUES ('Damian', 'Nowicki', 'damian.nowicki@mail.com', 'Łąkowa 1-2', 'Gdańsk', 'Poland', STR_TO_DATE('12-4-1988', '%d-%m-%Y'));
+
 CREATE TABLE participants (
     project_id      BIGINT UNSIGNED NOT NULL,
     person_id       BIGINT UNSIGNED NOT NULL,

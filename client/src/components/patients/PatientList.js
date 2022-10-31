@@ -7,13 +7,62 @@ export default function PatientList(props) {
             <table>
                 <thead>
                     <tr>
-                        <th>Imię</th>
-                        <th>Nazwisko</th>
-                        <th>E-mail</th>
-                        <th>Adres</th>
-                        <th>Miasto</th>
-                        <th>Państwo</th>
-                        <th>Data urodzenia</th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Imię
+                                <button className="expand-button">
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Nazwisko
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                E-mail
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Adres
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Miasto
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>    
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Państwo
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-header-wrapper">
+                                Data urodzenia
+                                <button className='expand-button'>
+                                    <i class="bi bi-chevron-expand"></i>
+                                </button>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

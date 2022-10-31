@@ -9,6 +9,8 @@ export default function PatientsView() {
     const [pagesCount, setPagesCount] = useState(0);
     const [pages, setPages] = useState([]);
     const [patients, setPatients] = useState([]);
+    const [orderByColumn, setOrderByColumn] = useState('id');
+    const [order, setOrder] = useState('DESC');
 
     useEffect(() => {
         fetch('/api/patients/count-patients').then(
@@ -32,7 +34,9 @@ export default function PatientsView() {
     useEffect(() => {
         fetch('/api/patients?' + new URLSearchParams({
             page: pageNumber,           // requested page number (handled by server)
-            count: itemsPerPage         // patients number to return on single page
+            count: itemsPerPage,         // patients number to return on single page
+            orderByColumn: orderByColumn,
+            order: order
         })).then(
             response => response.json()
         ).then(
@@ -46,7 +50,7 @@ export default function PatientsView() {
         <div>
             <div className="content">
                 <h2>Pacjenci</h2>
-                <PatientList patients={patients} />
+                <PatientList orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} order={order} setOrder={setOrder} patients={patients} />
                 <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} />
             </div>
         </div>

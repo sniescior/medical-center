@@ -12,6 +12,7 @@ $table_primary: #ffd484d0;
         margin-top: 20px;
         border-collapse: collapse;
         width: 100%;
+        margin-bottom: 80px;
         
         thead tr {
             background-color: $table_primary;
@@ -22,6 +23,20 @@ $table_primary: #ffd484d0;
             
             th {
                 padding: 12px 15px;
+
+                .table-header-wrapper {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    .expand-button {
+                        background-color: transparent;
+                        border: none;
+                        cursor: pointer;
+                        font-size: 1em;
+                        color: $dimmed_font_color;
+                    }
+                }
                 
                 &:first-of-type {
                     border-radius: 3px 0 0 0;
@@ -66,6 +81,7 @@ $table_primary: #ffd484d0;
     width: 100%;
     box-sizing: border-box;
     padding-bottom: 20px;
+    height: 80px;
 
     p {
         margin: 0;
@@ -87,7 +103,15 @@ $table_primary: #ffd484d0;
         padding: 8px 10px;
         border-radius: 6px;
         border: 2px solid transparent;
-        transition: .2s ease-in-out; 
+        transition: .2s ease-in-out;
+        width: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.disabled {
+            pointer-events: none;
+        }
 
         &:hover {
             text-decoration: underline;
