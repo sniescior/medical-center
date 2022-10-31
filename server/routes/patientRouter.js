@@ -23,7 +23,6 @@ router.get('/count-patients', async (req, res) => {
     database.query(queries.COUNT_PATIENTS, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
-            console.log(normalResult);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
         } catch(err) {
             console.log(err);
@@ -51,7 +50,6 @@ router.post('/', async (req, res) => {
     console.log('Creating patient');
     database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
         try {
-
             if(!result) {
                 res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
@@ -94,7 +92,6 @@ router.delete('/:id', async (req, res) => {
     console.log('Deleting patient');
     database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
         try {
-
             if(result.affectedRows > 0) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patient deleted'));
             } else {

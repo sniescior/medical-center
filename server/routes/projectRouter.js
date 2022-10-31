@@ -23,7 +23,6 @@ router.get('/count-projects', async (req, res) => {
     database.query(queries.COUNT_PROJECTS, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
-            console.log(normalResult);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { projectsCount: normalResult.projectsCount }));
         } catch(err) {
             console.log(err);

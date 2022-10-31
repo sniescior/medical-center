@@ -9,7 +9,7 @@ import '../styles/index/index.css'
 
 export default function AppView() {
 
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState('patients');
 
   const views = [
     {

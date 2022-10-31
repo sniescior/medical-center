@@ -1,0 +1,98 @@
+.table-wrapper {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.table-wrapper table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+.table-wrapper table thead tr {
+  background-color: rgba(255, 212, 132, 0.8156862745);
+  color: #ffffff;
+  text-align: left;
+  color: #182747;
+  padding: 12px 15px;
+}
+.table-wrapper table thead tr th {
+  padding: 12px 15px;
+}
+.table-wrapper table thead tr th:first-of-type {
+  border-radius: 3px 0 0 0;
+}
+.table-wrapper table thead tr th:last-of-type {
+  border-radius: 0 3px 0 0;
+}
+.table-wrapper table td {
+  padding: 12px 15px;
+  white-space: nowrap;
+}
+.table-wrapper table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+.table-wrapper table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+.table-wrapper table tbody tr:last-of-type {
+  border-bottom: 5px solid rgba(255, 212, 132, 0.8156862745);
+}
+
+.pagination {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  gap: 8px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+.pagination p {
+  margin: 0;
+  line-height: 1;
+}
+.pagination input {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 35px;
+  height: 20px;
+}
+.pagination button {
+  background-color: transparent;
+  border: none;
+  color: rgba(24, 39, 71, 0.6078431373);
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: 0.2s ease-in-out;
+}
+.pagination button:hover {
+  text-decoration: underline;
+}
+.pagination button.active {
+  font-weight: 800;
+  color: #182747;
+  border: 2px solid rgba(255, 212, 132, 0.8156862745);
+}
+.pagination button.button-right:hover {
+  transform: translateX(2px);
+  color: #182747;
+}
+.pagination button.button-left:hover {
+  transform: translateX(-2px);
+  color: #182747;
+}
+.pagination .bi-chevron-left {
+  padding-right: 20px;
+}
+.pagination .bi-chevron-right {
+  padding-left: 20px;
+}/*# sourceMappingURL=table.css.map */

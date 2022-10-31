@@ -54,15 +54,18 @@ body {
             margin-top: 0;
             height: 100%;
             width: calc(100% - 80px);
-            padding: 20px 24px;
+            padding: 20px 10px;
             transform: translateX(80px);
             box-sizing: border-box;
             transition: transform .3s ease-in-out;
+            position: relative;
+            min-height: 100vh;
 
             h2 {
                 margin: 0;
                 color: $font_color;
                 font-weight: 600;
+                margin-left: 14px;
             }
         }
     }
