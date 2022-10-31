@@ -6,7 +6,6 @@ const HttpStatus = require('../controller/httpStatus');
 const router = express.Router();
 
 const queries = {
-    SELECT_PATIENTS: 'SELECT * FROM patients ORDER BY ? ? LIMIT ?, ?',
     SELECT_PATIENT: 'SELECT * FROM patients WHERE id = ?',
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
@@ -108,10 +107,11 @@ router.get('/*', async (req, res) => {
     const count = parseInt(req.query.count);
     const page = parseInt(req.query.page);
     const orderByColumn = req.query.orderByColumn;
+    const order = req.query.order;
+    
+    const query = `SELECT * FROM patients ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
 
-    // console.log(orderByColumn);
-
-    database.query(queries.SELECT_PATIENTS, ['address', 'DESC', page*count, count], (err, result) => {
+    database.query(query, (err, result) => {
         try {
             if(!result[0]) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No patients found'));

@@ -1,28 +1,57 @@
 $font_color: #182747;
 $dimmed_font_color: #1827479b;
 $table_primary: #ffd484d0;
+$table_primary_hover: #ffc65c7d;
 
 .table-wrapper {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-bottom: 80px;
 
     table {
         margin-top: 20px;
         border-collapse: collapse;
         width: 100%;
-        margin-bottom: 80px;
+        margin-bottom: 20px;
         
-        thead tr {
+        thead {
+            tr {
             background-color: $table_primary;
             color: #ffffff;
             text-align: left;
             color: $font_color;
             padding: 12px 15px;
+            cursor: pointer;
             
             th {
                 padding: 12px 15px;
+                transition: .2s ease-in-out;
+
+                &:hover {
+                    background-color: $table_primary_hover;
+                }
+
+                .control-icons {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .bi-caret-down-fill {
+                    color: #be0000;
+                    padding: 4px 8px;
+                }
+
+                .bi-caret-up-fill {
+                    color: #829460;
+                    padding: 4px 8px;
+                }
+
+                .hidden {
+                    display: none;
+                }
 
                 .table-header-wrapper {
                     display: flex;
@@ -35,6 +64,7 @@ $table_primary: #ffd484d0;
                         cursor: pointer;
                         font-size: 1em;
                         color: $dimmed_font_color;
+                        padding: 4px 8px;
                     }
                 }
                 
@@ -45,6 +75,7 @@ $table_primary: #ffd484d0;
                 &:last-of-type {
                     border-radius: 0 3px 0 0;
                 }
+            }
             }
         }
         

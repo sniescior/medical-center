@@ -10,7 +10,7 @@ export default function PatientsView() {
     const [pages, setPages] = useState([]);
     const [patients, setPatients] = useState([]);
     const [orderByColumn, setOrderByColumn] = useState('id');
-    const [order, setOrder] = useState('DESC');
+    const [order, setOrder] = useState('ASC');
 
     useEffect(() => {
         fetch('/api/patients/count-patients').then(
@@ -20,21 +20,19 @@ export default function PatientsView() {
                 const patientsCount = data.data.patientsCount;
                 setPagesCount(Math.ceil(patientsCount/itemsPerPage));
             }
-        )
+        );
     }, []);
 
     useEffect(() => {
         var array = [];
-        for(var i = 0; i < pagesCount; i++) {
-            array.push(i);
-        }
+        for(var i = 0; i < pagesCount; i++) array.push(i);
         setPages(array);
     }, [pagesCount]);
 
-    useEffect(() => {
+    const fetchPatients = () => {
         fetch('/api/patients?' + new URLSearchParams({
-            page: pageNumber,           // requested page number (handled by server)
-            count: itemsPerPage,         // patients number to return on single page
+            page: pageNumber,               // requested page number (handled by server)
+            count: itemsPerPage,            // patients number to return on single page
             orderByColumn: orderByColumn,
             order: order
         })).then(
@@ -44,7 +42,11 @@ export default function PatientsView() {
                 setPatients(data.data.patients);
             }
         );
-    }, [pageNumber]);
+    }
+
+    useEffect(() => {
+        fetchPatients();
+    }, [pageNumber, orderByColumn, order]);
 
     return (
         <div>
