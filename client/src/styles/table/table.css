@@ -4,13 +4,14 @@
 }
 
 .table-wrapper {
-  overflow-y: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 .table-wrapper table {
+  overflow-y: hidden;
   margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
@@ -123,6 +124,19 @@
   border-bottom: 5px solid rgba(255, 212, 132, 0.8156862745);
 }
 
+.table-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 100px;
+  padding: 0 12px;
+}
+.table-summary p {
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+}
+
 .pagination {
   margin-top: 12px;
   display: flex;
@@ -130,8 +144,6 @@
   align-items: center;
   padding: 12px;
   gap: 8px;
-  position: absolute;
-  bottom: 0;
   width: 100%;
   box-sizing: border-box;
   padding-bottom: 20px;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
+import Dropdown from "../components/utility/Dropdown";
 
 export default function PatientsView() {
 
@@ -25,19 +26,33 @@ export default function PatientsView() {
     const [countryQuery, setCountryQuery] = useState('');
     const [date_of_birthQuery, setDate_of_birthQuery] = useState('');
 
+    const searchParams = new URLSearchParams({
+        page: pageNumber,               // requested page number (handled by server)
+        count: itemsPerPage,            // patients number to return on single page
+        orderByColumn: orderByColumn,
+        order: order,
+        idQuery: idQuery,
+        first_nameQuery: first_nameQuery,
+        last_nameQuery: last_nameQuery,
+        emailQuery: emailQuery,
+        addressQuery: addressQuery,
+        cityQuery: cityQuery,
+        countryQuery: countryQuery,
+        date_of_birthQuery: date_of_birthQuery
+    })
+
+    const fetchPatients = () => {
+        fetch('/api/patients?' + searchParams).then(
+            response => response.json()
+        ).then(
+            data => {
+                setPatients(data.data.patients);
+            }
+        );
+    }
+
     useEffect(() => {
-        fetch('/api/patients/count-patients?' + new URLSearchParams({
-            orderByColumn: orderByColumn,
-            order: order,
-            idQuery: idQuery,
-            first_nameQuery: first_nameQuery,
-            last_nameQuery: last_nameQuery,
-            emailQuery: emailQuery,
-            addressQuery: addressQuery,
-            cityQuery: cityQuery,
-            countryQuery: countryQuery,
-            date_of_birthQuery: date_of_birthQuery
-        })).then(
+        fetch('/api/patients/count-patients?' + searchParams).then(
             response => response.json()
         ).then(
             data => {
@@ -48,40 +63,18 @@ export default function PatientsView() {
         
     useEffect(() => {
         setPagesCount(Math.ceil(patientsCount/itemsPerPage));
-    }, [patientsCount]);
+    }, [patientsCount, itemsPerPage]);
 
     useEffect(() => {
         var array = [];
         for(var i = 0; i < pagesCount; i++) array.push(i);
         setPages(array);
-    }, [pagesCount]);
-
-    const fetchPatients = () => {
-        fetch('/api/patients?' + new URLSearchParams({
-            page: pageNumber,               // requested page number (handled by server)
-            count: itemsPerPage,            // patients number to return on single page
-            orderByColumn: orderByColumn,
-            order: order,
-            idQuery: idQuery,
-            first_nameQuery: first_nameQuery,
-            last_nameQuery: last_nameQuery,
-            emailQuery: emailQuery,
-            addressQuery: addressQuery,
-            cityQuery: cityQuery,
-            countryQuery: countryQuery,
-            date_of_birthQuery: date_of_birthQuery
-        })).then(
-            response => response.json()
-        ).then(
-            data => {
-                setPatients(data.data.patients);
-            }
-        );
-    }
+    }, [pagesCount, itemsPerPage]);
 
     useEffect(() => {
         fetchPatients();
-    }, [pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
+        console.log('New items per page.');
+    }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
     return (
         <div>
@@ -90,6 +83,7 @@ export default function PatientsView() {
                 <PatientList 
                     orderByColumn={orderByColumn} 
                     setOrderByColumn={setOrderByColumn} 
+                    setPageNumber={setPageNumber}
 
                     idQuery={idQuery}
                     first_nameQuery={first_nameQuery}
@@ -112,8 +106,19 @@ export default function PatientsView() {
                     order={order} 
                     setOrder={setOrder} 
                     patients={patients} 
+                    patientsCount={patientsCount}
+                    itemsPerPage={itemsPerPage}
                 />
-                <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} />
+                <div className="table-summary">
+                    <p className="found">
+                        {patients.length} z {patientsCount}
+                    </p>
+                    <div className="dropdown-wrapper">
+                        <p>Wyników na stronie</p>
+                        <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                    </div>
+                </div>
+                <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
             </div>
         </div>
     );

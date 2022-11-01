@@ -1,5 +1,6 @@
 import React from "react";
 import '../../styles/table/table.css';
+import Dropdown from "../utility/Dropdown";
 
 export default function PatientList(props) {
 
@@ -96,6 +97,7 @@ export default function PatientList(props) {
                                                 type="text" 
                                                 onChange={(e) => {
                                                     headerRow.setQuery(e.target.value);
+                                                    props.setPageNumber(0);
                                                 }} 
                                                 placeholder={headerRow.title} 
                                             />
@@ -123,9 +125,7 @@ export default function PatientList(props) {
                         );
                     })}
                 </tbody>
-                <tfoot>
-
-                </tfoot>
+                <tfoot></tfoot>
             </table>
         </div>
     );

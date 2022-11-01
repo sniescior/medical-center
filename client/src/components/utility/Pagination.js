@@ -41,6 +41,7 @@ function ButtonsLeft(props) {
 export default function Pagination(props) {
 
     const [indicationNumbers, setIndicationNumbers] = useState([]);
+    const [itemsPerPage, setItemsPerPage] = useState(props.itemsPerPage);
 
     useEffect(() => {
         setIndicationNumbers([1, 2, 3, 4, 5, '...', props.pagesCount]);
