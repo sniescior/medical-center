@@ -1,15 +1,20 @@
+.table-info {
+  margin-left: 10px;
+  margin-bottom: 80px;
+}
+
 .table-wrapper {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 80px;
+  margin-bottom: 10px;
 }
 .table-wrapper table {
   margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .table-wrapper table thead tr {
   background-color: rgba(255, 212, 132, 0.8156862745);
@@ -18,6 +23,33 @@
   color: #182747;
   padding: 12px 15px;
   cursor: pointer;
+}
+.table-wrapper table thead tr.search-row {
+  background-color: transparent;
+  border-bottom: 1px solid #dddddd;
+}
+.table-wrapper table thead tr.search-row th {
+  cursor: default;
+}
+.table-wrapper table thead tr.search-row th:hover {
+  background-color: transparent;
+}
+.table-wrapper table thead tr.search-row input {
+  min-width: 80px;
+  width: 100%;
+  padding: 8px 12px;
+  background-color: rgba(221, 221, 221, 0.6509803922);
+  border: none;
+  border-radius: 6px;
+  transition: 0.3s ease-in-out;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+.table-wrapper table thead tr.search-row input:focus, .table-wrapper table thead tr.search-row input:hover {
+  background-color: #fff;
+  box-shadow: 0 0 0 2pt rgba(255, 212, 132, 0.8156862745);
+  outline: none;
 }
 .table-wrapper table thead tr th {
   padding: 12px 15px;
@@ -31,11 +63,11 @@
   justify-content: center;
   align-items: center;
 }
-.table-wrapper table thead tr th .bi-caret-down-fill {
+.table-wrapper table thead tr th .control-icons .bi-caret-down-fill {
   color: #be0000;
   padding: 4px 8px;
 }
-.table-wrapper table thead tr th .bi-caret-up-fill {
+.table-wrapper table thead tr th .control-icons .bi-caret-up-fill {
   color: #829460;
   padding: 4px 8px;
 }
@@ -53,7 +85,23 @@
   cursor: pointer;
   font-size: 1em;
   color: rgba(24, 39, 71, 0.6078431373);
-  padding: 4px 8px;
+  height: 30px;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.table-wrapper table thead tr th .table-header-wrapper .expand-button i {
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+.table-wrapper table thead tr th .table-header-wrapper i {
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 8px;
 }
 .table-wrapper table thead tr th:first-of-type {
   border-radius: 3px 0 0 0;

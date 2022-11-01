@@ -60,7 +60,13 @@ export default function Pagination(props) {
         }
     }, [props.currentPage]);
 
-    if(props.pagesCount == 1) {
+    if(props.pagesCount == 0) {
+        return (
+            <div className="pagination">
+                <button className="disabled">0</button>
+            </div>
+        );
+    } else if(props.pagesCount == 1) {
         return (
             <div className="pagination">
                 {props.pages.map(page => {

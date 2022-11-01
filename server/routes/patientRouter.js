@@ -10,8 +10,6 @@ const queries = {
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
-
-    COUNT_PATIENTS: 'SELECT COUNT(*) AS patientsCount FROM patients'
 };
 
 const normalizeResult = (result) => {
@@ -19,7 +17,28 @@ const normalizeResult = (result) => {
 }
 
 router.get('/count-patients', async (req, res) => {
-    database.query(queries.COUNT_PATIENTS, (err, result) => {
+
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
+
+    const query = `
+        SELECT COUNT(*) AS patientsCount FROM patients 
+        WHERE id LIKE '${idQuery}%' 
+        AND first_name LIKE '${first_nameQuery}%'
+        AND last_name LIKE '${last_nameQuery}%'
+        AND email LIKE '${emailQuery}%'
+        AND address LIKE '${addressQuery}%'
+        AND city LIKE '${cityQuery}%'
+        AND country LIKE '${countryQuery}%'
+        AND date_of_birth LIKE '${date_of_birthQuery}%'`;
+
+    database.query(query, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
@@ -108,15 +127,34 @@ router.get('/*', async (req, res) => {
     const page = parseInt(req.query.page);
     const orderByColumn = req.query.orderByColumn;
     const order = req.query.order;
+
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
     
-    const query = `SELECT * FROM patients ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
+    const query = `
+        SELECT * FROM patients 
+        WHERE id LIKE '${idQuery}%' 
+        AND first_name LIKE '${first_nameQuery}%'
+        AND last_name LIKE '${last_nameQuery}%'
+        AND email LIKE '${emailQuery}%'
+        AND address LIKE '${addressQuery}%'
+        AND city LIKE '${cityQuery}%'
+        AND country LIKE '${countryQuery}%'
+        AND date_of_birth LIKE '${date_of_birthQuery}%'
+        ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
 
     database.query(query, (err, result) => {
         try {
             if(!result[0]) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No patients found'));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No patients found', { patients: [], patientsCount: 0 }));
             } else {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patients retrieved', { patients: result }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patients retrieved', { patients: result, patientsCount: result.length }));
             }
         } catch(err) {
             console.log(err);

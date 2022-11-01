@@ -6,35 +6,51 @@ export default function PatientList(props) {
     const headerData = [
         {
             title: 'ID',
-            key: 'id'
+            key: 'id',
+            query: props.idQuery,
+            setQuery: props.setIdQuery
         },
         {
             title: 'Imię',
-            key: 'first_name'
+            key: 'first_name',
+            query: props.first_nameQuery,
+            setQuery: props.setFirst_nameQuery
         },
         {
             title: 'Nazwisko',
-            key: 'last_name'
+            key: 'last_name',
+            query: props.last_nameQuery,
+            setQuery: props.setLast_nameQuery
         },
         {
             title: 'E-mail',
-            key: 'email'
+            key: 'email',
+            query: props.emailQuer,
+            setQuery: props.setEmailQuery
         },
         {
             title: 'Adres',
-            key: 'address'
+            key: 'address',
+            query: props.addressQuery,
+            setQuery: props.setAddressQuery
         },
         {
             title: 'Miasto',
-            key: 'city'
+            key: 'city',
+            query: props.cityQuer,
+            setQuery: props.setCityQuery
         },
         {
             title: 'Państwo',
-            key: 'country'
+            key: 'country',
+            query: props.countryQuery,
+            setQuery: props.setCountryQuery
         },
         {
             title: 'Data urodzenia',
-            key: 'date_of_birth'
+            key: 'date_of_birth',
+            query: props.date_of_birthQuery,
+            setQuery: props.setDate_of_birthQuery
         },
     ]
 
@@ -65,6 +81,24 @@ export default function PatientList(props) {
                                                 <i className={props.order === 'DESC' ? 'bi bi-caret-down-fill' : 'bi bi-caret-up-fill'}></i>
                                             </div>
                                         </div>
+                                    </div>
+                                </th>
+                            );
+                        })}
+                    </tr>
+                    <tr className="search-row">
+                        {headerData.map(headerRow => {
+                            return (
+                                <th>
+                                    <div 
+                                        className="table-header-wrapper">
+                                            <input 
+                                                type="text" 
+                                                onChange={(e) => {
+                                                    headerRow.setQuery(e.target.value);
+                                                }} 
+                                                placeholder={headerRow.title} 
+                                            />
                                     </div>
                                 </th>
                             );
