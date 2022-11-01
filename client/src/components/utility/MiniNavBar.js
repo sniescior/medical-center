@@ -5,7 +5,7 @@ export default function MiniNavBar(props) {
         <nav className={props.navOpen ? "navbar mini hidden" : "navbar mini"}>
             <div className="navbar-container">
                 <button id="show-nav-button" onClick={() => { props.setNavOpen(true); }}>
-                    <i class="bi bi-list"></i>
+                    <i className="bi bi-list"></i>
                 </button>
                 <div className="wrapper vertical">
                     <div className="nav-image">

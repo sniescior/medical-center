@@ -28,6 +28,7 @@
 .table-wrapper table thead tr.search-row {
   background-color: transparent;
   border-bottom: 1px solid #dddddd;
+  color: rgba(24, 39, 71, 0.6078431373);
 }
 .table-wrapper table thead tr.search-row th {
   cursor: default;
@@ -58,6 +59,12 @@
 }
 .table-wrapper table thead tr th:hover {
   background-color: rgba(255, 198, 92, 0.4901960784);
+}
+.table-wrapper table thead tr th.table-checkbox {
+  cursor: default;
+}
+.table-wrapper table thead tr th.table-checkbox:hover {
+  background-color: transparent;
 }
 .table-wrapper table thead tr th .control-icons {
   display: flex;

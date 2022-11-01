@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../../styles/table/table.css';
 import Dropdown from "../utility/Dropdown";
+import SidePanel from "../utility/SidePanel";
 
 export default function PatientList(props) {
 
@@ -55,78 +56,112 @@ export default function PatientList(props) {
         },
     ]
 
+    // Handle checkboxes
+    const [checked, setChecked] = useState(
+        new Array(props.patients.length + 1).fill(false)
+    );
+
+    useEffect(() => {
+        console.log(props.patients.length);
+        console.log(checked);
+    }, [checked]);
+
+    // const handleOnChange = (position) => {
+    //     const updatedSetCheck = [];
+    //     for(var i = 0; i < props.patients.length; i++) {
+    //         if(i !== position - 1) {
+    //             updatedSetCheck.push(checked[i]);
+    //         } else {
+    //             updatedSetCheck.push(!checked[i]);
+    //         }
+    //     }
+
+    //     console.log(updatedSetCheck);
+    // }
+
     return (
-        <div className="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        {headerData.map(headerRow => {
-                            return (
-                                <th>
-                                    <div 
-                                        className="table-header-wrapper" 
-                                        onClick={() => {
-                                            props.setOrderByColumn(headerRow.key);
-                                            if(props.order === 'DESC') {
-                                                props.setOrder('ASC');
-                                            } else {
-                                                props.setOrder('DESC');
-                                            }
-                                        }}>
-                                        {headerRow.title}
-                                        <div className="control-icons">
-                                            <button className={props.orderByColumn === headerRow.key ? 'expand-button hidden' : 'expand-button'}>
-                                                <i className="bi bi-chevron-expand"></i>
-                                            </button>
-                                            <div className={props.orderByColumn === headerRow.key ? '' : 'hidden'}>
-                                                <i className={props.order === 'DESC' ? 'bi bi-caret-down-fill' : 'bi bi-caret-up-fill'}></i>
+        <>
+            <div className="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th className="table-checkbox">
+                                <input type="checkbox" />
+                            </th>
+                            {headerData.map(headerRow => {
+                                return (
+                                    <th key={headerRow.key}>
+                                        <div 
+                                            className="table-header-wrapper" 
+                                            onClick={() => {
+                                                props.setOrderByColumn(headerRow.key);
+                                                if(props.order === 'DESC') {
+                                                    props.setOrder('ASC');
+                                                } else {
+                                                    props.setOrder('DESC');
+                                                }
+                                            }}>
+                                            {headerRow.title}
+                                            <div className="control-icons">
+                                                <button className={props.orderByColumn === headerRow.key ? 'expand-button hidden' : 'expand-button'}>
+                                                    <i className="bi bi-chevron-expand"></i>
+                                                </button>
+                                                <div className={props.orderByColumn === headerRow.key ? '' : 'hidden'}>
+                                                    <i className={props.order === 'DESC' ? 'bi bi-caret-down-fill' : 'bi bi-caret-up-fill'}></i>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </th>
-                            );
-                        })}
-                    </tr>
-                    <tr className="search-row">
-                        {headerData.map(headerRow => {
+                                    </th>
+                                );
+                            })}
+                        </tr>
+                        <tr className="search-row">
+                            <th>
+                                <i className="bi bi-search"></i>
+                            </th>
+                            {headerData.map(headerRow => {
+                                return (
+                                    <th key={headerRow.key}>
+                                        <div 
+                                            className="table-header-wrapper">
+                                                <input 
+                                                    type="text" 
+                                                    onChange={(e) => {
+                                                        headerRow.setQuery(e.target.value);
+                                                        props.setPageNumber(0);
+                                                    }} 
+                                                    placeholder={headerRow.title} 
+                                                />
+                                        </div>
+                                    </th>
+                                );
+                            })}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.patients.map(element => {
+                            const date_of_birth = new Date(element.date_of_birth);
+                            const year = date_of_birth.getFullYear();
                             return (
-                                <th>
-                                    <div 
-                                        className="table-header-wrapper">
-                                            <input 
-                                                type="text" 
-                                                onChange={(e) => {
-                                                    headerRow.setQuery(e.target.value);
-                                                    props.setPageNumber(0);
-                                                }} 
-                                                placeholder={headerRow.title} 
-                                            />
-                                    </div>
-                                </th>
+                                <tr key={element.id}>
+                                    <th>
+                                        <input type="checkbox" id={"patients-table-checkbox-" + element.id} onChange={() => {  }} />
+                                    </th>
+                                    <td>{element.id}</td>
+                                    <td>{element.first_name}</td>
+                                    <td>{element.last_name}</td>
+                                    <td>{element.email}</td>
+                                    <td>{element.address}</td>
+                                    <td>{element.city}</td>
+                                    <td>{element.country}</td>
+                                    <td>{year}</td>
+                                </tr>
                             );
                         })}
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.patients.map(element => {
-                        const date_of_birth = new Date(element.date_of_birth);
-                        const year = date_of_birth.getFullYear();
-                        return (
-                            <tr>
-                                <td>{element.id}</td>
-                                <td>{element.first_name}</td>
-                                <td>{element.last_name}</td>
-                                <td>{element.email}</td>
-                                <td>{element.address}</td>
-                                <td>{element.city}</td>
-                                <td>{element.country}</td>
-                                <td>{year}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-                <tfoot></tfoot>
-            </table>
-        </div>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            </div>
+        </>
     );
 }

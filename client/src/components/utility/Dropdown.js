@@ -16,7 +16,7 @@ export default function Dropdown(props) {
             >
                 {props.values.map(value => {
                     return (
-                        <option value={value} onClick={() => { props.handler(5); }}>{value}</option>
+                        <option key={value} value={value} onClick={() => { props.handler(5); }}>{value}</option>
                     );
                 })}
             </select>

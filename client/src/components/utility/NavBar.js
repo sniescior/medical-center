@@ -33,7 +33,7 @@ export default function NavBar(props) {
         <nav className={props.navOpen ? "navbar" : "navbar hidden"}>
             <div className="navbar-container">
                 <button id="hide-nav-button" onClick={() => { props.setNavOpen(false); }}>
-                    <i class="bi bi-arrow-left"></i>
+                    <i className="bi bi-arrow-left"></i>
                 </button>
                 <div className="nav-image">
                     <img src="/mc-icon.png" alt="navbar-image" />
@@ -43,6 +43,7 @@ export default function NavBar(props) {
                     {links.map(link => {
                         return (
                             <li 
+                                key={link.name}
                                 className={props.currentPage == link.name ? "nav-link active" : "nav-link"} 
                                 onClick={() => {
                                     props.setCurrentPage(link.name);

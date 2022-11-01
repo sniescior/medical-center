@@ -13,7 +13,7 @@ function ButtonsRight(props) {
                 className="button-right" 
                 onClick={() => { props.setPageNumber(props.pagesCount - 1); }}
                 >
-                <i class="bi bi-chevron-double-right"></i>
+                <i className="bi bi-chevron-double-right"></i>
             </button>
         </>
     );
@@ -26,7 +26,7 @@ function ButtonsLeft(props) {
                 className="button-left" 
                 onClick={() => { props.setPageNumber(0); }}
                 >
-                <i class="bi bi-chevron-double-left"></i>
+                <i className="bi bi-chevron-double-left"></i>
             </button>
             <button 
                 className="button-left" 
@@ -72,7 +72,7 @@ export default function Pagination(props) {
             <div className="pagination">
                 {props.pages.map(page => {
                     return (
-                        <button onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
+                        <button key={page} onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
                     );
                 })}
             </div>
@@ -83,7 +83,7 @@ export default function Pagination(props) {
                 <ButtonsLeft currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
                 {props.pages.map(page => {
                     return (
-                        <button onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
+                        <button key={page} onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
                     );
                 })}
                 <ButtonsRight currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
@@ -96,11 +96,11 @@ export default function Pagination(props) {
                 {indicationNumbers.map(element => {
                     if(element === '...') {
                         return(
-                            <button className='disabled'>{element}</button>
+                            <button key={element} className='disabled'>{element}</button>
                         );
                     } else {
                         return(
-                            <button onClick={() => { props.setPageNumber(element - 1) }} className={props.currentPage == element - 1 ? 'active' : ''}>{element}</button>
+                            <button key={element} onClick={() => { props.setPageNumber(element - 1) }} className={props.currentPage == element - 1 ? 'active' : ''}>{element}</button>
                         );
                     }
                 })}

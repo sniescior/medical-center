@@ -28,7 +28,7 @@ export default function DashboardView(props) {
                     <div className='header'>
                         <h3>Pacjenci</h3>
                         <button onClick={() => { props.setCurrentPage('patients'); }}>
-                            <i class="bi bi-arrow-right-short"></i>
+                            <i className="bi bi-arrow-right-short"></i>
                         </button>
                     </div>
                     <span className='divider'></span>
@@ -41,7 +41,7 @@ export default function DashboardView(props) {
                     <div className='header'>
                         <h3>Projekty</h3>
                         <button onClick={() => { props.setCurrentPage('projects'); }}>
-                            <i class="bi bi-arrow-right-short"></i>
+                            <i className="bi bi-arrow-right-short"></i>
                         </button>
                     </div>
                     <span className='divider'></span>
