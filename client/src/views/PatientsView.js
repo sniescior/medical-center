@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
 import Dropdown from "../components/utility/Dropdown";
@@ -73,7 +73,6 @@ export default function PatientsView() {
 
     useEffect(() => {
         fetchPatients();
-        console.log('New items per page.');
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
     return (

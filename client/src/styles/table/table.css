@@ -24,6 +24,7 @@
   color: #182747;
   padding: 12px 15px;
   cursor: pointer;
+  white-space: nowrap;
 }
 .table-wrapper table thead tr.search-row {
   background-color: transparent;

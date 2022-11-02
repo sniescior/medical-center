@@ -21,7 +21,6 @@ $table_primary_hover: #ffc65c7d;
         border-collapse: collapse;
         width: 100%;
         margin-bottom: 12px;
-
         
         thead {
             tr {
@@ -31,6 +30,7 @@ $table_primary_hover: #ffc65c7d;
                 color: $font_color;
                 padding: 12px 15px;
                 cursor: pointer;
+                white-space: nowrap;
 
                 &.search-row {
                     background-color: transparent;

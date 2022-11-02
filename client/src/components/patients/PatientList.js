@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/table/table.css';
-import Dropdown from "../utility/Dropdown";
-import SidePanel from "../utility/SidePanel";
+import Checkbox from '../utility/Checkbox';
 
-export default function PatientList(props) {
+export default function PatientList(props, ref) {
 
     const headerData = [
         {
@@ -55,29 +54,28 @@ export default function PatientList(props) {
             setQuery: props.setDate_of_birthQuery
         },
     ]
-
+    
     // Handle checkboxes
-    const [checked, setChecked] = useState(
-        new Array(props.patients.length + 1).fill(false)
+    const [checkedState, setCheckedState] = useState(
+        new Array(11).fill(false)
     );
 
-    useEffect(() => {
-        console.log(props.patients.length);
-        console.log(checked);
-    }, [checked]);
+    const handleOnChangeAll = () => {
+        setCheckedState(
+            new Array(11).fill(!checkedState[0])
+        );
+    }
 
-    // const handleOnChange = (position) => {
-    //     const updatedSetCheck = [];
-    //     for(var i = 0; i < props.patients.length; i++) {
-    //         if(i !== position - 1) {
-    //             updatedSetCheck.push(checked[i]);
-    //         } else {
-    //             updatedSetCheck.push(!checked[i]);
-    //         }
-    //     }
-
-    //     console.log(updatedSetCheck);
-    // }
+    const handleOnChange = (position) => {
+        const nextCheckedState = checkedState.map((item, index) => {
+            if(index === position) {
+                return !item
+            } else {
+                return item
+            }
+        });
+        setCheckedState(nextCheckedState);
+    }
 
     return (
         <>
@@ -86,7 +84,7 @@ export default function PatientList(props) {
                     <thead>
                         <tr>
                             <th className="table-checkbox">
-                                <input type="checkbox" />
+                                <input type="checkbox" checked={checkedState[0]} onChange={() => { handleOnChangeAll(); }} />
                             </th>
                             {headerData.map(headerRow => {
                                 return (
@@ -145,7 +143,15 @@ export default function PatientList(props) {
                             return (
                                 <tr key={element.id}>
                                     <th>
-                                        <input type="checkbox" id={"patients-table-checkbox-" + element.id} onChange={() => {  }} />
+                                        <Checkbox name={"patients-table-checkbox-" + element.id} checked={checkedState[element.id]} onChange={handleOnChange} id={element.id} />
+                                        {/* <input 
+                                            type="checkbox" 
+                                            checked={checkedState[element.id]}
+                                            id={"patients-table-checkbox-" + element.id} 
+                                            onChange={() => { 
+                                                handleOnChange(element.id);
+                                            }}
+                                        /> */}
                                     </th>
                                     <td>{element.id}</td>
                                     <td>{element.first_name}</td>
