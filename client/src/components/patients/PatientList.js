@@ -54,33 +54,28 @@ export default function PatientList(props, ref) {
             setQuery: props.setDate_of_birthQuery
         },
     ]
-    
-    // Handle checkboxes
-    const [checkedState, setCheckedState] = useState(
-        new Array(11).fill(false)
-    );
 
     const handleOnChangeAll = () => {
-        setCheckedState(
-            new Array(11).fill(!checkedState[0])
+        props.setCheckedState(
+            new Array(11).fill(!props.checkedState[0])
         );
     }
 
     useEffect(() => {
-        setCheckedState(
+        props.setCheckedState(
             new Array(11).fill(false)
         );
     }, [props.itemsPerPage, props.idQuery, props.first_nameQuery, props.last_nameQuery, props.emailQuer, props.addressQuery, props.cityQuery, props.countryQuery, props.date_of_birthQuery]);
 
     const handleOnChange = (position) => {
-        const nextCheckedState = checkedState.map((item, index) => {
+        const nextCheckedState = props.checkedState.map((item, index) => {
             if(index === position) {
                 return !item
             } else {
                 return item
             }
         });
-        setCheckedState(nextCheckedState);
+        props.setCheckedState(nextCheckedState);
     }
 
     return (
@@ -90,7 +85,7 @@ export default function PatientList(props, ref) {
                     <thead>
                         <tr>
                             <th className="table-checkbox">
-                                <input type="checkbox" checked={checkedState[0]} onChange={() => { handleOnChangeAll(); }} />
+                                <input type="checkbox" checked={props.checkedState[0]} onChange={() => { handleOnChangeAll(); }} />
                             </th>
                             {headerData.map(headerRow => {
                                 return (
@@ -160,19 +155,18 @@ export default function PatientList(props, ref) {
                                             city: element.city,
                                             country: element.country,
                                             date_of_birth: element.date_of_birth, });
-                                        props.setModalOpened(true);
                                     }} >
-                                    <th>
-                                        <Checkbox name={"patients-table-checkbox-" + element.id} checked={checkedState[element.id]} onChange={handleOnChange} id={element.id} />
+                                    <th onClick={() => { props.setModalOpened(false); }}>
+                                        <Checkbox name={"patients-table-checkbox-" + element.id} checked={props.checkedState[element.id]} onChange={handleOnChange} id={element.id} />
                                     </th>
-                                    <td>{element.id}</td>
-                                    <td>{element.first_name}</td>
-                                    <td>{element.last_name}</td>
-                                    <td>{element.email}</td>
-                                    <td>{element.address}</td>
-                                    <td>{element.city}</td>
-                                    <td>{element.country}</td>
-                                    <td>{date}.{(month + 1).toString().length > 1 ? (month + 1) : '0' + (month + 1)}.{year}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.id}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.first_name}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.last_name}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.email}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.address}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.city}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{element.country}</td>
+                                    <td onClick={() => { props.setModalOpened(true); }}>{date}.{(month + 1).toString().length > 1 ? (month + 1) : '0' + (month + 1)}.{year}</td>
                                 </tr>
                             );
                         })}

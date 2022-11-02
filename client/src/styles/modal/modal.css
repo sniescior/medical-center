@@ -32,6 +32,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 18px 22px;
+  gap: 20px;
 }
 .overlay .modal .modal-header h2 {
   font-weight: 500;
@@ -95,6 +96,13 @@
   background-color: #fff;
   box-shadow: 0 0 0 2pt rgba(255, 212, 132, 0.8156862745);
   outline: none;
+}
+.overlay .modal.alert {
+  min-width: unset;
+  min-height: unset;
+}
+.overlay .modal.alert .button-wrapper {
+  justify-content: center;
 }
 .overlay .modal .button-wrapper {
   padding: 12px 50px 22px 50px;

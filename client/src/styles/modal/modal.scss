@@ -36,6 +36,7 @@ $dimmed_font_color: #1827479b;
             justify-content: space-between;
             align-items: center;
             padding: 18px 22px;
+            gap: 20px;
 
             h2 {
                 font-weight: 500;
@@ -105,7 +106,15 @@ $dimmed_font_color: #1827479b;
                 }
             }
         }
-        
+
+        &.alert {
+            min-width: unset;
+            min-height: unset;
+
+            .button-wrapper {
+                justify-content: center;
+            }
+        }
 
         .button-wrapper {
             padding: 12px 50px 22px 50px;

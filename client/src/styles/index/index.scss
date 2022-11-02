@@ -24,6 +24,27 @@ body {
         color: $font_color;
         background-color: transparent;
 
+        &.button-disabled {
+            pointer-events: none;
+            color: $dimmed_font_color;
+        }
+
+        &.button-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            transition: .2s ease-in-out;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &.button-danger {
+            color: #be0000;
+        }
+
         &.button-secondary {
             &:hover {
                 text-decoration: underline;
@@ -41,6 +62,11 @@ body {
             &:hover {
                 background-color: $table_primary_hover;
                 border: 2px solid $primary_color;
+            }
+
+            &.danger {
+                background-color: #be0000;
+                color: #eee;
             }
         }
     }
@@ -150,6 +176,17 @@ body {
             min-height: 100vh;
             overflow-y: hidden;
             overflow-x: hidden;
+
+            .content-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                button {
+                    font-size: 0.8em;
+                    margin-right: 14px;
+                }
+            }
 
             h2 {
                 margin: 0;

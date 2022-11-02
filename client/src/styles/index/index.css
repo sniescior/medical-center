@@ -17,6 +17,23 @@ body button {
   color: #182747;
   background-color: transparent;
 }
+body button.button-disabled {
+  pointer-events: none;
+  color: rgba(24, 39, 71, 0.6078431373);
+}
+body button.button-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s ease-in-out;
+}
+body button.button-icon:hover {
+  text-decoration: underline;
+}
+body button.button-danger {
+  color: #be0000;
+}
 body button.button-secondary:hover {
   text-decoration: underline;
   font-weight: 500;
@@ -31,6 +48,10 @@ body button.button-primary {
 body button.button-primary:hover {
   background-color: rgba(255, 198, 92, 0.4901960784);
   border: 2px solid rgba(255, 236, 201, 0.4901960784);
+}
+body button.button-primary.danger {
+  background-color: #be0000;
+  color: #eee;
 }
 body .button-wrapper {
   display: flex;
@@ -121,6 +142,15 @@ body .container .content {
   min-height: 100vh;
   overflow-y: hidden;
   overflow-x: hidden;
+}
+body .container .content .content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+body .container .content .content-header button {
+  font-size: 0.8em;
+  margin-right: 14px;
 }
 body .container .content h2 {
   margin: 0;

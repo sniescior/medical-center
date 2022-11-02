@@ -106,6 +106,7 @@ router.put('/:id', async (req, res) => {
     });
 });
 
+// Delete patient by id
 router.delete('/:id', async (req, res) => {
     console.log('Deleting patient');
     database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
@@ -122,6 +123,26 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
+// Delete many patients at once with an array of ids
+router.delete('/delete-many', async (req, res) => {
+
+    console.log(req.params);
+    
+    // database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
+    //     try {
+    //         if(result.affectedRows > 0) {
+    //             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patient deleted'));
+    //         } else {
+    //             res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No patient with given id (${req.params.id}) was found`));
+    //         }
+    //     } catch(err) {
+    //         console.log(err);
+    //         res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+    //     }
+    // });
+});
+
+// Filtering query
 router.get('/*', async (req, res) => {
     const count = parseInt(req.query.count);
     const page = parseInt(req.query.page);
@@ -139,14 +160,14 @@ router.get('/*', async (req, res) => {
     
     const query = `
         SELECT * FROM patients 
-        WHERE id LIKE '${idQuery}%' 
-        AND first_name LIKE '${first_nameQuery}%'
-        AND last_name LIKE '${last_nameQuery}%'
-        AND email LIKE '${emailQuery}%'
-        AND address LIKE '${addressQuery}%'
-        AND city LIKE '${cityQuery}%'
-        AND country LIKE '${countryQuery}%'
-        AND date_of_birth LIKE '${date_of_birthQuery}%'
+        WHERE id LIKE '%${idQuery}%' 
+        AND first_name LIKE '%${first_nameQuery}%'
+        AND last_name LIKE '%${last_nameQuery}%'
+        AND email LIKE '%${emailQuery}%'
+        AND address LIKE '%${addressQuery}%'
+        AND city LIKE '%${cityQuery}%'
+        AND country LIKE '%${countryQuery}%'
+        AND date_of_birth LIKE '%${date_of_birthQuery}%'
         ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
 
     database.query(query, (err, result) => {

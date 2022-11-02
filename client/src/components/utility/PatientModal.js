@@ -72,8 +72,8 @@ export default function PatientModal(props) {
                     </div>
                 </div>
                 <div className="button-wrapper">
-                    <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Cancel</button>
-                    <button className="button-primary">Save</button>
+                    <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
+                    <button className="button-primary">Zapisz</button>
                 </div>
             </div>
         </div>

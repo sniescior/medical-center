@@ -3,6 +3,7 @@ import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
 import Dropdown from "../components/utility/Dropdown";
 import PatientModal from "../components/utility/PatientModal";
+import AlertModal from "../components/utility/AlertModal";
 
 export default function PatientsView() {
 
@@ -10,6 +11,31 @@ export default function PatientsView() {
     const [pages, setPages] = useState([]);
     const [patients, setPatients] = useState([]);
     const [patientsCount, setPatientsCount] = useState(1);
+
+    // Handle checkboxes
+    const [checkedState, setCheckedState] = useState(
+        new Array(11).fill(false)
+    );
+
+    const [checkedCount, setCheckedCount] = useState(0);
+
+    useEffect(() => {
+        setCheckedCount(countChecked());
+    }, [checkedState]);
+
+    const countChecked = () => {
+        var counter = 0;
+
+        if(checkedState[0]) {
+            return patientsCount;
+        }
+
+        checkedState.map(item => {
+            if(item) counter++;
+        })
+
+        return counter;
+    }
     
     // queries parameters
     const [orderByColumn, setOrderByColumn] = useState('id');
@@ -27,11 +53,14 @@ export default function PatientsView() {
     const [countryQuery, setCountryQuery] = useState('');
     const [date_of_birthQuery, setDate_of_birthQuery] = useState('');
 
-    // detailed modal states
+    // patient details modal states
     const [modalOpened, setModalOpened] = useState(false);
     const [modalData, setModalData] = useState(
         { id: '', first_name: '', last_name: '', email: '', address: '', city: '', country: '', date_of_birth: '' }
     );
+
+    // alert modal
+    const [alert, setAlert] = useState(false);
 
     // { id: element.id, first_name: element.first_name, last_name: element.last_name, email: element.email, address: element.address, city: element.city, country: element.country }); 
     const searchParams = new URLSearchParams({
@@ -86,8 +115,22 @@ export default function PatientsView() {
     return (
         <div>
             <div className="content">
-                <h2>Pacjenci</h2>
+                <div className="content-header">
+                    <h2>Pacjenci</h2>
+                    <button 
+                        className={checkedCount != 0 ? "button-danger button-icon" : "button-icon button-disabled"}
+                        onClick={() => {
+                            setAlert(true);
+                        }}
+                        >
+                        <i class="bi bi-trash3"></i>
+                        Usuń zaznaczone
+                    </button>
+                </div>
                 <PatientList 
+                    checkedState={checkedState}
+                    setCheckedState={setCheckedState}
+
                     setModalOpened={setModalOpened}
                     setModalData={setModalData}
                     modalData={modalData}
@@ -122,13 +165,14 @@ export default function PatientsView() {
                 />
                 <div className="table-summary">
                     <p className="found">
-                        {patients.length * (pageNumber + 1)} z {patientsCount}
+                        {patients.length * (pageNumber + 1)} z {patientsCount} {checkedCount != 0 ? "(zaznaczonych " + checkedCount + ")" : ""}
                     </p>
                     <div className="dropdown-wrapper">
                         <p>Wyników na stronie</p>
                         <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
                     </div>
                 </div>
+                <AlertModal title={"Usunąć " + countChecked() + " pacjentów?"} modalOpened={alert} setModalOpened={setAlert} />
                 <PatientModal modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
             </div>
