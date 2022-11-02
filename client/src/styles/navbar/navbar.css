@@ -7,6 +7,7 @@
   transition: 0.3s ease-in-out;
   background-color: #fff;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  z-index: 100000;
 }
 .navbar.mini {
   width: 80px;
@@ -39,6 +40,11 @@
 }
 .navbar.mini .navbar-container .version-info p {
   margin: 0;
+}
+@media (max-width: 775px) {
+  .navbar {
+    border-right: 2px solid #dddddd;
+  }
 }
 .navbar.hidden {
   transform: translateX(-250px);

@@ -10,6 +10,7 @@ $dimmed_font_color: #1827479b;
     transition: .3s ease-in-out;
     background-color: #fff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    z-index: 100000;
 
     &.mini {
         width: 80px;
@@ -52,6 +53,10 @@ $dimmed_font_color: #1827479b;
                 }
             }
         }
+    }
+
+    @media (max-width: 775px) {
+        border-right: 2px solid #dddddd;
     }
 
     &.hidden {

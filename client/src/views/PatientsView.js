@@ -119,10 +119,7 @@ export default function PatientsView() {
                     <h2>Pacjenci</h2>
                     <button 
                         className={checkedCount != 0 ? "button-danger button-icon" : "button-icon button-disabled"}
-                        onClick={() => {
-                            setAlert(true);
-                        }}
-                        >
+                        onClick={() => { setAlert(true); }}>
                         <i class="bi bi-trash3"></i>
                         Usuń zaznaczone
                     </button>
