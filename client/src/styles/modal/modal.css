@@ -1,0 +1,102 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(226, 226, 226, 0.6);
+  z-index: 10000;
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
+  background-blend-mode: darken;
+}
+.overlay.hidden {
+  display: none;
+}
+.overlay .modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 600px;
+  min-height: 500px;
+  background-color: #fff;
+  z-index: 1000;
+  color: #182747;
+  border: 2px solid #dddddd;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 8px;
+}
+.overlay .modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+}
+.overlay .modal .modal-header h2 {
+  font-weight: 500;
+  margin: 0;
+}
+.overlay .modal .modal-header button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  color: rgba(24, 39, 71, 0.6078431373);
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+.overlay .modal .modal-header button:hover {
+  color: #182747;
+}
+.overlay .modal .modal-header button i {
+  font-size: 1.5em;
+}
+.overlay .modal .divider {
+  display: block;
+  height: 3px;
+  width: 95%;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #dddddd;
+  box-sizing: border-box;
+}
+.overlay .modal .form-wrapper {
+  margin-top: 12px;
+  padding-right: 30px;
+}
+.overlay .modal .form-wrapper .input-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  padding: 10px 20px;
+  align-items: center;
+}
+.overlay .modal .form-wrapper .input-wrapper label {
+  text-align: right;
+}
+.overlay .modal .form-wrapper .input-wrapper input {
+  padding: 8px 12px;
+  background-color: rgba(221, 221, 221, 0.4431372549);
+  border: none;
+  border-radius: 6px;
+  transition: 0.3s ease-in-out;
+  min-width: 1px;
+}
+.overlay .modal .form-wrapper .input-wrapper input::-moz-placeholder {
+  color: #9c9c9c;
+}
+.overlay .modal .form-wrapper .input-wrapper input:-ms-input-placeholder {
+  color: #9c9c9c;
+}
+.overlay .modal .form-wrapper .input-wrapper input::placeholder {
+  color: #9c9c9c;
+}
+.overlay .modal .form-wrapper .input-wrapper input:focus, .overlay .modal .form-wrapper .input-wrapper input:hover {
+  background-color: #fff;
+  box-shadow: 0 0 0 2pt rgba(255, 212, 132, 0.8156862745);
+  outline: none;
+}
+.overlay .modal .button-wrapper {
+  padding: 12px 50px 22px 50px;
+  justify-content: flex-end;
+}/*# sourceMappingURL=modal.css.map */

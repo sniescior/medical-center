@@ -66,6 +66,12 @@ export default function PatientList(props, ref) {
         );
     }
 
+    useEffect(() => {
+        setCheckedState(
+            new Array(11).fill(false)
+        );
+    }, [props.itemsPerPage, props.idQuery, props.first_nameQuery, props.last_nameQuery, props.emailQuer, props.addressQuery, props.cityQuery, props.countryQuery, props.date_of_birthQuery]);
+
     const handleOnChange = (position) => {
         const nextCheckedState = checkedState.map((item, index) => {
             if(index === position) {
@@ -140,18 +146,24 @@ export default function PatientList(props, ref) {
                         {props.patients.map(element => {
                             const date_of_birth = new Date(element.date_of_birth);
                             const year = date_of_birth.getFullYear();
+                            const month = date_of_birth.getMonth();
+                            const date = date_of_birth.getDate();
                             return (
-                                <tr key={element.id}>
+                                <tr 
+                                    key={element.id}
+                                    onClick={() => {
+                                        props.setModalData({
+                                            first_name: element.first_name,
+                                            last_name: element.last_name,
+                                            email: element.email,
+                                            address: element.address,
+                                            city: element.city,
+                                            country: element.country,
+                                            date_of_birth: element.date_of_birth, });
+                                        props.setModalOpened(true);
+                                    }} >
                                     <th>
                                         <Checkbox name={"patients-table-checkbox-" + element.id} checked={checkedState[element.id]} onChange={handleOnChange} id={element.id} />
-                                        {/* <input 
-                                            type="checkbox" 
-                                            checked={checkedState[element.id]}
-                                            id={"patients-table-checkbox-" + element.id} 
-                                            onChange={() => { 
-                                                handleOnChange(element.id);
-                                            }}
-                                        /> */}
                                     </th>
                                     <td>{element.id}</td>
                                     <td>{element.first_name}</td>
@@ -160,7 +172,7 @@ export default function PatientList(props, ref) {
                                     <td>{element.address}</td>
                                     <td>{element.city}</td>
                                     <td>{element.country}</td>
-                                    <td>{year}</td>
+                                    <td>{date}.{(month + 1).toString().length > 1 ? (month + 1) : '0' + (month + 1)}.{year}</td>
                                 </tr>
                             );
                         })}

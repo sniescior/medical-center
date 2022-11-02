@@ -4,9 +4,10 @@
 $font_color: #182747;
 $dimmed_font_color: #1827479b;
 $primary_color: #ffecc97d;
+$table_primary: #ffd484d0;
+$table_primary_hover: #ffc65c7d;
 
 body {
-    // background-color: $primary_color;
     color: #111;
     padding: 0;
     margin: 0;
@@ -15,6 +16,40 @@ body {
     position: relative;
     overflow-x: hidden;
     width: 100vw;
+
+    button {
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        color: $font_color;
+        background-color: transparent;
+
+        &.button-secondary {
+            &:hover {
+                text-decoration: underline;
+                font-weight: 500;
+            }
+        }
+
+        &.button-primary {
+            padding: 8px 12px;
+            background-color: $table_primary;
+            border: 2px solid #dddddd;
+            border-radius: 6px;
+            transition: .2s ease-in-out;
+            
+            &:hover {
+                background-color: $table_primary_hover;
+                border: 2px solid $primary_color;
+            }
+        }
+    }
+
+    .button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
     .dropdown-wrapper {
         display: flex;

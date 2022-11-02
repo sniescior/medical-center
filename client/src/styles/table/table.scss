@@ -149,7 +149,9 @@ $table_primary_hover: #ffc65c7d;
         
         tbody {
             tr {
+                cursor: pointer;
                 border-bottom: 1px solid #dddddd;
+                transition: .2s ease-in-out;
                 
                 &:nth-of-type(even) {
                     background-color: #f3f3f3;
@@ -157,6 +159,10 @@ $table_primary_hover: #ffc65c7d;
                 
                 &:last-of-type {
                     border-bottom: 5px solid $table_primary;
+                }
+
+                &:hover {
+                    background-color: #dddddd;
                 }
             }
         }

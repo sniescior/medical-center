@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useRef, useState } from "react";
 import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
 import Dropdown from "../components/utility/Dropdown";
+import PatientModal from "../components/utility/PatientModal";
 
 export default function PatientsView() {
 
@@ -26,6 +27,13 @@ export default function PatientsView() {
     const [countryQuery, setCountryQuery] = useState('');
     const [date_of_birthQuery, setDate_of_birthQuery] = useState('');
 
+    // detailed modal states
+    const [modalOpened, setModalOpened] = useState(false);
+    const [modalData, setModalData] = useState(
+        { id: '', first_name: '', last_name: '', email: '', address: '', city: '', country: '', date_of_birth: '' }
+    );
+
+    // { id: element.id, first_name: element.first_name, last_name: element.last_name, email: element.email, address: element.address, city: element.city, country: element.country }); 
     const searchParams = new URLSearchParams({
         page: pageNumber,               // requested page number (handled by server)
         count: itemsPerPage,            // patients number to return on single page
@@ -80,6 +88,10 @@ export default function PatientsView() {
             <div className="content">
                 <h2>Pacjenci</h2>
                 <PatientList 
+                    setModalOpened={setModalOpened}
+                    setModalData={setModalData}
+                    modalData={modalData}
+
                     orderByColumn={orderByColumn} 
                     setOrderByColumn={setOrderByColumn} 
                     setPageNumber={setPageNumber}
@@ -110,13 +122,14 @@ export default function PatientsView() {
                 />
                 <div className="table-summary">
                     <p className="found">
-                        {patients.length} z {patientsCount}
+                        {patients.length * (pageNumber + 1)} z {patientsCount}
                     </p>
                     <div className="dropdown-wrapper">
                         <p>Wyników na stronie</p>
                         <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
                     </div>
                 </div>
+                <PatientModal modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
             </div>
         </div>

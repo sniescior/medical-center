@@ -123,13 +123,18 @@
   white-space: nowrap;
 }
 .table-wrapper table tbody tr {
+  cursor: pointer;
   border-bottom: 1px solid #dddddd;
+  transition: 0.2s ease-in-out;
 }
 .table-wrapper table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 .table-wrapper table tbody tr:last-of-type {
   border-bottom: 5px solid rgba(255, 212, 132, 0.8156862745);
+}
+.table-wrapper table tbody tr:hover {
+  background-color: #dddddd;
 }
 
 .table-summary {
