@@ -1,12 +1,15 @@
-export const deletePatient = (id, refreshPatientsList, setToastMessage) => {
+export const deletePatient = (id, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+    setLoader(true);
     fetch(`/api/patients/${id}`, {
         method: 'DELETE'
     }).then(
         response => response.json()
     ).then(
         data => {
-            setToastMessage(data.message);
             refreshPatientsList();
+            setToastMessage(data.message);
+            setModalOpened(false);
+            setLoader(false);
         }
     );
 }

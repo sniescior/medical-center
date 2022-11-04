@@ -112,7 +112,7 @@ router.delete('/:id', async (req, res) => {
     database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
         try {
             if(result.affectedRows > 0) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patient deleted'));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Pacjent został usunięty'));
             } else {
                 res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No patient with given id (${req.params.id}) was found`));
             }

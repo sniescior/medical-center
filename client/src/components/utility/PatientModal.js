@@ -12,6 +12,9 @@ export default function PatientModal(props) {
     const [country, setCountry] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
 
+    // Action loader
+    const [loader, setLoader] = useState(false);
+
     useEffect(() => {
         if(!firstName) {
             const date = new Date().toLocaleDateString();
@@ -48,9 +51,12 @@ export default function PatientModal(props) {
             <div className="modal">
                 <div className="modal-header">
                     <h2>{firstName ? 'Edycja danych pacjenta' : 'Dodaj pacjenta'}</h2>
-                    <button onClick={() => { props.setModalOpened(false); }}>
+                    <button 
+                        className={loader ? "hidden" : ""}
+                        onClick={() => { props.setModalOpened(false); }}>
                         <i className="bi bi-x-lg"></i>
                     </button>
+                    <span className={loader ? "loader spinning" : "loader none"}></span>
                 </div>
                 <span className="divider"></span>
                 <div className="form-wrapper">
@@ -64,7 +70,7 @@ export default function PatientModal(props) {
                     </div>
                     <div className="input-wrapper">
                         <label>E-mail</label>
-                        <input type="text" placeholder="john.smith@example.com" value={email} onChange={(e) => { setEmail(e.target.value); }} />
+                        <input type="email" placeholder="john.smith@example.com" value={email} onChange={(e) => { setEmail(e.target.value); }} />
                     </div>
                     <div className="input-wrapper">
                         <label>Adres</label>
@@ -84,11 +90,10 @@ export default function PatientModal(props) {
                     </div>
                 </div>
                 <div className="button-wrapper between">
-                    <button className={firstName ? "button-icon button-danger" : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setToastMessage); props.setModalOpened(false); }}><i className="bi bi-trash3"></i>Usuń</button>
-
+                    <button className={firstName ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                     <div className="button-wrapper">
-                        <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
-                        <button className="button-primary">Zapisz</button>
+                        <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
+                        <button className={!loader ? "button-primary" : "button-primary button-disabled"}>Zapisz</button>
                     </div>
                 </div>
             </div>
