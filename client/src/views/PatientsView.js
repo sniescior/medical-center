@@ -67,12 +67,19 @@ export default function PatientsView() {
         var array = [];
         for(var i = 0; i < pagesCount; i++) array.push(i);
         setPages(array);
-    }, [pagesCount, itemsPerPage]);
-
+    }, [pagesCount, itemsPerPage, patients]);
 
     const refreshPatientsList = () => {
         fetchPatients(searchParams, setPatients);
     }
+    
+    useEffect(() => {
+
+        // If page would be empty -> go back
+        if(patients.length == 0 && pageNumber > 0) {
+            setPageNumber(pageNumber - 1);
+        }
+    }, [patients]);
 
     useEffect(() => {
         fetchPatients(searchParams, setPatients);

@@ -25,11 +25,29 @@ export const fetchPatients = (searchParams, setPatients) => {
 }
 
 export const getPatientsCount = (searchParams, setPatientsCount) => {
-    fetch('/api/patients/count-patients?' + searchParams).then(
+    fetch('/api/patients/count-patients?' + searchParams, {
+        method: 'GET'
+    }).then(
         response => response.json()
     ).then(
         data => {
             setPatientsCount(data.data.patientsCount);
+        }
+    );
+}
+
+export const addPatient = (postParams, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+    fetch('/api/patients', {
+        method: 'POST',
+        body: postParams
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            refreshPatientsList();
+            setToastMessage(data.message);
+            setModalOpened(false);
+            setLoader(false);
         }
     );
 }

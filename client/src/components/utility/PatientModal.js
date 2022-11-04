@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
-import { deletePatient } from "../../database/query";
+import { deletePatient, addPatient } from "../../database/query";
 
 export default function PatientModal(props) {
 
@@ -49,6 +49,10 @@ export default function PatientModal(props) {
         
     }, [props.modalData]);
 
+    const [postParams, setPostParams] = useState(
+        { firstName: '', lastName: '', email: '', address: '', city: '', country: '', dateOfBirth: '' }
+    );
+
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal">
@@ -96,7 +100,20 @@ export default function PatientModal(props) {
                     <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                     <div className="button-wrapper">
                         <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
-                        <button className={!loader ? "button-primary" : "button-primary button-disabled"}>{patientID ? "Zapisz" : "Dodaj"}</button>
+                        <button
+                            className={!loader ? "button-primary" : "button-primary button-disabled"}
+                            onClick={() => {
+                                if(!patientID) {
+                                    console.log('Adding patient');
+                                    addPatient(postParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
+                                } else {
+                                    console.log('Updating patient');
+
+                                }
+                            }}
+                            >
+                                {patientID ? "Zapisz" : "Dodaj"}
+                        </button>
                     </div>
                 </div>
             </div>

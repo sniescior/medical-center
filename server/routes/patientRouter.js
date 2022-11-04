@@ -67,20 +67,21 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     console.log('Creating patient');
-    database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
-        try {
-            if(!result) {
-                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
-            } else {
-                const date_of_birth = `${req.body.year}-${req.body.month}-${req.body.day}`;
-                const patient = { id: result.insertedId, ...req.body, date_of_birth: new Date(date_of_birth) };
-                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Patient created successfully', { patient }));
-            }
-        } catch(err) {
-            console.log(err);
-            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-        }
-    });
+    // database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
+    //     try {
+    //         if(!result) {
+    //             res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+    //         } else {
+    //             const date_of_birth = `${req.body.year}-${req.body.month}-${req.body.day}`;
+    //             const patient = { id: result.insertedId, ...req.body, date_of_birth: new Date(date_of_birth) };
+    //             res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Patient created successfully', { patient }));
+    //         }
+    //     } catch(err) {
+    //         console.log(err);
+    //         res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+    //     }
+    // });
+    res.send({ message: 'Hello'});
 });
 
 router.put('/:id', async (req, res) => {
