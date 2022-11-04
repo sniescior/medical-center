@@ -122,7 +122,7 @@
 .overlay .modal.alert .button-wrapper {
   justify-content: center;
 }
-@media (max-width: 775px) {
+@media (max-width: 900px) {
   .overlay .modal {
     min-width: unset;
     width: 100%;
