@@ -121,7 +121,7 @@ body .dropdown-wrapper p {
 }
 body .dropdown-wrapper .dropdown {
   position: relative;
-  z-index: 10000;
+  z-index: 1;
 }
 body .dropdown-wrapper .dropdown select {
   top: 50%;
@@ -211,4 +211,19 @@ body .container .content h2 {
   color: #182747;
   font-weight: 600;
   margin-left: 14px;
+}
+body .container .content .empty-table {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+body .container .content .empty-table img {
+  width: 160px;
+  height: 160px;
+}
+body .container .content .empty-table h2 {
+  font-weight: 400;
 }/*# sourceMappingURL=index.css.map */
