@@ -37,9 +37,11 @@ export const getPatientsCount = (searchParams, setPatientsCount) => {
 }
 
 export const addPatient = (postParams, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+    setLoader(true);
     fetch('/api/patients', {
         method: 'POST',
-        body: postParams
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postParams)
     }).then(
         response => response.json()
     ).then(

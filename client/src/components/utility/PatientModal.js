@@ -13,6 +13,8 @@ export default function PatientModal(props) {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
+    const [monthOfBirth, setMonthOfBirth] = useState('');
+    const [yearOfBirth, setYearOfBirth] = useState('');
 
     // Action loader
     const [loader, setLoader] = useState(false);
@@ -24,9 +26,18 @@ export default function PatientModal(props) {
             if(month.length < 2) { month = '0' + month; }
             if(day.length < 2) { day = '0' + day; }
 
-            setDateOfBirth(year + '-' + month + '-' + day);
+            setYearOfBirth(year);
+            setMonthOfBirth(month);
+            setDateOfBirth(day);
         }
     }, []);
+
+    const setDate = (dateString) => {
+        var [year, month, date] = dateString.split('-');
+        setDateOfBirth(date);
+        setMonthOfBirth(month);
+        setYearOfBirth(year);
+    }
 
     useEffect(() => {
         setPatientID(props.modalData.id);
@@ -44,14 +55,33 @@ export default function PatientModal(props) {
             if(month.length < 2) { month = '0' + month; }
             if(day.length < 2) { day = '0' + day; }
 
-            setDateOfBirth(year + '-' + month + '-' + day);
+            setYearOfBirth(year);
+            setMonthOfBirth(month);
+            setDateOfBirth(day);
         } catch(err) {}
         
     }, [props.modalData]);
 
+    // const defaultFieldValues = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, }
+    const defaultFieldValues = { firstName: 'Szymon', lastName: "N", email: "szymon3@mail.com", address: "Ta ulica", city: "Białystok", country: "Polska", yearOfBirth: '2000', monthOfBirth: '1', dateOfBirth: '2', }
     const [postParams, setPostParams] = useState(
-        { firstName: '', lastName: '', email: '', address: '', city: '', country: '', dateOfBirth: '' }
-    );
+        defaultFieldValues
+        );
+        
+        // useEffect(() => {
+            //     setPostParams({ firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, });
+            // }, [firstName, lastName, email, address, city, country, yearOfBirth, monthOfBirth, dateOfBirth])
+            
+    const formFullyFilled = () => {
+        console.log(postParams);
+        if(postParams.firstName === '' || postParams.lastName === '' || postParams.email === '' || postParams.address === '' || postParams.city === '' || postParams.country === '' || postParams.dateOfBirth === '') {
+            return false;
+        }
+                
+        
+
+        return true;
+    }
 
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
@@ -66,56 +96,60 @@ export default function PatientModal(props) {
                     <span className={loader ? "loader spinning" : "loader none"}></span>
                 </div>
                 <span className="divider"></span>
-                <div className={!loader ? "form-wrapper" : "form-wrapper disabled"}>
-                    <div className="input-wrapper">
-                        <label>Imię</label>
-                        <input type="text" placeholder="John" value={firstName} onChange={(e) => { setFirstName(e.target.value); }} />
+                <form>
+                    <div className={!loader ? "form-wrapper" : "form-wrapper disabled"}>
+                        <div className="input-wrapper">
+                            <label>Imię</label>
+                            <input type="text" placeholder="John" value={firstName} onChange={(e) => { setFirstName(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper">
+                            <label>Nazwisko</label>
+                            <input type="text" placeholder="Smith" value={lastName} onChange={(e) => { setLastName(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper">
+                            <label>E-mail</label>
+                            <input type="email" placeholder="john.smith@example.com" value={email} onChange={(e) => { setEmail(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper">
+                            <label>Adres</label>
+                            <input type="text" placeholder="Stary Rynek 25" value={address} onChange={(e) => { setAddress(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper">
+                            <label>Miasto</label>
+                            <input type="text" placeholder="Poznań" value={city} onChange={(e) => { setCity(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper">
+                            <label>Państwo</label>
+                            <input type="text" placeholder="Polska" value={country} onChange={(e) => { setCountry(e.target.value); }} required />
+                        </div>
+                        <div className="input-wrapper date">
+                            <label>Data urodzenia</label>
+                            <input className="day" min="1800-01-01" max="2030-12-31" type="date" value={yearOfBirth+ '-' + monthOfBirth + '-' + dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value); setDate(e.target.value); }} required />
+                        </div>
                     </div>
-                    <div className="input-wrapper">
-                        <label>Nazwisko</label>
-                        <input type="text" placeholder="Smith" value={lastName} onChange={(e) => { setLastName(e.target.value); }} />
+                    <div className="button-wrapper between">
+                        <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        <div className="button-wrapper">
+                            <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                            <button
+                                className={!loader ? "button-primary" : "button-primary button-disabled"}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if(!patientID) {    // no id -> means we are creating a brand new object
+                                        if(formFullyFilled()) {
+                                            const finalPostParams = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: parseInt(yearOfBirth, 10), monthOfBirth: parseInt(monthOfBirth, 10), dateOfBirth: parseInt(dateOfBirth, 10) }
+                                            addPatient(finalPostParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
+                                        }
+                                    } else {
+                                        console.log('Updating patient');
+                                    }
+                                }}
+                                >
+                                    {patientID ? "Zapisz" : "Dodaj"}
+                            </button>
+                        </div>
                     </div>
-                    <div className="input-wrapper">
-                        <label>E-mail</label>
-                        <input type="email" placeholder="john.smith@example.com" value={email} onChange={(e) => { setEmail(e.target.value); }} />
-                    </div>
-                    <div className="input-wrapper">
-                        <label>Adres</label>
-                        <input type="text" placeholder="Stary Rynek 25" value={address} onChange={(e) => { setAddress(e.target.value); }} />
-                    </div>
-                    <div className="input-wrapper">
-                        <label>Miasto</label>
-                        <input type="text" placeholder="Poznań" value={city} onChange={(e) => { setCity(e.target.value); }} />
-                    </div>
-                    <div className="input-wrapper">
-                        <label>Państwo</label>
-                        <input type="text" placeholder="Polska" value={country} onChange={(e) => { setCountry(e.target.value); }} />
-                    </div>
-                    <div className="input-wrapper date">
-                        <label>Data urodzenia</label>
-                        <input className="day" min="1800-01-01" max="2030-12-31" type="date" value={dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value); }} />
-                    </div>
-                </div>
-                <div className="button-wrapper between">
-                    <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
-                    <div className="button-wrapper">
-                        <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
-                        <button
-                            className={!loader ? "button-primary" : "button-primary button-disabled"}
-                            onClick={() => {
-                                if(!patientID) {
-                                    console.log('Adding patient');
-                                    addPatient(postParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
-                                } else {
-                                    console.log('Updating patient');
-
-                                }
-                            }}
-                            >
-                                {patientID ? "Zapisz" : "Dodaj"}
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     );

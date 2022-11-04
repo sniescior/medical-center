@@ -4,10 +4,10 @@ const Response = require('../domain/response');
 const mysql = require('mysql');
 const HttpStatus = require('../controller/httpStatus');
 const router = express.Router();
-
+// STR_TO_DATE('11-11-1996', '%d-%m-%Y')
 const queries = {
     SELECT_PATIENT: 'SELECT * FROM patients WHERE id = ?',
-    CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, STR_TO_DATE(\'?-?-?\', \'%Y-%m-%d\'))',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
     DELETE_ALL_PATIENTS: 'DELETE * FROM patients'
@@ -67,21 +67,24 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     console.log('Creating patient');
-    // database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
-    //     try {
-    //         if(!result) {
-    //             res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
-    //         } else {
-    //             const date_of_birth = `${req.body.year}-${req.body.month}-${req.body.day}`;
-    //             const patient = { id: result.insertedId, ...req.body, date_of_birth: new Date(date_of_birth) };
-    //             res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Patient created successfully', { patient }));
-    //         }
-    //     } catch(err) {
-    //         console.log(err);
-    //         res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-    //     }
-    // });
-    res.send({ message: 'Hello'});
+    console.log(typeof(req.body.yearOfBirth));
+    console.log(req.body.yearOfBirth);
+    console.log(req.body.dateOfBirth);
+    console.log(req.body.monthOfBirth);
+    database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
+        try {
+            if(!result) {
+                console.log(err);
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                const date_of_birth = `${parseInt(req.body.yearOfBirth)}-${parseInt(req.body.monthOfBirth)}-${parseInt(req.body.dateOfBirth)}`;
+                const patient = { id: result.insertedId, ...req.body, date_of_birth: new Date(date_of_birth) };
+                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Dodano pacjenta', { patient }));
+            }
+        } catch(err) {
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
 });
 
 router.put('/:id', async (req, res) => {

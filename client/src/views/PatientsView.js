@@ -74,7 +74,6 @@ export default function PatientsView() {
     }
     
     useEffect(() => {
-
         // If page would be empty -> go back
         if(patients.length == 0 && pageNumber > 0) {
             setPageNumber(pageNumber - 1);
