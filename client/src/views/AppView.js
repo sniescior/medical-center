@@ -31,7 +31,7 @@ export default function AppView() {
   ]
 
   const [view, setView] = useState(views[0]);
-  const [navOpen, setNavOpen] = useState(true);
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     for(var i = 0; i < views.length; i++) {

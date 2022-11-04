@@ -5,9 +5,14 @@ const express = require('express');
 const HttpStatus = require('./controller/httpStatus');
 const app = express();
 const Response = require('./domain/response');
+const bodyParser = require('body-parser')
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /**
  * ------------- ROUTES -------------

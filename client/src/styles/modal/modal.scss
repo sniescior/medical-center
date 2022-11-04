@@ -5,23 +5,22 @@ $dimmed_font_color: #1827479b;
 .overlay {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     height: 100%;
     width: 100%;
     background-color: rgba(226, 226, 226, 0.6);
-    z-index: 10000;
+    z-index: 10000000;
     backdrop-filter: blur(1px);
-    background-blend-mode: darken;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &.hidden {
         display: none;
     }
 
     .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         min-width: 600px;
         min-height: 500px;
         background-color: #fff;
@@ -30,6 +29,7 @@ $dimmed_font_color: #1827479b;
         border: 2px solid #dddddd;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         border-radius: 8px;
+        display: block;
 
         .modal-header {
             display: flex;
@@ -94,6 +94,13 @@ $dimmed_font_color: #1827479b;
                     transition: .3s ease-in-out;
                     min-width: 1px;
 
+                    &.day {
+                        
+                        &::placeholder {
+                            color: $font_color;
+                        }
+                    }
+
                     &::placeholder {
                         color: #9c9c9c;
                     }
@@ -141,8 +148,15 @@ $dimmed_font_color: #1827479b;
         }
 
         .button-wrapper {
-            padding: 12px 50px 22px 50px;
+            padding: 12px 20px 12px 20px;
+            width: 100%;
             justify-content: flex-end;
+            box-sizing: border-box;
+
+            &.between {
+                padding-left: 20px;
+                padding-right: 0;
+            }
         }
     }
 }

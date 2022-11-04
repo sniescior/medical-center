@@ -10,6 +10,7 @@ const queries = {
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, ?)',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
+    DELETE_ALL_PATIENTS: 'DELETE * FROM patients'
 };
 
 const normalizeResult = (result) => {
@@ -108,7 +109,6 @@ router.put('/:id', async (req, res) => {
 
 // Delete patient by id
 router.delete('/:id', async (req, res) => {
-    console.log('Deleting patient');
     database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
         try {
             if(result.affectedRows > 0) {
@@ -123,24 +123,9 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
-// Delete many patients at once with an array of ids
-router.delete('/delete-many', async (req, res) => {
+router.delete('/delete-all', (req, res) => {
 
-    console.log(req.params);
-    
-    // database.query(queries.DELETE_PATIENT, [req.params.id], (err, result) => {
-    //     try {
-    //         if(result.affectedRows > 0) {
-    //             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patient deleted'));
-    //         } else {
-    //             res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No patient with given id (${req.params.id}) was found`));
-    //         }
-    //     } catch(err) {
-    //         console.log(err);
-    //         res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-    //     }
-    // });
-});
+})
 
 // Filtering query
 router.get('/*', async (req, res) => {

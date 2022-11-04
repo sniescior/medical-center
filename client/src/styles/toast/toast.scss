@@ -1,0 +1,37 @@
+$font_color: #182747;
+
+.toast-wrapper {
+    position: absolute;
+    bottom: 18px;
+    right: 20px;
+    padding: 12px 12px;
+    background-color: rgb(238, 238, 238);
+    color: $font_color;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 2px solid #dddddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    transition: .4s ease-in-out;
+
+    &.hidden {
+        transform: translateY(100px);
+        transition: none;
+    }
+
+    &:hover {
+        background-color: rgb(234, 234, 234);
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 1.1em;
+        font-weight: 500;
+    }
+
+    @media (max-width: 470px) {
+        left: 18px;
+        right: 18px;
+    }
+}

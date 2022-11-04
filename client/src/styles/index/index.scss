@@ -16,6 +16,7 @@ body {
     position: relative;
     overflow-x: hidden;
     width: 100vw;
+    height: 100%;
 
     button {
         border: none;
@@ -23,6 +24,11 @@ body {
         font-size: 1em;
         color: $font_color;
         background-color: transparent;
+
+        &.hidden {
+            visibility: hidden;
+            pointer-events: none;
+        }
 
         &.button-disabled {
             pointer-events: none;
@@ -48,7 +54,6 @@ body {
         &.button-secondary {
             &:hover {
                 text-decoration: underline;
-                font-weight: 500;
             }
         }
 
@@ -75,6 +80,10 @@ body {
         display: flex;
         align-items: center;
         gap: 10px;
+
+        &.between {
+            justify-content: space-between;
+        }
     }
 
     .dropdown-wrapper {
@@ -185,6 +194,10 @@ body {
                 button {
                     font-size: 0.8em;
                     margin-right: 14px;
+                }
+                
+                .button-secondary {
+                    font-size: 1em;
                 }
             }
 

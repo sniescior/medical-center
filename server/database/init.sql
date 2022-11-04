@@ -56,9 +56,10 @@ VALUES ('Damian', 'Nowicki', 'damian.nowicki@mail.com', 'Łąkowa 1-2', 'Gdańsk
 
 CREATE TABLE participants (
     project_id      BIGINT UNSIGNED NOT NULL,
-    person_id       BIGINT UNSIGNED NOT NULL,
-    FOREIGN KEY (person_id) REFERENCES patients(id),
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    patient_id       BIGINT UNSIGNED NOT NULL,
+
+    FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 );
 
 INSERT INTO participants VALUES ('1', '2');
@@ -68,3 +69,4 @@ INSERT INTO participants VALUES ('2', '6');
 INSERT INTO participants VALUES ('2', '7');
 INSERT INTO participants VALUES ('3', '1');
 INSERT INTO participants VALUES ('3', '3');
+

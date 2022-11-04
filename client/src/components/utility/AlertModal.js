@@ -1,7 +1,6 @@
-import React from 'react';  
+import React, { useEffect, useState } from 'react';  
 
 export default function AlertModal(props) {
-
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal alert">
@@ -10,7 +9,7 @@ export default function AlertModal(props) {
                 </div>
                 <div className="button-wrapper">
                     <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Anuluj</button>
-                    <button className="button-primary danger">Usuń</button>
+                    <button className="button-primary danger" onClick={() => { props.action(); }}>Usuń</button>
                 </div>
             </div>
         </div>

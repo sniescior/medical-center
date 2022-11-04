@@ -1,0 +1,33 @@
+.toast-wrapper {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  padding: 12px 12px;
+  background-color: rgb(238, 238, 238);
+  color: #182747;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 2px solid #dddddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  transition: 0.4s ease-in-out;
+}
+.toast-wrapper.hidden {
+  transform: translateY(100px);
+  transition: none;
+}
+.toast-wrapper:hover {
+  background-color: rgb(234, 234, 234);
+}
+.toast-wrapper h4 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+@media (max-width: 470px) {
+  .toast-wrapper {
+    left: 18px;
+    right: 18px;
+  }
+}/*# sourceMappingURL=toast.css.map */

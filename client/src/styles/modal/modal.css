@@ -1,23 +1,22 @@
 .overlay {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   height: 100%;
   width: 100%;
   background-color: rgba(226, 226, 226, 0.6);
-  z-index: 10000;
+  z-index: 10000000;
   -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
-  background-blend-mode: darken;
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .overlay.hidden {
   display: none;
 }
 .overlay .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   min-width: 600px;
   min-height: 500px;
   background-color: #fff;
@@ -26,6 +25,7 @@
   border: 2px solid #dddddd;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 8px;
+  display: block;
 }
 .overlay .modal .modal-header {
   display: flex;
@@ -83,6 +83,15 @@
   transition: 0.3s ease-in-out;
   min-width: 1px;
 }
+.overlay .modal .form-wrapper .input-wrapper input.day::-moz-placeholder {
+  color: #182747;
+}
+.overlay .modal .form-wrapper .input-wrapper input.day:-ms-input-placeholder {
+  color: #182747;
+}
+.overlay .modal .form-wrapper .input-wrapper input.day::placeholder {
+  color: #182747;
+}
 .overlay .modal .form-wrapper .input-wrapper input::-moz-placeholder {
   color: #9c9c9c;
 }
@@ -125,6 +134,12 @@
   }
 }
 .overlay .modal .button-wrapper {
-  padding: 12px 50px 22px 50px;
+  padding: 12px 20px 12px 20px;
+  width: 100%;
   justify-content: flex-end;
+  box-sizing: border-box;
+}
+.overlay .modal .button-wrapper.between {
+  padding-left: 20px;
+  padding-right: 0;
 }/*# sourceMappingURL=modal.css.map */

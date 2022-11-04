@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
+import { deletePatient } from "../../database/query";
 
 export default function PatientModal(props) {
 
@@ -10,6 +11,17 @@ export default function PatientModal(props) {
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
+
+    useEffect(() => {
+        if(!firstName) {
+            const date = new Date().toLocaleDateString();
+            var [day, month, year] = date.split('.');
+            if(month.length < 2) { month = '0' + month; }
+            if(day.length < 2) { day = '0' + day; }
+
+            setDateOfBirth(year + '-' + month + '-' + day);
+        }
+    }, []);
 
     useEffect(() => {
         setFirstName(props.modalData.first_name);
@@ -71,9 +83,13 @@ export default function PatientModal(props) {
                         <input className="day" min="1800-01-01" max="2030-12-31" type="date" value={dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value); }} />
                     </div>
                 </div>
-                <div className="button-wrapper">
-                    <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
-                    <button className="button-primary">Zapisz</button>
+                <div className="button-wrapper between">
+                    <button className={firstName ? "button-icon button-danger" : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setToastMessage); props.setModalOpened(false); }}><i className="bi bi-trash3"></i>Usuń</button>
+
+                    <div className="button-wrapper">
+                        <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
+                        <button className="button-primary">Zapisz</button>
+                    </div>
                 </div>
             </div>
         </div>
