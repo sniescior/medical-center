@@ -4,6 +4,8 @@ import { deletePatient } from "../../database/query";
 
 export default function PatientModal(props) {
 
+    // Edit patient or add a new patient
+    const [patientID, setPatientID] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -16,7 +18,7 @@ export default function PatientModal(props) {
     const [loader, setLoader] = useState(false);
 
     useEffect(() => {
-        if(!firstName) {
+        if(!patientID) {
             const date = new Date().toLocaleDateString();
             var [day, month, year] = date.split('.');
             if(month.length < 2) { month = '0' + month; }
@@ -27,6 +29,7 @@ export default function PatientModal(props) {
     }, []);
 
     useEffect(() => {
+        setPatientID(props.modalData.id);
         setFirstName(props.modalData.first_name);
         setLastName(props.modalData.last_name);
         setEmail(props.modalData.email);
@@ -50,7 +53,7 @@ export default function PatientModal(props) {
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal">
                 <div className="modal-header">
-                    <h2>{firstName ? 'Edycja danych pacjenta' : 'Dodaj pacjenta'}</h2>
+                    <h2>{patientID ? 'Edycja danych pacjenta' : 'Dodaj pacjenta'}</h2>
                     <button 
                         className={loader ? "hidden" : ""}
                         onClick={() => { props.setModalOpened(false); }}>
@@ -59,7 +62,7 @@ export default function PatientModal(props) {
                     <span className={loader ? "loader spinning" : "loader none"}></span>
                 </div>
                 <span className="divider"></span>
-                <div className="form-wrapper">
+                <div className={!loader ? "form-wrapper" : "form-wrapper disabled"}>
                     <div className="input-wrapper">
                         <label>Imię</label>
                         <input type="text" placeholder="John" value={firstName} onChange={(e) => { setFirstName(e.target.value); }} />
@@ -90,13 +93,13 @@ export default function PatientModal(props) {
                     </div>
                 </div>
                 <div className="button-wrapper between">
-                    <button className={firstName ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                    <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                     <div className="button-wrapper">
-                        <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>Odrzuć zmiany</button>
-                        <button className={!loader ? "button-primary" : "button-primary button-disabled"}>Zapisz</button>
+                        <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                        <button className={!loader ? "button-primary" : "button-primary button-disabled"}>{patientID ? "Zapisz" : "Dodaj"}</button>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 };

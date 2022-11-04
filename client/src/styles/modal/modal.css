@@ -106,6 +106,15 @@
   box-shadow: 0 0 0 2pt rgba(255, 212, 132, 0.8156862745);
   outline: none;
 }
+.overlay .modal .form-wrapper.disabled .input-wrapper label {
+  color: rgba(24, 39, 71, 0.6078431373);
+}
+.overlay .modal .form-wrapper.disabled .input-wrapper input {
+  pointer-events: none;
+  background-color: #dddddd;
+  color: rgba(24, 39, 71, 0.6078431373);
+  transition: 0.2s ease-in-out;
+}
 .overlay .modal.alert {
   min-width: unset;
   min-height: unset;

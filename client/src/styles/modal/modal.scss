@@ -95,7 +95,6 @@ $dimmed_font_color: #1827479b;
                     min-width: 1px;
 
                     &.day {
-                        
                         &::placeholder {
                             color: $font_color;
                         }
@@ -109,6 +108,21 @@ $dimmed_font_color: #1827479b;
                         background-color: #fff;
                         box-shadow: 0 0 0 2pt $table_primary;
                         outline: none;
+                    }
+                }
+            }
+
+            &.disabled {
+                .input-wrapper {
+                    label {
+                        color: $dimmed_font_color;
+                    }
+
+                    input {
+                        pointer-events: none;
+                        background-color: #dddddd;
+                        color: $dimmed_font_color;
+                        transition: .2s ease-in-out;
                     }
                 }
             }
