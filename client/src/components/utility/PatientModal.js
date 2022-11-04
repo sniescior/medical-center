@@ -128,9 +128,9 @@ export default function PatientModal(props) {
                         </div>
                     </div>
                     <div className="button-wrapper between">
-                        <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                         <div className="button-wrapper">
-                            <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                            <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
                             <button
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
                                 onClick={(e) => {

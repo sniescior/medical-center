@@ -198,6 +198,7 @@ body {
         margin-top: 0;
         transition: .2s ease-in-out;
         overflow-x: hidden;
+        width: 100%;
 
         &.offset {
             .content {
@@ -220,7 +221,7 @@ body {
             padding: 20px 10px;
             transform: translateX(80px);
             box-sizing: border-box;
-            transition: transform .3s ease-in-out;
+            transition: .3s ease-in-out;
             position: relative;
             min-height: 100vh;
             overflow-y: hidden;

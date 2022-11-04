@@ -169,6 +169,7 @@ body .container {
   margin-top: 0;
   transition: 0.2s ease-in-out;
   overflow-x: hidden;
+  width: 100%;
 }
 body .container.offset .content {
   transform: translateX(250px);
@@ -187,7 +188,7 @@ body .container .content {
   padding: 20px 10px;
   transform: translateX(80px);
   box-sizing: border-box;
-  transition: transform 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
   position: relative;
   min-height: 100vh;
   overflow-y: hidden;
