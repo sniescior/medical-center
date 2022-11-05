@@ -20,13 +20,9 @@ const normalizeResult = (result) => {
 }
 
 router.get('/count-projects', async (req, res) => {
-    console.log('Counting');
-
     const idQuery = req.query.idQuery || '';
     const nameQuery = req.query.nameQuery || '';
     const participantsCountQuery = req.query.participantsCountQuery || '';
-
-    console.log(req.query);
 
     const query = `
         SELECT COUNT(*) AS projectsCount FROM (
@@ -45,8 +41,6 @@ router.get('/count-projects', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
-            console.log(query);
-            console.log(result);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { projectsCount: normalResult.projectsCount }));
         } catch(err) {
             console.log(err);
@@ -138,7 +132,6 @@ router.get('/*', async (req, res) => {
     const idQuery = req.query.idQuery || '';
     const nameQuery = req.query.nameQuery || '';
     const participantsCountQuery = req.query.participantsCountQuery || '';
-    console.log('HERE', participantsCountQuery);
 
     var query = ``;
     
@@ -163,16 +156,12 @@ router.get('/*', async (req, res) => {
         `;
     }
 
-    console.log(query);
-
     database.query(query, (err, result) => {
-        console.log(err);
         try {
             if(!result) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No projects found'));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projects retrieved', { projects: result }));
-                console.log(result);
             }
         } catch(err) {
             console.log(err);

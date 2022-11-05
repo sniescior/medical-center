@@ -122,12 +122,13 @@ body .dropdown-wrapper p {
 body .dropdown-wrapper .dropdown {
   position: relative;
   z-index: 1;
+  height: 100%;
 }
 body .dropdown-wrapper .dropdown select {
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
-  height: 100%;
+  height: 110%;
   position: absolute;
   opacity: 0;
   cursor: pointer;

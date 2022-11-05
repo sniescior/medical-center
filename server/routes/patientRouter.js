@@ -8,7 +8,7 @@ const router = express.Router();
 const queries = {
     SELECT_PATIENT: 'SELECT * FROM patients WHERE id = ?',
     CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, STR_TO_DATE(\'?-?-?\', \'%Y-%m-%d\'))',
-    UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = ? WHERE id = ?',
+    UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = STR_TO_DATE(\'?-?-?\', \'%Y-%m-%d\') WHERE id = ?',
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
     DELETE_ALL_PATIENTS: 'DELETE * FROM patients'
 };
@@ -88,16 +88,15 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    console.log('Updating patient');
+    const patientID = req.params.id;
     database.query(queries.SELECT_PATIENT, [req.params.id], (err, result) => {
         try {
             if(!result[0]) {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No patient with given id (${req.params.id}) was found`));
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Nie znaleziono pacjęta (id: ${patientID})`));
             } else {
-                const date_of_birth = `${req.body.year}-${req.body.month}-${req.body.day}`;
-                database.query(queries.UPDATE_PATIENT, [...Object.values(req.body), new Date(date_of_birth), req.params.id], (err, result) => {
+                database.query(queries.UPDATE_PATIENT, [req.body.firstName, req.body.lastName, req.body.email, req.body.address, req.body.city, req.body.country, req.body.yearOfBirth, req.body.monthOfBirth, req.body.dateOfBirth, req.params.id], (err, result) => {
                     if(!err) {
-                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patient updated', { id: req.params.id, ...req.body } ));
+                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano dane pacjenta', { id: req.params.id, ...req.body } ));
                     } else {
                         console.log(err.message);
                         res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
@@ -126,10 +125,6 @@ router.delete('/:id', async (req, res) => {
         }
     });
 });
-
-router.delete('/delete-all', (req, res) => {
-
-})
 
 // Filtering query
 router.get('/*', async (req, res) => {
