@@ -5,7 +5,7 @@ import Dropdown from "../components/utility/Dropdown";
 import PatientModal from "../components/utility/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import Toast from "../components/utility/Toast";
-import EmptyTable from "../components/utility/EmptyTable";
+import EmptyTable from '../components/utility/EmptyTable';
 
 export default function PatientsView() {
 
@@ -81,10 +81,8 @@ export default function PatientsView() {
         }
     }, [patients]);
 
-    const [fetched, setFetched] = useState(false);
-
     useEffect(() => {
-        fetchPatients(searchParams, setPatients, setFetched);
+        fetchPatients(searchParams, setPatients);
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
     useEffect(() => {
@@ -100,56 +98,53 @@ export default function PatientsView() {
                         Dodaj pacjenta
                     </button>
                 </div>
+                <PatientList 
+                    setModalOpened={setModalOpened}
+                    setModalData={setModalData}
+                    modalData={modalData}
 
-                {patients ?
-                <>
-                    <PatientList 
-                        setModalOpened={setModalOpened}
-                        setModalData={setModalData}
-                        modalData={modalData}
+                    orderByColumn={orderByColumn} 
+                    setOrderByColumn={setOrderByColumn} 
+                    setPageNumber={setPageNumber}
 
-                        orderByColumn={orderByColumn} 
-                        setOrderByColumn={setOrderByColumn} 
-                        setPageNumber={setPageNumber}
+                    idQuery={idQuery}
+                    first_nameQuery={first_nameQuery}
+                    last_nameQuery={last_nameQuery}
+                    emailQuery={emailQuery}
+                    addressQuery={addressQuery}
+                    cityQuery={cityQuery}
+                    countryQuery={countryQuery}
+                    date_of_birthQuery={date_of_birthQuery}
 
-                        idQuery={idQuery}
-                        first_nameQuery={first_nameQuery}
-                        last_nameQuery={last_nameQuery}
-                        emailQuery={emailQuery}
-                        addressQuery={addressQuery}
-                        cityQuery={cityQuery}
-                        countryQuery={countryQuery}
-                        date_of_birthQuery={date_of_birthQuery}
+                    setIdQuery={setIdQuery}
+                    setFirst_nameQuery={setFirst_nameQuery}
+                    setLast_nameQuery={setLast_nameQuery}
+                    setEmailQuery={setEmailQuery}
+                    setAddressQuery={setAddressQuery}
+                    setCityQuery={setCityQuery}
+                    setCountryQuery={setCountryQuery}
+                    setDate_of_birthQuery={setDate_of_birthQuery}
 
-                        setIdQuery={setIdQuery}
-                        setFirst_nameQuery={setFirst_nameQuery}
-                        setLast_nameQuery={setLast_nameQuery}
-                        setEmailQuery={setEmailQuery}
-                        setAddressQuery={setAddressQuery}
-                        setCityQuery={setCityQuery}
-                        setCountryQuery={setCountryQuery}
-                        setDate_of_birthQuery={setDate_of_birthQuery}
-
-                        order={order} 
-                        setOrder={setOrder} 
-                        patients={patients} 
-                        patientsCount={patientsCount}
-                        itemsPerPage={itemsPerPage}
-                    />
-                    <div className="table-summary">
-                        <p className="found">
-                            {patients.length * (pageNumber + 1)} z {patientsCount}
-                        </p>
-                        <div className="dropdown-wrapper">
-                            <p>Wyników na stronie</p>
-                            <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                    order={order} 
+                    setOrder={setOrder} 
+                    patients={patients} 
+                    patientsCount={patientsCount}
+                    itemsPerPage={itemsPerPage}
+                />
+                {patients.length !== 0 ? 
+                    <>
+                        <div className="table-summary">
+                            <p className="found">
+                                {patients.length * (pageNumber + 1)} z {patientsCount}
+                            </p>
+                            <div className="dropdown-wrapper">
+                                <p>Wyników na stronie</p>
+                                <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                            </div>
                         </div>
-                    </div>
-                    <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
-                </>
-                : fetched ?
-                    <EmptyTable message={"Nie zarejestrowano żadnego pacjenta"} />
-                    : ""
+                        <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
+                    </>
+                    : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
                 }
                 <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatientsList} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />

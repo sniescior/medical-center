@@ -32,7 +32,7 @@ router.get('/count-patients', async (req, res) => {
         SELECT COUNT(*) AS patientsCount FROM patients 
         WHERE id LIKE '${idQuery}%' 
         AND first_name LIKE '${first_nameQuery}%'
-        AND last_name LIKE '${last_nameQuery}%'
+        AND last_name LIKE '%${last_nameQuery}%'
         AND email LIKE '${emailQuery}%'
         AND address LIKE '${addressQuery}%'
         AND city LIKE '${cityQuery}%'

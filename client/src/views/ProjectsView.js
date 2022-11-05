@@ -9,7 +9,6 @@ import { fetchProjects, getProjectsCount } from "../database/projectsQuery";
 
 export default function ProjectsView() {
 
-    const [fetched, setFetched] = useState(true);
     const [pagesCount, setPagesCount] = useState(0);
     const [pages, setPages] = useState([]);
     const [projects, setProjects] = useState([]);
@@ -53,7 +52,7 @@ export default function ProjectsView() {
     });
 
     useEffect(() => {
-        fetchProjects(searchParams, setProjects, setFetched);
+        fetchProjects(searchParams, setProjects);
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => {
@@ -94,9 +93,6 @@ export default function ProjectsView() {
                         Dodaj projekt
                     </button>
                 </div>
-
-                {projects ?
-                <>
                     <ProjectList
                         setModalOpened={setModalOpened}
                         setModalData={setModalData}
@@ -120,20 +116,20 @@ export default function ProjectsView() {
                         setOrder={setOrder}
                         setPageNumber={setPageNumber}
                     />
-                    <div className="table-summary">
-                        <p className="found">
-                            {projects.length * (pageNumber + 1)} z {projectsCount}
-                        </p>
-                        <div className="dropdown-wrapper">
-                            <p>Wyników na stronie</p>
-                            <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
-                        </div>
-                    </div>
-                    <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
-                </>
-                : fetched ?
-                    <EmptyTable message={"Nie zarejestrowano żadnego projektu"} /> : ""
-                }
+                    {projects.length !== 0 ? 
+                        <>
+                            <div className="table-summary">
+                                <p className="found">
+                                    {projects.length * (pageNumber + 1)} z {projectsCount}
+                                </p>
+                                <div className="dropdown-wrapper">
+                                    <p>Wyników na stronie</p>
+                                    <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                                </div>
+                            </div>
+                            <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
+                        </> : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
+                    }
                 <ProjectModal modalData={modalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />
             </div>

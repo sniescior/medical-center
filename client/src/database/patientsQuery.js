@@ -14,13 +14,12 @@ export const deletePatient = (id, refreshPatientsList, setModalOpened, setLoader
     );
 }
 
-export const fetchPatients = (searchParams, setPatients, setFetched) => {
+export const fetchPatients = (searchParams, setPatients, ) => {
     fetch('/api/patients?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setPatients(data.data.patients);
-            setFetched(true);
         }
     );
 }

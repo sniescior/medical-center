@@ -14,13 +14,12 @@ export const deleteProject = (id, refreshProjectsList, setModalOpened, setLoader
     );
 }
 
-export const fetchProjects = (searchParams, setProjects, setFetched) => {
+export const fetchProjects = (searchParams, setProjects) => {
     fetch('/api/projects?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setProjects(data.data.projects);
-            setFetched(true);
         }
     );
 }

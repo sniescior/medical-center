@@ -55,7 +55,7 @@ export default function PatientList(props) {
         },
         {
             title: 'Data urodzenia',
-            placeholder: 'dd-mm--yyyy',
+            placeholder: 'dd-mm-yyyy',
             key: 'date_of_birth',
             query: props.date_of_birthQuery,
             setQuery: props.setDate_of_birthQuery

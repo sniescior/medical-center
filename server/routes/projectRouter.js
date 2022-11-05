@@ -149,7 +149,7 @@ router.get('/*', async (req, res) => {
         GROUP BY id
         HAVING proj.id LIKE '%${idQuery}%'
         AND proj.name LIKE '%${nameQuery}%'
-        AND participantsCount = ${participantsCountQuery}
+        AND participantsCount LIKE '${participantsCountQuery}'
         ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}
         `;
     } else {
