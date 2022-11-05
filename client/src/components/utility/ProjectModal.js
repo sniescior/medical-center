@@ -50,10 +50,11 @@ export default function ProjectModal(props) {
                         </div>
                     </div>
                     <div className="button-wrapper between">
-                        <button className={projectID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deleteProject(props.modalData.id, props.refreshProjectsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        <button type="button" className={projectID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deleteProject(props.modalData.id, props.refreshProjectsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                         <div className="button-wrapper">
-                            <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{projectID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                            <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{projectID ? "Odrzuć zmiany" : "Anuluj"}</button>
                             <button
+                                type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
                                 onClick={(e) => {
                                     e.preventDefault();
