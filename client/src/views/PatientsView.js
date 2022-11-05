@@ -135,7 +135,6 @@ export default function PatientsView() {
                     <>
                         <div className="table-summary">
                             <p className="found">
-                                {patients.length * (pageNumber + 1)} z {patientsCount}
                             </p>
                             <div className="dropdown-wrapper">
                                 <p>Wyników na stronie</p>

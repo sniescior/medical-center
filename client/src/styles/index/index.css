@@ -222,6 +222,13 @@ body .container .content .empty-table {
   flex-direction: column;
   gap: 20px;
 }
+body .container .content .empty-table.bigger {
+  height: 70vh;
+}
+body .container .content .empty-table.bigger img {
+  width: 220px;
+  height: 220px;
+}
 body .container .content .empty-table img {
   width: 160px;
   height: 160px;

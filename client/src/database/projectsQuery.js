@@ -14,6 +14,21 @@ export const deleteProject = (id, refreshProjectsList, setModalOpened, setLoader
     );
 }
 
+export const getProjectDetails = (projectID, setLoader, setToastMessage, setNotFound) => {
+    fetch(`/api/projects/${projectID}`).then(
+        response => response.json()
+    ).then(
+        data => {
+            if(data.statusCode === 404) {
+                setNotFound(true);
+                setTimeout(() => {
+                    setToastMessage(data.message);
+                }, 300);
+            }
+        }
+    )
+}
+
 export const fetchProjects = (searchParams, setProjects) => {
     fetch('/api/projects?' + searchParams).then(
         response => response.json()

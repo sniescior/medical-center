@@ -50,12 +50,10 @@ router.get('/count-projects', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    console.log('Retrieving project');
     database.query(queries.SELECT_PROJECT, [req.params.id], (err, result) => {
         try {
-
             if(!result[0]) {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No project with given id (${req.params.id}) was found`));
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Nie znaleziono projektu o podanym id (${req.params.id})`));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Project retrieved', result[0] ));
             }

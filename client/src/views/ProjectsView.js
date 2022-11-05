@@ -4,10 +4,9 @@ import Dropdown from "../components/utility/Dropdown";
 import Pagination from "../components/utility/Pagination";
 import EmptyTable from "../components/utility/EmptyTable";
 import Toast from "../components/utility/Toast";
-import ProjectModal from "../components/utility/ProjectModal";
 import { fetchProjects, getProjectsCount } from "../database/projectsQuery";
 
-export default function ProjectsView() {
+export default function ProjectsView(props) {
 
     const [pagesCount, setPagesCount] = useState(0);
     const [pages, setPages] = useState([]);
@@ -38,7 +37,7 @@ export default function ProjectsView() {
 
     const searchParams = new URLSearchParams({
         page: pageNumber,               // requested page number (handled by server)
-        count: itemsPerPage,            // patients number to return on single page
+        count: itemsPerPage,            // projects number to return on single page
         orderByColumn: orderByColumn,
         order: order,
         idQuery: idQuery,
@@ -48,7 +47,6 @@ export default function ProjectsView() {
     
     useEffect(() => {
         getProjectsCount(searchParams, setProjectsCount);
-        console.log(projectsCount);
     });
 
     useEffect(() => {
@@ -56,7 +54,6 @@ export default function ProjectsView() {
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => {
-        console.log('Changing pages count');
         setPagesCount(Math.ceil(projectsCount/itemsPerPage));
     }, [projectsCount, itemsPerPage]);
 
@@ -65,13 +62,6 @@ export default function ProjectsView() {
         for(var i = 0; i < pagesCount; i++) array.push(i);
         setPages(array);
     }, [pagesCount, itemsPerPage, projects]);
-
-    useEffect(() => {
-        // If page would be empty -> go back
-        if(projects.length == 0 && pageNumber > 0) {
-            setPageNumber(pageNumber - 1);
-        }
-    }, [projects]);
 
     useEffect(() => {
         // If page would be empty -> go back
@@ -115,12 +105,14 @@ export default function ProjectsView() {
                         order={order}
                         setOrder={setOrder}
                         setPageNumber={setPageNumber}
+
+                        setProjectID={props.setProjectID}
                     />
                     {projects.length !== 0 ? 
                         <>
                             <div className="table-summary">
                                 <p className="found">
-                                    {projects.length * (pageNumber + 1)} z {projectsCount}
+                                    
                                 </p>
                                 <div className="dropdown-wrapper">
                                     <p>Wyników na stronie</p>
@@ -130,7 +122,6 @@ export default function ProjectsView() {
                             <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
                         </> : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
                     }
-                <ProjectModal modalData={modalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />
             </div>
         </div>

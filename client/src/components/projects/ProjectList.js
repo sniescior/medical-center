@@ -82,10 +82,7 @@ export default function ProjectList(props) {
                             <tr 
                                 key={element.id}
                                 onClick={() => {
-                                    props.setModalData({
-                                        id: element.id,
-                                        name: element.name
-                                    });
+                                    props.setProjectID(element.id);
                                 }} >
 
                                 <td onClick={() => { props.setModalOpened(true); }}>
