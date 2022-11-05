@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
-import { deletePatient, addPatient } from "../../database/query";
+import { deletePatient, addPatient } from "../../database/patientsQuery";
 
 export default function PatientModal(props) {
 

@@ -20,9 +20,33 @@ const normalizeResult = (result) => {
 }
 
 router.get('/count-projects', async (req, res) => {
-    database.query(queries.COUNT_PROJECTS, (err, result) => {
+    console.log('Counting');
+
+    const idQuery = req.query.idQuery || '';
+    const nameQuery = req.query.nameQuery || '';
+    const participantsCountQuery = req.query.participantsCountQuery || '';
+
+    console.log(req.query);
+
+    const query = `
+        SELECT COUNT(*) AS projectsCount FROM (
+            SELECT id, name, IFNULL((
+                SELECT COUNT(patient_id) AS counttt FROM participants WHERE project_id = proj.id GROUP BY project_id), 0
+                ) AS participantsCount 
+            FROM projects proj
+            GROUP BY id
+            HAVING proj.name LIKE '%${nameQuery}%'
+            AND proj.id LIKE '%${idQuery}%'
+            AND participantsCount LIKE '%${participantsCountQuery}%'
+            ORDER BY id ASC
+        ) AS query
+    `;
+
+    database.query(query, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
+            console.log(query);
+            console.log(result);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { projectsCount: normalResult.projectsCount }));
         } catch(err) {
             console.log(err);
@@ -108,13 +132,47 @@ router.get('/*', async (req, res) => {
     
     const count = parseInt(req.query.count);
     const page = parseInt(req.query.page);
+    const orderByColumn = req.query.orderByColumn;
+    const order = req.query.order;
 
-    database.query(queries.SELECT_PROJECTS, [page*count, count], (err, result) => {
+    const idQuery = req.query.idQuery || '';
+    const nameQuery = req.query.nameQuery || '';
+    const participantsCountQuery = req.query.participantsCountQuery || '';
+    console.log('HERE', participantsCountQuery);
+
+    var query = ``;
+    
+    if(participantsCountQuery !== '') {
+        query = `
+        SELECT id, name, IFNULL((SELECT COUNT(patient_id) FROM participants WHERE project_id = proj.id GROUP BY project_id), 0) AS participantsCount
+        FROM projects proj
+        GROUP BY id
+        HAVING proj.id LIKE '%${idQuery}%'
+        AND proj.name LIKE '%${nameQuery}%'
+        AND participantsCount = ${participantsCountQuery}
+        ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}
+        `;
+    } else {
+        query = `
+        SELECT id, name, IFNULL((SELECT COUNT(patient_id) FROM participants WHERE project_id = proj.id GROUP BY project_id), 0) AS participantsCount
+        FROM projects proj
+        GROUP BY id
+        HAVING proj.id LIKE '%${idQuery}%'
+        AND proj.name LIKE '%${nameQuery}%'
+        ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}
+        `;
+    }
+
+    console.log(query);
+
+    database.query(query, (err, result) => {
+        console.log(err);
         try {
-            if(!result[0]) {
+            if(!result) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No projects found'));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projects retrieved', { projects: result }));
+                console.log(result);
             }
         } catch(err) {
             console.log(err);

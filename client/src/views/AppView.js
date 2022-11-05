@@ -9,7 +9,7 @@ import '../styles/index/index.css'
 
 export default function AppView() {
 
-  const [currentPage, setCurrentPage] = useState('patients');
+  const [currentPage, setCurrentPage] = useState('projects');
 
   const views = [
     {
@@ -31,7 +31,7 @@ export default function AppView() {
   ]
 
   const [view, setView] = useState(views[0]);
-  const [navOpen, setNavOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(true);
 
   useEffect(() => {
     for(var i = 0; i < views.length; i++) {

@@ -3,7 +3,7 @@ import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
 import Dropdown from "../components/utility/Dropdown";
 import PatientModal from "../components/utility/PatientModal";
-import { fetchPatients, getPatientsCount } from "../database/query";
+import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import Toast from "../components/utility/Toast";
 import EmptyTable from "../components/utility/EmptyTable";
 
@@ -101,7 +101,7 @@ export default function PatientsView() {
                     </button>
                 </div>
 
-                {patients.length > 0 ?
+                {patients ?
                 <>
                     <PatientList 
                         setModalOpened={setModalOpened}

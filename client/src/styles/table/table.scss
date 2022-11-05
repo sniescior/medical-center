@@ -32,28 +32,29 @@ $table_primary_hover: #ffc65c7d;
                 cursor: pointer;
                 white-space: nowrap;
 
+                
                 &.search-row {
                     background-color: transparent;
                     border-bottom: 1px solid #dddddd;
                     color: $dimmed_font_color;
-
+                    
                     th {
                         cursor: default;
                         &:hover {
                             background-color: transparent;
                         }
+                        
                     }
-
+                    
                     input {
-                        min-width: 80px;
                         width: 100%;
                         padding: 8px 12px;
                         background-color: #dddddda6;
                         border: none;
                         border-radius: 6px;
                         transition: .3s ease-in-out;
-                        min-width: fit-content;
-
+                        min-width: 80px;
+                        
                         &:focus, &:hover {
                             background-color: #fff;
                             box-shadow: 0 0 0 2pt $table_primary;
@@ -61,10 +62,14 @@ $table_primary_hover: #ffc65c7d;
                         }
                     }
                 }
-            
+                
                 th {
                     padding: 12px 15px;
                     transition: .2s ease-in-out;
+
+                    &:nth-of-type(1) {
+                        width: 80px;
+                    }
 
                     &:hover {
                         background-color: $table_primary_hover;

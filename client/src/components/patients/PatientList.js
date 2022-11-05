@@ -6,53 +6,61 @@ export default function PatientList(props) {
     const headerData = [
         {
             title: 'ID',
+            placeholder: 'ID',
             key: 'id',
             query: props.idQuery,
             setQuery: props.setIdQuery
         },
         {
             title: 'Imię',
+            placeholder: 'Imię',
             key: 'first_name',
             query: props.first_nameQuery,
             setQuery: props.setFirst_nameQuery
         },
         {
             title: 'Nazwisko',
+            placeholder: 'Nazwisko',
             key: 'last_name',
             query: props.last_nameQuery,
             setQuery: props.setLast_nameQuery
         },
         {
             title: 'E-mail',
+            placeholder: 'mail@example.com',
             key: 'email',
             query: props.emailQuer,
             setQuery: props.setEmailQuery
         },
         {
             title: 'Adres',
+            placeholder: 'Adres',
             key: 'address',
             query: props.addressQuery,
             setQuery: props.setAddressQuery
         },
         {
             title: 'Miasto',
+            placeholder: 'Miasto',
             key: 'city',
             query: props.cityQuer,
             setQuery: props.setCityQuery
         },
         {
             title: 'Państwo',
+            placeholder: 'Państwo',
             key: 'country',
             query: props.countryQuery,
             setQuery: props.setCountryQuery
         },
         {
             title: 'Data urodzenia',
+            placeholder: 'dd-mm--yyyy',
             key: 'date_of_birth',
             query: props.date_of_birthQuery,
             setQuery: props.setDate_of_birthQuery
         },
-    ]
+    ];
 
     return (
         <div className="table-wrapper">
@@ -98,7 +106,7 @@ export default function PatientList(props) {
                                                     headerRow.setQuery(e.target.value);
                                                     props.setPageNumber(0);
                                                 }} 
-                                                placeholder={headerRow.title} 
+                                                placeholder={headerRow.placeholder} 
                                             />
                                     </div>
                                 </th>
