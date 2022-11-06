@@ -1,6 +1,6 @@
 import React from "react";
 import '../../styles/table/table.css';
-import PatientRow from "../utility/PatientRow";
+import PatientRow from "./PatientRow";
 import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSearchRow from "../utility/TableSearchRow";
 

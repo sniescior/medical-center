@@ -1,8 +1,8 @@
 import React from "react";
-import EmptyTable from "./EmptyTable";
-import ParticipantRow from "./ParticipantRow";
+import EmptyTable from "../utility/EmptyTable";
+import ParticipantRow from "../projects/ParticipantRow";
 import PatientRow from "./PatientRow";
-import TableHeaderRow from "./TableHeaderRow";
+import TableHeaderRow from "../utility/TableHeaderRow";
 
 function TableBody(props) {
     if(props.participants) {

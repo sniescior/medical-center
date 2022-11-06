@@ -3,9 +3,9 @@ import { getParticipants, getProjectDetails } from "../../database/projectsQuery
 import { fetchAllPatients } from "../../database/patientsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
-import PatientsTable from "../utility/PatientsTable";
+import PatientsTable from "../patients/PatientsTable";
 import Toast from "../utility/Toast";
-import ProjectModal from "../utility/ProjectModal";
+import ProjectModal from "./ProjectModal";
 
 const headerData = [
     {

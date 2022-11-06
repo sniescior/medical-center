@@ -6,7 +6,7 @@ import EmptyTable from "../components/utility/EmptyTable";
 import Toast from "../components/utility/Toast";
 import { fetchProjects, getProjectsCount } from "../database/projectsQuery";
 import LoaderPage from "../components/utility/LoaderPage";
-import ProjectModal from "../components/utility/ProjectModal";
+import ProjectModal from "../components/projects/ProjectModal";
 
 export default function ProjectsView(props) {
     const [loader, setLoader] = useState(true);

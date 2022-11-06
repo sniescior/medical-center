@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PatientList from "../components/patients/PatientList";
 import Pagination from "../components/utility/Pagination";
 import Dropdown from "../components/utility/Dropdown";
-import PatientModal from "../components/utility/PatientModal";
+import PatientModal from "../components/patients/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import Toast from "../components/utility/Toast";
 import EmptyTable from '../components/utility/EmptyTable';
