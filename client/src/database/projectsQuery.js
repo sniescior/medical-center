@@ -1,30 +1,73 @@
-export const deleteProject = (id, refreshProjectsList, setModalOpened, setLoader, setToastMessage) => {
+export const deleteProject = (projectID, setModalOpened, setLoader, setToastMessage, setProjectID) => {
     setLoader(true);
-    fetch(`/api/projects/${id}`, {
+    fetch(`/api/projects/${projectID}`, {
         method: 'DELETE'
     }).then(
         response => response.json()
     ).then(
         data => {
-            refreshProjectsList();
             setToastMessage(data.message);
             setModalOpened(false);
+            setProjectID(null);
             setLoader(false);
         }
     );
 }
 
-export const fetchProjects = (searchParams, setProjects) => {
+export const getProjectDetails = (projectID, setProject, setLoader, setError) => {
+    setLoader(true);
+    fetch(`/api/projects/${projectID}`).then(
+        response => response.json()
+    ).then(
+        data => {
+            if(data.statusCode !== 200) {
+                setError({
+                    statusCode: data.statusCode,
+                    message: data.message
+                });
+                setLoader(false);
+            } else {
+                setProject(data.data);
+                setLoader(false);
+            }
+        }
+    )
+}
+
+export const getParticipants = (projectID, setPatients, setLoader, setError) => {
+    setLoader(true);
+    fetch(`/api/projects/get-participants/${projectID}`).then(
+        response => response.json()
+        .then(
+            data => {
+                if(data.statusCode !== 200) {
+                    setError({
+                        statusCode: data.statusCode,
+                        message: data.message
+                    })
+                } else {
+                    setPatients(data.data.patients)
+                    setLoader(false);
+                }
+            }
+        )
+    );
+}
+
+export const fetchProjects = (searchParams, setProjects, setLoader) => {
+    setLoader(true);
     fetch('/api/projects?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setProjects(data.data.projects);
+            setLoader(false);
         }
     );
 }
 
-export const getProjectsCount = (searchParams, setProjectsCount) => {
+export const getProjectsCount = (searchParams, setProjectsCount, setLoader) => {
+    setLoader(true);
     fetch('/api/projects/count-projects?' + searchParams, {
         method: 'GET'
     }).then(
@@ -32,11 +75,13 @@ export const getProjectsCount = (searchParams, setProjectsCount) => {
     ).then(
         data => {
             setProjectsCount(data.data.projectsCount);
+            setLoader(false);
         }
     );
 }
 
-export const addProject = (postParams, refreshProjectsList, setModalOpened, setLoader, setToastMessage) => {
+// addProject(finalPostParams, props.setModalOpened, setLoader, props.setToastMessage);
+export const addProject = (postParams, setProjectID, setModalOpened, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/projects', {
         method: 'POST',
@@ -46,9 +91,28 @@ export const addProject = (postParams, refreshProjectsList, setModalOpened, setL
         response => response.json()
     ).then(
         data => {
-            refreshProjectsList();
             setToastMessage(data.message);
             setModalOpened(false);
+            setLoader(false);
+            setProjectID(data.data.project.id);
+        }
+    );
+}
+
+export const updateProject = (projectID, putParams, setProjectID, setModalOpened, setLoader, setToastMessage, refreshPage) => {
+    setLoader(true);
+    fetch(`/api/projects/${projectID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(putParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setToastMessage(data.message);
+            setModalOpened(false);
+            setProjectID(projectID);
+            refreshPage();
             setLoader(false);
         }
     );

@@ -6,6 +6,7 @@ import PatientsView from './PatientsView';
 import ProjectsView from './ProjectsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
 import '../styles/index/index.css'
+import ProjectController from "../controllers/ProjectController";
 
 export default function AppView() {
 
@@ -17,7 +18,7 @@ export default function AppView() {
       name: 'dashboard'
     },
     {
-      view: <ProjectsView />,
+      view: <ProjectController />,
       name: 'projects'
     },
     {

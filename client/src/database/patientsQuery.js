@@ -32,12 +32,26 @@ export const updatePatient = (id, putParams, refreshPatientsList, setModalOpened
     );
 }
 
-export const fetchPatients = (searchParams, setPatients, ) => {
+export const fetchPatients = (searchParams, setPatients, setLoader) => {
+    setLoader(true);
     fetch('/api/patients?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setPatients(data.data.patients);
+            setLoader(false);
+        }
+    );
+}
+
+export const fetchAllPatients = (setPatients, setLoader) => {
+    setLoader(true);
+    fetch('/api/patients/all').then(
+        response => response.json()
+    ).then(
+        data => {
+            setPatients(data.data.patients);
+            setLoader(false);
         }
     );
 }

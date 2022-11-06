@@ -4,24 +4,23 @@ import Dropdown from "../components/utility/Dropdown";
 import Pagination from "../components/utility/Pagination";
 import EmptyTable from "../components/utility/EmptyTable";
 import Toast from "../components/utility/Toast";
-import ProjectModal from "../components/utility/ProjectModal";
 import { fetchProjects, getProjectsCount } from "../database/projectsQuery";
+import LoaderPage from "../components/utility/LoaderPage";
+import ProjectModal from "../components/utility/ProjectModal";
 
-export default function ProjectsView() {
+export default function ProjectsView(props) {
+    const [loader, setLoader] = useState(true);
 
     const [pagesCount, setPagesCount] = useState(0);
     const [pages, setPages] = useState([]);
     const [projects, setProjects] = useState([]);
     const [projectsCount, setProjectsCount] = useState(1);
-
-    // toast messages
-    const [toastMessage, setToastMessage] = useState('');
     
     // queries parameters
     const [orderByColumn, setOrderByColumn] = useState('id');
     const [order, setOrder] = useState('ASC');
     const [pageNumber, setPageNumber] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(2);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     // project details modal states
     const [modalOpened, setModalOpened] = useState(false);
@@ -38,25 +37,48 @@ export default function ProjectsView() {
 
     const searchParams = new URLSearchParams({
         page: pageNumber,               // requested page number (handled by server)
-        count: itemsPerPage,            // patients number to return on single page
+        count: itemsPerPage,            // projects number to return on single page
         orderByColumn: orderByColumn,
         order: order,
         idQuery: idQuery,
         nameQuery: nameQuery,
         participantsCountQuery: participantsCountQuery
-    })
-    
-    useEffect(() => {
-        getProjectsCount(searchParams, setProjectsCount);
-        console.log(projectsCount);
     });
 
+    const headerData = [
+        {
+            title: 'ID',
+            key: 'id',
+            query: idQuery,
+            setQuery: setIdQuery
+        },
+        {
+            title: 'Nazwa',
+            key: 'name',
+            query: nameQuery,
+            setQuery: setNameQuery
+        },
+        {
+            title: 'Liczba uczestników',
+            key: 'participantsCount',
+            query: participantsCountQuery,
+            setQuery: setParticipantsCountQuery
+        }
+    ];
+
+    const refreshProjectList = () => {
+        fetchProjects(searchParams, setProjects, setLoader);
+    }
+    
     useEffect(() => {
-        fetchProjects(searchParams, setProjects);
+        getProjectsCount(searchParams, setProjectsCount, setLoader);
+    }, []);
+
+    useEffect(() => {
+        refreshProjectList();
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => {
-        console.log('Changing pages count');
         setPagesCount(Math.ceil(projectsCount/itemsPerPage));
     }, [projectsCount, itemsPerPage]);
 
@@ -74,64 +96,56 @@ export default function ProjectsView() {
     }, [projects]);
 
     useEffect(() => {
-        // If page would be empty -> go back
-        if(projects.length == 0 && pageNumber > 0) {
-            setPageNumber(pageNumber - 1);
-        }
-    }, [projects]);
-
-    useEffect(() => {
         setPageNumber(0);
     }, [itemsPerPage]);
 
     return (
         <div>
             <div className="content">
+                <LoaderPage loader={loader} />
                 <div className="content-header">
                     <h2>Projekty</h2>
-                    <button className="button-secondary" onClick={() => { setModalData(defaultModalData); setModalOpened(true); }}>
+                    <button 
+                        className="button-secondary" 
+                        onClick={() => { 
+                            setModalData(defaultModalData);
+                            setModalOpened(true);
+                        }}>
                         Dodaj projekt
                     </button>
                 </div>
-                    <ProjectList
-                        setModalOpened={setModalOpened}
-                        setModalData={setModalData}
+                <ProjectList
+                    headerData={headerData}
+                    
+                    projects={projects}
+                    projectsCount={projectsCount}
+                    itemsPerPage={itemsPerPage}
 
-                        idQuery={idQuery}
-                        setIdQuery={setIdQuery}
+                    orderByColumn={orderByColumn}
+                    setOrderByColumn={setOrderByColumn}
+                    order={order}
+                    setOrder={setOrder}
+                    setPageNumber={setPageNumber}
 
-                        nameQuery={nameQuery}
-                        setNameQuery={setNameQuery}
-
-                        participantsCountQuery={participantsCountQuery}
-                        setParticipantsCountQuery={setParticipantsCountQuery}
-                        
-                        projects={projects}
-                        projectsCount={projectsCount}
-                        itemsPerPage={itemsPerPage}
-
-                        orderByColumn={orderByColumn}
-                        setOrderByColumn={setOrderByColumn}
-                        order={order}
-                        setOrder={setOrder}
-                        setPageNumber={setPageNumber}
-                    />
-                    {projects.length !== 0 ? 
-                        <>
-                            <div className="table-summary">
-                                <p className="found">
-                                    {projects.length * (pageNumber + 1)} z {projectsCount}
-                                </p>
-                                <div className="dropdown-wrapper">
-                                    <p>Wyników na stronie</p>
-                                    <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
-                                </div>
+                    setProjectID={props.setProjectID}
+                />
+                {projects.length !== 0 ? 
+                    <>
+                        <div className="table-summary">
+                            <p className="found">
+                                
+                            </p>
+                            <div className="dropdown-wrapper">
+                                <p>Wyników na stronie</p>
+                                <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
                             </div>
-                            <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
-                        </> : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
-                    }
-                <ProjectModal modalData={modalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
-                <Toast message={toastMessage} setToastMessage={setToastMessage} />
+                        </div>
+                        <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
+                    </> : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
+                }
+                
+                <ProjectModal setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
+                <Toast message={props.toastMessage} setToastMessage={props.setToastMessage} />
             </div>
         </div>
     );

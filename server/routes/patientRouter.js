@@ -17,6 +17,20 @@ const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
 
+router.get('/all', async (req, res) => {
+
+    const query = `SELECT * FROM patients`;
+
+    database.query(query, (err, result) => {
+        try {
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: result }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    })
+});
+
 router.get('/count-patients', async (req, res) => {
 
     const idQuery = req.query.idQuery || '';

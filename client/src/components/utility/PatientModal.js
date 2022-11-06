@@ -30,7 +30,7 @@ export default function PatientModal(props) {
             setMonthOfBirth(month);
             setDateOfBirth(day);
         }
-    }, []);
+    });
 
     const setDate = (dateString) => {
         var [year, month, date] = dateString.split('-');
