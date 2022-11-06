@@ -111,7 +111,7 @@ export const updateProject = (projectID, putParams, setProjectID, setModalOpened
         data => {
             setToastMessage(data.message);
             setModalOpened(false);
-            setProjectID(1);
+            setProjectID(projectID);
             refreshPage();
             setLoader(false);
         }

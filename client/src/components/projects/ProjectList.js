@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectRow from "../utility/ProjectRow";
+import ProjectRow from "./ProjectRow";
 import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSearchRow from "../utility/TableSearchRow";
 

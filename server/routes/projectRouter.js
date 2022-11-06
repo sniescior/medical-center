@@ -125,9 +125,9 @@ router.delete('/:id', async (req, res) => {
     database.query(queries.DELETE_PROJECT, [req.params.id], (err, result) => {
         try {
             if(result.affectedRows > 0) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Project deleted'));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt został usunięty'));
             } else {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No project with given id (${req.params.id}) was found`));
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Nie znaleziono projektu (id: ${req.params.id})`));
             }
         } catch(err) {
             console.log(err);

@@ -3,9 +3,10 @@ import { getParticipants, getProjectDetails } from "../../database/projectsQuery
 import { fetchAllPatients } from "../../database/patientsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
-import PatientsTable from "../utility/PatientsTable";
+import PatientsTable from "../patients/PatientsTable";
 import Toast from "../utility/Toast";
-import ProjectModal from "../utility/ProjectModal";
+import ProjectModal from "./ProjectModal";
+import { useParams } from "react-router-dom";
 
 const headerData = [
     {
@@ -23,6 +24,8 @@ const headerData = [
 ];
 
 export default function ProjectDetail(props) {
+
+    const params = useParams();
     
     const [loader, setLoader] = useState(true);
     const [tableLoader, setTableLoader] = useState(false);
@@ -44,10 +47,10 @@ export default function ProjectDetail(props) {
     const [modalData, setModalData] = useState(defaultModalData);
 
     const refreshPage = () => {
-        getProjectDetails(props.projectID, setProject, setLoader, setError)
+        getProjectDetails(params.projectID, setProject, setLoader, setError)
 
         if(participantsOnly) {
-            getParticipants(props.projectID, setPatients, setTableLoader, setError);
+            getParticipants(params.projectID, setPatients, setTableLoader, setError);
         } else {
             fetchAllPatients(setPatients, setTableLoader);
         }
