@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
-import { deletePatient, addPatient } from "../../database/query";
+import { deletePatient, addPatient, updatePatient } from "../../database/patientsQuery";
 
 export default function PatientModal(props) {
 
@@ -30,7 +30,7 @@ export default function PatientModal(props) {
             setMonthOfBirth(month);
             setDateOfBirth(day);
         }
-    }, []);
+    });
 
     const setDate = (dateString) => {
         var [year, month, date] = dateString.split('-');
@@ -62,23 +62,16 @@ export default function PatientModal(props) {
         
     }, [props.modalData]);
 
-    // const defaultFieldValues = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, }
-    const defaultFieldValues = { firstName: 'Szymon', lastName: "N", email: "szymon3@mail.com", address: "Ta ulica", city: "Białystok", country: "Polska", yearOfBirth: '2000', monthOfBirth: '1', dateOfBirth: '2', }
+    const defaultFieldValues = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, }
     const [postParams, setPostParams] = useState(
         defaultFieldValues
-        );
-        
-        // useEffect(() => {
-            //     setPostParams({ firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, });
-            // }, [firstName, lastName, email, address, city, country, yearOfBirth, monthOfBirth, dateOfBirth])
+    );
             
     const formFullyFilled = () => {
         console.log(postParams);
         if(postParams.firstName === '' || postParams.lastName === '' || postParams.email === '' || postParams.address === '' || postParams.city === '' || postParams.country === '' || postParams.dateOfBirth === '') {
             return false;
         }
-                
-        
 
         return true;
     }
@@ -128,10 +121,11 @@ export default function PatientModal(props) {
                         </div>
                     </div>
                     <div className="button-wrapper between">
-                        <button className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        <button type="button" className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                         <div className="button-wrapper">
-                            <button className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                            <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
                             <button
+                                type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -141,11 +135,12 @@ export default function PatientModal(props) {
                                             addPatient(finalPostParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
                                         }
                                     } else {
-                                        console.log('Updating patient');
+                                        const finalPutParams = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: parseInt(yearOfBirth, 10), monthOfBirth: parseInt(monthOfBirth, 10), dateOfBirth: parseInt(dateOfBirth, 10) }
+                                        updatePatient(patientID, finalPutParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
                                     }
                                 }}
                                 >
-                                    {patientID ? "Zapisz" : "Dodaj"}
+                                {patientID ? "Zapisz" : "Dodaj"}
                             </button>
                         </div>
                     </div>

@@ -6,10 +6,11 @@ import PatientsView from './PatientsView';
 import ProjectsView from './ProjectsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
 import '../styles/index/index.css'
+import ProjectController from "../controllers/ProjectController";
 
 export default function AppView() {
 
-  const [currentPage, setCurrentPage] = useState('patients');
+  const [currentPage, setCurrentPage] = useState('projects');
 
   const views = [
     {
@@ -17,7 +18,7 @@ export default function AppView() {
       name: 'dashboard'
     },
     {
-      view: <ProjectsView />,
+      view: <ProjectController />,
       name: 'projects'
     },
     {
@@ -31,7 +32,7 @@ export default function AppView() {
   ]
 
   const [view, setView] = useState(views[0]);
-  const [navOpen, setNavOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(true);
 
   useEffect(() => {
     for(var i = 0; i < views.length; i++) {

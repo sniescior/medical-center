@@ -14,13 +14,44 @@ export const deletePatient = (id, refreshPatientsList, setModalOpened, setLoader
     );
 }
 
-export const fetchPatients = (searchParams, setPatients, setFetched) => {
+export const updatePatient = (id, putParams, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+    setLoader(true);
+    fetch(`/api/patients/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(putParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            refreshPatientsList();
+            setToastMessage(data.message);
+            setModalOpened(false);
+            setLoader(false);
+        }
+    );
+}
+
+export const fetchPatients = (searchParams, setPatients, setLoader) => {
+    setLoader(true);
     fetch('/api/patients?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setPatients(data.data.patients);
-            setFetched(true);
+            setLoader(false);
+        }
+    );
+}
+
+export const fetchAllPatients = (setPatients, setLoader) => {
+    setLoader(true);
+    fetch('/api/patients/all').then(
+        response => response.json()
+    ).then(
+        data => {
+            setPatients(data.data.patients);
+            setLoader(false);
         }
     );
 }
