@@ -12,6 +12,8 @@ const queries = {
     UPDATE_PROJECT: 'UPDATE projects SET name = ? WHERE id = ?',
     DELETE_PROJECT: 'DELETE FROM projects WHERE id = ?',
 
+    DELETE_PARTICIPANT: 'DELETE FROM participants WHERE patient_id = ? AND project_ID = ?',
+
     COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
 
@@ -113,6 +115,22 @@ router.put('/:id', async (req, res) => {
                         res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
                     }
                 });
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+})
+
+router.delete('/remove-participant', async (req, res) => {
+    console.log('Body: ', req.body);
+    database.query(queries.DELETE_PARTICIPANT, [req.body.patientID, req.body.projectID], (err, result) => {
+        try {
+            if(result.affectedRows > 0) {
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Usunięto pacjenta z projektu'));
+            } else {
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Uczestnik (id: ${req.body.patientID}) nie jest przypisany do projektu (id: ${req.body.projectID})`));
             }
         } catch(err) {
             console.log(err);

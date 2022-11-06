@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { removeParticipant } from "../../database/projectsQuery";
 
 function ActionButton(props) {
 
@@ -19,7 +21,6 @@ function ActionButton(props) {
         };
 
     }, [onClickOutside]);
-    
 
     return (
         <button ref={ref} className={opened ? "action-button opened" : "action-button"} onClick={() => {
@@ -31,7 +32,7 @@ function ActionButton(props) {
             <ul className="action-menu">
                 {actions.map((action, key) => {
                     return (
-                        <li key={key}><i className={action.icon}></i> {action.name}</li>
+                        <li key={key} onClick={() => {action.action()}}><i className={action.icon}></i> {action.name}</li>
                     );
                 })}
             </ul>
@@ -40,9 +41,18 @@ function ActionButton(props) {
 }
 
 export default function ParticipantRow(props) {
-
+    const { element, setLoader, setToastMessage, refreshPage } = props;
     const [consent, setConsent] = useState(props.element.consent);
     const [opened, setOpened] = useState(false);
+
+    const params = useParams();
+
+    const postParams = {
+        patientID: element.id,
+        projectID: params.projectID
+    }
+
+    console.log(postParams);
 
     var actions = [];
     if(consent) {
@@ -50,7 +60,7 @@ export default function ParticipantRow(props) {
             {
                 name: 'Usuń z projektu',
                 icon: 'bi bi-person-dash',
-                action: () => { console.log('Usuwanie pacjenta z projektu'); }
+                action: () => { removeParticipant(postParams, setLoader, setToastMessage, refreshPage); }
             },
             {
                 name: 'Usuń zgodę',
@@ -63,7 +73,7 @@ export default function ParticipantRow(props) {
             {
                 name: 'Usuń z projektu',
                 icon: 'bi bi-person-dash',
-                action: () => { console.log('Usuwanie pacjenta z projektu'); }
+                action: () => { removeParticipant(postParams, setLoader, setToastMessage, refreshPage); }
             },
             {
                 name: 'Dodaj zgodę',
@@ -74,13 +84,13 @@ export default function ParticipantRow(props) {
     }
 
     return (
-        <tr className={props.element.consent ? "non-hover bg-success" : "non-hover bg-danger"}>
-            <td> {props.element.id} </td>
-            <td> {props.element.first_name} </td>
-            <td> {props.element.last_name} </td>
-            <td> {props.element.consent == 1 ? <span className="badge success">tak</span> : <span className="badge danger">nie</span>} </td>
+        <tr className={element.consent ? "non-hover bg-success" : "non-hover bg-danger"}>
+            <td> {element.id} </td>
+            <td> {element.first_name} </td>
+            <td> {element.last_name} </td>
+            <td> {element.consent == 1 ? <span className="badge success">tak</span> : <span className="badge danger">nie</span>} </td>
             <td> 
-                <ActionButton opened={opened} setOpened={setOpened} onClickOutside={() => { setOpened(false); }} actions={actions} />
+                <ActionButton postParams={postParams} opened={opened} setOpened={setOpened} onClickOutside={() => { setOpened(false); }} actions={actions} />
             </td>
         </tr>
     );

@@ -4,7 +4,6 @@ import { fetchAllPatients } from "../../database/patientsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
 import PatientsTable from "../patients/PatientsTable";
-import Toast from "../utility/Toast";
 import ProjectModal from "./ProjectModal";
 import { useParams } from "react-router-dom";
 
@@ -126,10 +125,9 @@ export default function ProjectDetail(props) {
                     </button>
                 </div>
 
-                <PatientsTable noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
+                <PatientsTable setLoader={setLoader} setToastMessage={props.setToastMessage} refreshPage={refreshPage} noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
 
                 <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
-                <Toast message={props.toastMessage} setToastMessage={props.setToastMessage} />
             </div>
         );
     }

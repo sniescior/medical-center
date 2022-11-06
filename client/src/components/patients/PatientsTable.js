@@ -10,7 +10,7 @@ function TableBody(props) {
             <tbody>
                 {props.items.map((element, key) => {
                     return (
-                        <ParticipantRow element={element} key={key} />
+                        <ParticipantRow setLoader={props.setLoader} setToastMessage={props.setToastMessage} refreshPage={props.refreshPage} element={element} key={key} />
                     );
                 })}
             </tbody>
@@ -35,7 +35,7 @@ export default function PatientsTable(props) {
                 <thead>
                     <TableHeaderRow noSort={props.noSort} order={props.order} setOrder={props.setOrder} orderByColumn={props.orderByColumn} setOrderByColumn={props.setOrderByColumn} headerData={props.headerData} />
                 </thead>
-                    <TableBody participants={props.participants} patients={props.patients} items={props.items} />
+                    <TableBody setLoader={props.setLoader} setToastMessage={props.setToastMessage} refreshPage={props.refreshPage} participants={props.participants} patients={props.patients} items={props.items} />
             </table>
             {props.items.length == 0 ? <EmptyTable /> : <></> }
         </div>
