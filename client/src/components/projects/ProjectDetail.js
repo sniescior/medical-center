@@ -26,7 +26,6 @@ const headerData = [
 export default function ProjectDetail(props) {
 
     const params = useParams();
-    console.log(params.projectID);
     
     const [loader, setLoader] = useState(true);
     const [tableLoader, setTableLoader] = useState(false);
