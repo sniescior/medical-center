@@ -30,9 +30,12 @@ export default function PatientModal(props) {
             setMonthOfBirth(month);
             setDateOfBirth(day);
         }
+
+        console.log('Date', dateOfBirth);
     });
 
     const setDate = (dateString) => {
+        console.log('Default');
         var [year, month, date] = dateString.split('-');
         setDateOfBirth(date);
         setMonthOfBirth(month);
@@ -61,15 +64,9 @@ export default function PatientModal(props) {
         } catch(err) {}
         
     }, [props.modalData]);
-
-    const defaultFieldValues = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: yearOfBirth, monthOfBirth: monthOfBirth, dateOfBirth: dateOfBirth, }
-    const [postParams, setPostParams] = useState(
-        defaultFieldValues
-    );
             
     const formFullyFilled = () => {
-        console.log(postParams);
-        if(postParams.firstName === '' || postParams.lastName === '' || postParams.email === '' || postParams.address === '' || postParams.city === '' || postParams.country === '' || postParams.dateOfBirth === '') {
+        if(firstName === '' || lastName === '' || email === '' || address === '' || city === '' || country === '' || dateOfBirth === '') {
             return false;
         }
 
@@ -89,7 +86,7 @@ export default function PatientModal(props) {
                     <span className={loader ? "loader spinning" : "loader none"}></span>
                 </div>
                 <span className="divider"></span>
-                <form>
+                <form onSubmit={(e) => { e.preventDefault(); }}>
                     <div className={!loader ? "form-wrapper" : "form-wrapper disabled"}>
                         <div className="input-wrapper">
                             <label>Imię</label>
@@ -117,26 +114,26 @@ export default function PatientModal(props) {
                         </div>
                         <div className="input-wrapper date">
                             <label>Data urodzenia</label>
-                            <input className="day" min="1800-01-01" max="2030-12-31" type="date" value={yearOfBirth+ '-' + monthOfBirth + '-' + dateOfBirth} onChange={(e) => { setDateOfBirth(e.target.value); setDate(e.target.value); }} required />
+                            <input className="day" min="1800-01-01" max="2030-12-31" type="date" value={yearOfBirth+ '-' + monthOfBirth + '-' + dateOfBirth} onChange={(e) => { console.log(dateOfBirth); setDateOfBirth(e.target.value); }} required />
                         </div>
                     </div>
                     <div className="button-wrapper between">
-                        <button type="button" className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={(e) => { e.preventDefault(); deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        <button type="button" className={patientID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} onClick={() => { deletePatient(props.modalData.id, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage); }}><i className="bi bi-trash3"></i>Usuń</button>
                         <div className="button-wrapper">
-                            <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={(e) => { e.preventDefault(); props.setModalOpened(false);  }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
+                            <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false);  }}>{patientID ? "Odrzuć zmiany" : "Anuluj"}</button>
                             <button
                                 type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
                                 onClick={(e) => {
-                                    e.preventDefault();
+                                    const finalParams = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: parseInt(yearOfBirth, 10), monthOfBirth: parseInt(monthOfBirth, 10), dateOfBirth: parseInt(dateOfBirth, 10) }
                                     if(!patientID) {    // no id -> means we are creating a brand new object
                                         if(formFullyFilled()) {
-                                            const finalPostParams = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: parseInt(yearOfBirth, 10), monthOfBirth: parseInt(monthOfBirth, 10), dateOfBirth: parseInt(dateOfBirth, 10) }
-                                            addPatient(finalPostParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
+                                            addPatient(finalParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
                                         }
                                     } else {
-                                        const finalPutParams = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, yearOfBirth: parseInt(yearOfBirth, 10), monthOfBirth: parseInt(monthOfBirth, 10), dateOfBirth: parseInt(dateOfBirth, 10) }
-                                        updatePatient(patientID, finalPutParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
+                                        if(formFullyFilled()) {
+                                            updatePatient(patientID, finalParams, props.refreshPatientsList, props.setModalOpened, setLoader, props.setToastMessage);
+                                        }
                                     }
                                 }}
                                 >

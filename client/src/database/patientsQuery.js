@@ -78,9 +78,9 @@ export const addPatient = (postParams, refreshPatientsList, setModalOpened, setL
         response => response.json()
     ).then(
         data => {
+            setModalOpened(false);
             refreshPatientsList();
             setToastMessage(data.message);
-            setModalOpened(false);
             setLoader(false);
         }
     );
