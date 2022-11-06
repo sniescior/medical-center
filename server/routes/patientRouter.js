@@ -80,11 +80,6 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    console.log('Creating patient');
-    console.log(typeof(req.body.yearOfBirth));
-    console.log(req.body.yearOfBirth);
-    console.log(req.body.dateOfBirth);
-    console.log(req.body.monthOfBirth);
     database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
         try {
             if(!result) {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../../styles/navbar/navbar.css';
+import { Link } from "react-router-dom";
 
 export default function NavBar(props) {
     const links = [
@@ -42,14 +43,12 @@ export default function NavBar(props) {
                 <ul className="navbar-nav toggled">
                     {links.map(link => {
                         return (
-                            <li 
-                                key={link.name}
-                                className={props.currentPage == link.name ? "nav-link active" : "nav-link"} 
-                                onClick={() => {
-                                    props.setCurrentPage(link.name);
-                                }}>
-                                    {link.title}
-                            </li>
+                            <Link key={link.name} to={link.href}>
+                                <li 
+                                    className={props.currentPage == link.name ? "nav-link active" : "nav-link"} >
+                                        {link.title}
+                                </li>
+                            </Link>
                         );
                     })}
                 </ul>
