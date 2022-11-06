@@ -72,7 +72,7 @@ export default function ProjectsView(props) {
     
     useEffect(() => {
         getProjectsCount(searchParams, setProjectsCount, setLoader);
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
         refreshProjectList();

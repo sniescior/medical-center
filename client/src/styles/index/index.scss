@@ -19,6 +19,24 @@ body {
     width: 100vw;
     height: 100%;
 
+    .badge {
+        display: block;
+        width: 35px;
+        padding: 4px 12px;
+        min-width: 35px;
+        text-align: center;
+        border-radius: 8px;
+        color: #eee;
+
+        &.danger {
+            background-color: #e05050;
+        }
+        &.success {
+            background-color: #7e8838;
+            // color: $dimmed_font_color;
+        }
+    }
+
     .loader {
         display: inline-block;
         width: 30px;
@@ -81,7 +99,13 @@ body {
             height: 40px;
             border-radius: 50%;
             transition: .2s ease-in-out;
+            position: relative;
             
+            &.opened {
+                background-color: rgba(17, 17, 17, 0.1);
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            }
+
             &:hover {
                 background-color: rgba(17, 17, 17, 0.1);
             }
@@ -92,6 +116,46 @@ body {
                 height: 5px;
                 background-color: $dimmed_font_color;
                 border-radius: 50%;
+            }
+
+            .action-menu {
+                position: absolute;
+                bottom: -72px;
+                right: -20px;
+                margin: 0;
+                padding: 0;
+                z-index: 1000;
+                background-color: rgb(255, 255, 255);
+                border: 2px solid rgba(204, 204, 204, 0.448);
+                list-style-type: none;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                padding: 14px 14px;
+                border-radius: 8px;
+                gap: 8px;
+                opacity: 0;
+                pointer-events: none;
+                transition: .2s ease-in-out;
+
+                li {
+                    margin: 0;
+                    padding: 3px 2px;
+                    display: flex;
+                    justify-content: flex-start;
+                    gap: 12px;
+                    font-weight: 400;
+                }
+            }
+
+            &.opened {
+                .action-menu {
+                    opacity: 1;
+                    z-index: 1;
+                    transform: translateY(10px);
+                }
             }
         }
 

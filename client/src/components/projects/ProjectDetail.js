@@ -12,14 +12,27 @@ const headerData = [
     {
         key: 'id',
         title: 'ID',
+        class: ''
     },
     {
         key: 'name',
         title: 'Imię',
+        class: ''
     },
     {
         key: 'last_name',
         title: 'Nazwisko',
+        class: ''
+    },
+    {
+        key: 'consent',
+        title: 'Zgoda',
+        class: 'short'
+    },
+    {
+        key: 'more_actions',
+        title: '',
+        class: 'short'
     },
 ];
 
@@ -113,7 +126,7 @@ export default function ProjectDetail(props) {
                     </button>
                 </div>
 
-                <PatientsTable participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
+                <PatientsTable noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
 
                 <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
                 <Toast message={props.toastMessage} setToastMessage={props.setToastMessage} />

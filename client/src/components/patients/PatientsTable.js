@@ -33,7 +33,7 @@ export default function PatientsTable(props) {
         <div className="table-wrapper">
             <table>
                 <thead>
-                    <TableHeaderRow order={props.order} setOrder={props.setOrder} orderByColumn={props.orderByColumn} setOrderByColumn={props.setOrderByColumn} headerData={props.headerData} />
+                    <TableHeaderRow noSort={props.noSort} order={props.order} setOrder={props.setOrder} orderByColumn={props.orderByColumn} setOrderByColumn={props.setOrderByColumn} headerData={props.headerData} />
                 </thead>
                     <TableBody participants={props.participants} patients={props.patients} items={props.items} />
             </table>

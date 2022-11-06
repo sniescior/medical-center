@@ -23,7 +23,7 @@ router.get('/get-participants/:id', async (req, res) => {
     const idQuery = req.params.idQuery || ''
 
     const query = `
-        SELECT pat.id, pat.first_name, pat.last_name FROM participants part, patients pat
+        SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
         WHERE part.patient_id = pat.id
         AND part.project_id = ${req.params.id}
     `;
