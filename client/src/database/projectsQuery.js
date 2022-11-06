@@ -14,32 +14,60 @@ export const deleteProject = (id, refreshProjectsList, setModalOpened, setLoader
     );
 }
 
-export const getProjectDetails = (projectID, setLoader, setToastMessage, setNotFound) => {
+export const getProjectDetails = (projectID, setProject, setLoader, setError) => {
+    setLoader(true);
     fetch(`/api/projects/${projectID}`).then(
         response => response.json()
     ).then(
         data => {
-            if(data.statusCode === 404) {
-                setNotFound(true);
-                setTimeout(() => {
-                    setToastMessage(data.message);
-                }, 300);
+            if(data.statusCode !== 200) {
+                setError({
+                    statusCode: data.statusCode,
+                    message: data.message
+                });
+                setLoader(false);
+            } else {
+                setProject(data.data);
+                setLoader(false);
             }
         }
     )
 }
 
-export const fetchProjects = (searchParams, setProjects) => {
+export const getParticipants = (projectID, setPatients, setLoader, setError) => {
+    setLoader(true);
+    fetch(`/api/projects/get-participants/${projectID}`).then(
+        response => response.json()
+        .then(
+            data => {
+                if(data.statusCode !== 200) {
+                    setError({
+                        statusCode: data.statusCode,
+                        message: data.message
+                    })
+                } else {
+                    setPatients(data.data.patients)
+                    setLoader(false);
+                }
+            }
+        )
+    );
+}
+
+export const fetchProjects = (searchParams, setProjects, setLoader) => {
+    setLoader(true);
     fetch('/api/projects?' + searchParams).then(
         response => response.json()
     ).then(
         data => {
             setProjects(data.data.projects);
+            setLoader(false);
         }
     );
 }
 
-export const getProjectsCount = (searchParams, setProjectsCount) => {
+export const getProjectsCount = (searchParams, setProjectsCount, setLoader) => {
+    setLoader(true);
     fetch('/api/projects/count-projects?' + searchParams, {
         method: 'GET'
     }).then(
@@ -47,6 +75,7 @@ export const getProjectsCount = (searchParams, setProjectsCount) => {
     ).then(
         data => {
             setProjectsCount(data.data.projectsCount);
+            setLoader(false);
         }
     );
 }

@@ -5,8 +5,10 @@ import Pagination from "../components/utility/Pagination";
 import EmptyTable from "../components/utility/EmptyTable";
 import Toast from "../components/utility/Toast";
 import { fetchProjects, getProjectsCount } from "../database/projectsQuery";
+import LoaderPage from "../components/utility/LoaderPage";
 
 export default function ProjectsView(props) {
+    const [loader, setLoader] = useState(true);
 
     const [pagesCount, setPagesCount] = useState(0);
     const [pages, setPages] = useState([]);
@@ -43,14 +45,35 @@ export default function ProjectsView(props) {
         idQuery: idQuery,
         nameQuery: nameQuery,
         participantsCountQuery: participantsCountQuery
-    })
-    
-    useEffect(() => {
-        getProjectsCount(searchParams, setProjectsCount);
     });
 
+    const headerData = [
+        {
+            title: 'ID',
+            key: 'id',
+            query: idQuery,
+            setQuery: setIdQuery
+        },
+        {
+            title: 'Nazwa',
+            key: 'name',
+            query: nameQuery,
+            setQuery: setNameQuery
+        },
+        {
+            title: 'Liczba uczestników',
+            key: 'participantsCount',
+            query: participantsCountQuery,
+            setQuery: setParticipantsCountQuery
+        }
+    ];
+    
     useEffect(() => {
-        fetchProjects(searchParams, setProjects);
+        getProjectsCount(searchParams, setProjectsCount, setLoader);
+    }, []);
+
+    useEffect(() => {
+        fetchProjects(searchParams, setProjects, setLoader);
     }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => {
@@ -77,6 +100,7 @@ export default function ProjectsView(props) {
     return (
         <div>
             <div className="content">
+                <LoaderPage loader={loader} />
                 <div className="content-header">
                     <h2>Projekty</h2>
                     <button className="button-secondary" onClick={() => { setModalData(defaultModalData); setModalOpened(true); }}>
@@ -84,17 +108,10 @@ export default function ProjectsView(props) {
                     </button>
                 </div>
                     <ProjectList
+                        headerData={headerData}
+
                         setModalOpened={setModalOpened}
                         setModalData={setModalData}
-
-                        idQuery={idQuery}
-                        setIdQuery={setIdQuery}
-
-                        nameQuery={nameQuery}
-                        setNameQuery={setNameQuery}
-
-                        participantsCountQuery={participantsCountQuery}
-                        setParticipantsCountQuery={setParticipantsCountQuery}
                         
                         projects={projects}
                         projectsCount={projectsCount}

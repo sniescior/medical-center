@@ -1,35 +1,97 @@
 import React, { useEffect, useState } from "react";
-import { getProjectDetails } from "../../database/projectsQuery";
+import { getParticipants, getProjectDetails } from "../../database/projectsQuery";
+import { fetchAllPatients } from "../../database/patientsQuery";
+import ErrorPage from "../utility/ErrorPage";
+import LoaderPage from "../utility/LoaderPage";
+import PatientsTable from "../utility/PatientsTable";
 import Toast from "../utility/Toast";
 
+const headerData = [
+    {
+        key: 'id',
+        title: 'ID',
+    },
+    {
+        key: 'name',
+        title: 'Imię',
+    },
+    {
+        key: 'last_name',
+        title: 'Nazwisko',
+    },
+];
+
 export default function ProjectDetail(props) {
-    const [projectID, setProjectID] = useState(null);
     const [toastMessage, setToastMessage] = useState('');
-    const [notFound, setNotFound] = useState(false);
     const [loader, setLoader] = useState(true);
+    const [tableLoader, setTableLoader] = useState(false);
+    const [error, setError] = useState({});
+    
+    const [project, setProject] = useState({});
+    const [patients, setPatients] = useState([]);
+
+    const [order, setOrder] = useState('ASC');
+    const [orderByColumn, setOrderByColumn] = useState('id');
+
+    // filtering states
+    const [consentOnly, setConsentOnly] = useState(false);
+    const [participantsOnly, setParticipantsOnly] = useState(true);
 
     useEffect(() => {
-        getProjectDetails(props.projectID, setLoader, setToastMessage, setNotFound);
-    }, []);
+        getProjectDetails(props.projectID, setProject, setLoader, setError);
 
-    if(notFound) {
-        return (
-            <div className="content">
-                <div className="empty-table bigger">
-                    <img src="notfound.svg" />
-                    <h1>404</h1>
-                    <h2>Nie znaleziono</h2>
-                </div>
-                <Toast message={toastMessage} setToastMessage={setToastMessage} />
-            </div>
-        );
+        if(participantsOnly) {
+            getParticipants(props.projectID, setPatients, setTableLoader, setError);
+        } else {
+            fetchAllPatients(setPatients, setTableLoader);
+        }
+    }, [participantsOnly]);
+
+    if(error.statusCode) {
+        return ( <ErrorPage error={error} /> );
     } else {
         return (
             <div className="content">
-                Projekt: {projectID}
+                <LoaderPage loader={loader} />
+                <div className="content-header">
+                    <h2>{project.name}</h2>
+                </div>
+                <div className="content-info">
+                    <div>
+                        <h2>13-12-2020</h2>
+                        <h4>data rozpoczęcia</h4>
+                    </div>
+                    <div>
+                        <h2>32</h2>
+                        <h4>zleceń</h4>
+                    </div>
+                    <div>
+                        <h2>12</h2>
+                        <h4>przeprowadzonych badań</h4>
+                    </div>
+                </div>
+
+                <span className="divider"></span>
+
+                <div className="button-wrapper">
+                    <button
+                        onClick={() => { setParticipantsOnly(!participantsOnly); }}
+                        className={participantsOnly ? "button-filter active" : "button-filter"}>
+                        <i className="bi bi-person-check-fill"></i>
+                        Tylko uczestnicy
+                    </button>
+                    <button
+                        onClick={() => { setConsentOnly(!consentOnly); }} 
+                        className={consentOnly ? "button-filter active" : "button-filter"}>
+                        <i className="bi bi-check-circle"></i>
+                        Tylko ze zgodą
+                    </button>
+                </div>
+
+                <PatientsTable participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
+
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />
             </div>
         );
-
     }
 };

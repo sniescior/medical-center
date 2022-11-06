@@ -62,11 +62,11 @@ CREATE TABLE participants (
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 );
 
-INSERT INTO participants VALUES ('1', '81');
-INSERT INTO participants VALUES ('1', '82');
-INSERT INTO participants VALUES ('1', '83');
-INSERT INTO participants VALUES ('2', '82');
-INSERT INTO participants VALUES ('2', '85');
-INSERT INTO participants VALUES ('3', '86');
-INSERT INTO participants VALUES ('3', '90');
+INSERT INTO participants VALUES ('1', '91');
+INSERT INTO participants VALUES ('1', '92');
+INSERT INTO participants VALUES ('1', '93');
+INSERT INTO participants VALUES ('2', '92');
+INSERT INTO participants VALUES ('2', '95');
+INSERT INTO participants VALUES ('3', '96');
+INSERT INTO participants VALUES ('3', '105');
 

@@ -19,6 +19,25 @@ const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
 
+router.get('/get-participants/:id', async (req, res) => {
+    const idQuery = req.params.idQuery || ''
+
+    const query = `
+        SELECT pat.id, pat.first_name, pat.last_name FROM participants part, patients pat
+        WHERE part.patient_id = pat.id
+        AND part.project_id = ${req.params.id}
+    `;
+
+    database.query(query, (err, result) => {
+        try {
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: result }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+})
+
 router.get('/count-projects', async (req, res) => {
     const idQuery = req.query.idQuery || '';
     const nameQuery = req.query.nameQuery || '';
