@@ -84,14 +84,13 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    console.log('Creating project');
     database.query(queries.CREATE_PROJECT, Object.values(req.body), (err, result) => {
         try {
             if(!result) {
                 res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
-                const project = { id: result.insertedId, ...req.body };
-                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Project created successfully', { project }));
+                const project = { id: result.insertId, name: req.body.name };
+                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { project: project }));
             }
         } catch(err) {
             console.log(err);
@@ -101,15 +100,14 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:id', async (req, res) => {
-    console.log('Updating project');
     database.query(queries.SELECT_PROJECT, [req.params.id], (err, result) => {
         try {
             if(!result[0]) {
                 res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No project with given id (${req.params.id}) was found`));
             } else {
-                database.query(queries.UPDATE_PROJECT, [...Object.values(req.body), req.params.id], (err, result) => {
+                database.query(queries.UPDATE_PROJECT, [req.body.name, req.params.id], (err, result) => {
                     if(!err) {
-                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Project updated', { id: req.params.id, ...req.body } ));
+                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt zaktualizowany pomyślnie', { id: req.params.id, ...req.body } ));
                     } else {
                         console.log(err.message);
                         res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
@@ -124,7 +122,6 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-    console.log('Deleting project');
     database.query(queries.DELETE_PROJECT, [req.params.id], (err, result) => {
         try {
             if(result.affectedRows > 0) {

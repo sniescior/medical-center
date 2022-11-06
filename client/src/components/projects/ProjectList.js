@@ -15,7 +15,7 @@ export default function ProjectList(props) {
                 <tbody>
                     {props.projects.map(element => {
                         return (
-                            <ProjectRow key={element.id} element={element} setModalOpened={props.setModalOpened} setProjectID={props.setProjectID} />
+                            <ProjectRow key={element.id} element={element} setModalOpened={props.setModalOpened} setProjectID={props.setProjectID} setModalData={props.setModalData} />
                         );
                     })}
                 </tbody>

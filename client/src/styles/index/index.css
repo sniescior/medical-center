@@ -66,6 +66,26 @@ body button {
   color: #182747;
   background-color: transparent;
 }
+body button.action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: 0.2s ease-in-out;
+}
+body button.action-button:hover {
+  background-color: rgba(17, 17, 17, 0.1);
+}
+body button.action-button span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(24, 39, 71, 0.6078431373);
+  border-radius: 50%;
+}
 body button.hidden {
   visibility: hidden;
   pointer-events: none;

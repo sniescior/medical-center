@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function PatientRow(props) {
-
     const date_of_birth = new Date(props.element.date_of_birth);
     const year = date_of_birth.getFullYear();
     const month = date_of_birth.getMonth();

@@ -1,14 +1,14 @@
-export const deleteProject = (id, refreshProjectsList, setModalOpened, setLoader, setToastMessage) => {
+export const deleteProject = (projectID, setModalOpened, setLoader, setToastMessage, setProjectID) => {
     setLoader(true);
-    fetch(`/api/projects/${id}`, {
+    fetch(`/api/projects/${projectID}`, {
         method: 'DELETE'
     }).then(
         response => response.json()
     ).then(
         data => {
-            refreshProjectsList();
             setToastMessage(data.message);
             setModalOpened(false);
+            setProjectID(null);
             setLoader(false);
         }
     );
@@ -80,7 +80,8 @@ export const getProjectsCount = (searchParams, setProjectsCount, setLoader) => {
     );
 }
 
-export const addProject = (postParams, refreshProjectsList, setModalOpened, setLoader, setToastMessage) => {
+// addProject(finalPostParams, props.setModalOpened, setLoader, props.setToastMessage);
+export const addProject = (postParams, setProjectID, setModalOpened, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/projects', {
         method: 'POST',
@@ -90,9 +91,28 @@ export const addProject = (postParams, refreshProjectsList, setModalOpened, setL
         response => response.json()
     ).then(
         data => {
-            refreshProjectsList();
             setToastMessage(data.message);
             setModalOpened(false);
+            setLoader(false);
+            setProjectID(data.data.project.id);
+        }
+    );
+}
+
+export const updateProject = (projectID, putParams, setProjectID, setModalOpened, setLoader, setToastMessage, refreshPage) => {
+    setLoader(true);
+    fetch(`/api/projects/${projectID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(putParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setToastMessage(data.message);
+            setModalOpened(false);
+            setProjectID(1);
+            refreshPage();
             setLoader(false);
         }
     );

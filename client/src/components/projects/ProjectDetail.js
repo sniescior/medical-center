@@ -5,6 +5,7 @@ import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
 import PatientsTable from "../utility/PatientsTable";
 import Toast from "../utility/Toast";
+import ProjectModal from "../utility/ProjectModal";
 
 const headerData = [
     {
@@ -22,10 +23,12 @@ const headerData = [
 ];
 
 export default function ProjectDetail(props) {
-    const [toastMessage, setToastMessage] = useState('');
+    
     const [loader, setLoader] = useState(true);
     const [tableLoader, setTableLoader] = useState(false);
     const [error, setError] = useState({});
+
+    const [modalOpened, setModalOpened] = useState(false);
     
     const [project, setProject] = useState({});
     const [patients, setPatients] = useState([]);
@@ -37,15 +40,27 @@ export default function ProjectDetail(props) {
     const [consentOnly, setConsentOnly] = useState(false);
     const [participantsOnly, setParticipantsOnly] = useState(true);
 
-    useEffect(() => {
-        getProjectDetails(props.projectID, setProject, setLoader, setError);
+    const defaultModalData = { id: '', name: '' }
+    const [modalData, setModalData] = useState(defaultModalData);
+
+    const refreshPage = () => {
+        getProjectDetails(props.projectID, setProject, setLoader, setError)
 
         if(participantsOnly) {
             getParticipants(props.projectID, setPatients, setTableLoader, setError);
         } else {
             fetchAllPatients(setPatients, setTableLoader);
         }
+    }
+
+    useEffect(() => {
+        refreshPage();
     }, [participantsOnly]);
+
+    const openModal = () => {
+        setModalData({ id: project.id, name: project.name });
+        setModalOpened(true);
+    };
 
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
@@ -55,6 +70,13 @@ export default function ProjectDetail(props) {
                 <LoaderPage loader={loader} />
                 <div className="content-header">
                     <h2>{project.name}</h2>
+                    <button className="action-button" onClick={() => {
+                        openModal();
+                    }}>
+                        <span className="dot"></span>
+                        <span className="dot"></span>
+                        <span className="dot"></span>
+                    </button>
                 </div>
                 <div className="content-info">
                     <div>
@@ -90,7 +112,8 @@ export default function ProjectDetail(props) {
 
                 <PatientsTable participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
 
-                <Toast message={toastMessage} setToastMessage={setToastMessage} />
+                <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
+                <Toast message={props.toastMessage} setToastMessage={props.setToastMessage} />
             </div>
         );
     }

@@ -1,11 +1,11 @@
 import React from 'react';
 
 export default function ProjectRow(props) {
-  return (
+    return (
         <tr onClick={() => { props.setProjectID(props.element.id); }} >
-            <td onClick={() => { props.setModalOpened(true); }}> {props.element.id} </td>
-            <td onClick={() => { props.setModalOpened(true); }}> {props.element.name} </td>
-            <td onClick={() => { props.setModalOpened(true); }}> {props.element.participantsCount} </td>
+            <td> {props.element.id} </td>
+            <td> {props.element.name} </td>
+            <td> {props.element.participantsCount} </td>
         </tr>
     );
 };
