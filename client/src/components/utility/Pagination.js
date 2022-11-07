@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { usePagination, DOTS } from "../../hooks/usePagination";
 import '../../styles/pagination/pagination.css';
 
@@ -32,7 +32,7 @@ export default function Pagination(props) {
             <button onClick={prevPage}><i className="bi bi-chevron-left"></i></button>
             <ul className="pagination">
                 {paginationRange.map((element, key) => {
-                    if(element == DOTS) {
+                    if(element === DOTS) {
                         return ( 
                             <li key={key} className={"pagination-item dots"}>{element}</li> 
                         );
@@ -40,7 +40,7 @@ export default function Pagination(props) {
                         return ( 
                             <li 
                                 key={key}
-                                className={element == currentPage ? "pagination-item active" : "pagination-item"}
+                                className={element === currentPage ? "pagination-item active" : "pagination-item"}
                                 onClick={() => { setPageNumber(element); }}
                                 >
                                 {element}

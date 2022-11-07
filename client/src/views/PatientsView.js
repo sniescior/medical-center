@@ -130,6 +130,11 @@ export default function PatientsView() {
         },
     ];
 
+    const openModal = (element) => {
+        setModalData(element);
+        setModalOpened(true);
+    }
+
     return (
         <div>
             <div className="content">
@@ -161,6 +166,8 @@ export default function PatientsView() {
                     setOrder={setOrder} 
                     items={patients} 
                     itemsPerPage={pageSize}
+
+                    onClickAction={openModal}
                 />
                 <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatientsList} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />

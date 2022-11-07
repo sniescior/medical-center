@@ -15,12 +15,12 @@ export default function PatientTable(props) {
                     <tbody>
                         {props.items.map((element, key) => {
                             return (
-                                <PatientRow element={element} key={key} />
+                                <PatientRow onClickAction={props.onClickAction} element={element} key={key} />
                             );
                         })}
                     </tbody>
                 </table>
-                {props.items.length == 0 ? <EmptyTable /> : <></> }
+                {props.items.length === 0 ? <EmptyTable /> : <></> }
             </div>
             <TableSummary
                     pagesCount={props.pagesCount}

@@ -56,10 +56,10 @@ const tabs = [
 function ParticipantsTab(props) {
     const { active, consentOnly, setConsentOnly, setLoader, setToastMessage, refreshPage, order, setOrder, orderByColumn, setOrderByColumn, items, headerData } = props;
     return (
-        <div className={active == 0 ? "tab-wrapper active" : "tab-wrapper"}>
+        <div className={active === 0 ? "tab-wrapper active" : "tab-wrapper"}>
             <div className="button-wrapper">
                 <button
-                    onClick={() => { setConsentOnly(!consentOnly); console.log(consentOnly); }} 
+                    onClick={() => { setConsentOnly(!consentOnly); refreshPage(); }} 
                     className={consentOnly ? "button-filter active" : "button-filter"}>
                     <i className="bi bi-check-circle"></i>
                     Tylko ze zgodą
@@ -75,7 +75,7 @@ function ParticipantsTab(props) {
 function PatientsTab(props) {
     const { active } = props;
     return (
-        <div className={active == 1 ? "tab-wrapper active" : "tab-wrapper"}>
+        <div className={active === 1 ? "tab-wrapper active" : "tab-wrapper"}>
             <h2>Pacjenci</h2>
         </div>
     );
@@ -84,7 +84,7 @@ function PatientsTab(props) {
 function TestsTab(props) {
     const { active } = props;
     return (
-        <div className={active == 2 ? "tab-wrapper active" : "tab-wrapper"}>
+        <div className={active === 2 ? "tab-wrapper active" : "tab-wrapper"}>
             <h2>Testy</h2>
         </div>
     );
@@ -123,14 +123,14 @@ export default function ProjectDetail(props) {
         getParticipants(params.projectID, queryParams, setPatients, setLoader, setError);
     }
 
-    useEffect(() => {
-        refreshPage();
-    }, [consentOnly]);
-
     const openModal = () => {
         setModalData({ id: project.id, name: project.name });
         setModalOpened(true);
     };
+
+    useEffect(() => {
+        refreshPage();
+    });
 
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
@@ -148,8 +148,6 @@ export default function ProjectDetail(props) {
                         <span className="dot"></span>
                     </button>
                 </div>
-                {/* <div className="content-info"> */}
-                {/* </div> */}
 
                 <TabsHeader tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
