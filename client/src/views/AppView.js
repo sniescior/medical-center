@@ -6,10 +6,11 @@ import PatientsView from './PatientsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
 import '../styles/index/index.css'
 
-import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Router, createBrowserRouter } from "react-router-dom";
 import ProjectDetail from "../components/projects/ProjectDetail";
 import ProjectsView from "./ProjectsView";
 import Toast from "../components/utility/Toast";
+import ErrorPage from "../components/utility/ErrorPage";
 
 export default function AppView() {
 
@@ -41,7 +42,12 @@ export default function AppView() {
       href: '/tests',
       name: 'tests'
     },
-  ]
+    {
+      view: <ErrorPage error={{ statusCode: 404, message: "Page not found"}} />,
+      href: '/*',
+      name: 'error_page'
+    } 
+  ];
 
   const [navOpen, setNavOpen] = useState(true);
 
