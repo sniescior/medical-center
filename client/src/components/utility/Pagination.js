@@ -20,27 +20,28 @@ export default function Pagination(props) {
     });
 
     const nextPage = () => {
-        if(currentPage < pagesCount - 1) { setPageNumber(currentPage + 1); }
+        if(currentPage < pagesCount) { setPageNumber(currentPage + 1); }
     }
 
     const prevPage = () => {
-        if(currentPage > 0) { setPageNumber(currentPage - 1); }
+        if(currentPage > 1) { setPageNumber(currentPage - 1); }
     }    
 
     return (
         <div className="pagination-wrapper">
             <button onClick={prevPage}><i className="bi bi-chevron-left"></i></button>
             <ul className="pagination">
-                {paginationRange.map(element => {
+                {paginationRange.map((element, key) => {
                     if(element == DOTS) {
                         return ( 
-                            <li className={"pagination-item dots"}>{element}</li> 
+                            <li key={key} className={"pagination-item dots"}>{element}</li> 
                         );
                     } else {
                         return ( 
                             <li 
-                                className={element == currentPage + 1 ? "pagination-item active" : "pagination-item"}
-                                onClick={() => { setPageNumber(element - 1); }}
+                                key={key}
+                                className={element == currentPage ? "pagination-item active" : "pagination-item"}
+                                onClick={() => { setPageNumber(element); }}
                                 >
                                 {element}
                             </li>

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import PatientList from "../components/patients/PatientList";
-import Pagination from "../components/utility/Pagination";
-import Dropdown from "../components/utility/Dropdown";
 import PatientModal from "../components/patients/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import Toast from "../components/utility/Toast";
-import EmptyTable from '../components/utility/EmptyTable';
 import LoaderPage from "../components/utility/LoaderPage";
+import PatientTable from "../components/patients/PatientTable";
 
 export default function PatientsView() {
     const [loader, setLoader] = useState(true);
@@ -21,8 +18,8 @@ export default function PatientsView() {
     // queries parameters
     const [orderByColumn, setOrderByColumn] = useState('id');
     const [order, setOrder] = useState('ASC');
-    const [pageNumber, setPageNumber] = useState(2);
-    const [pageSize, setPageSize] = useState(1);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
 
     // patient details modal states
     const [modalOpened, setModalOpened] = useState(false);
@@ -43,7 +40,7 @@ export default function PatientsView() {
     const [date_of_birthQuery, setDate_of_birthQuery] = useState('');
 
     const searchParams = new URLSearchParams({
-        page: pageNumber,               // requested page number (handled by server)
+        page: pageNumber - 1,               // requested page number (handled by server)
         count: pageSize,            // patients number to return on single page
         orderByColumn: orderByColumn,
         order: order,
@@ -63,7 +60,7 @@ export default function PatientsView() {
         
     useEffect(() => {
         setPagesCount(Math.ceil(patientsCount / pageSize));
-        setPageNumber(0);
+        setPageNumber(1);
     }, [patientsCount, pageSize]);
 
     const refreshPatientsList = () => { fetchPatients(searchParams, setPatients, setLoader); }
@@ -72,7 +69,7 @@ export default function PatientsView() {
         fetchPatients(searchParams, setPatients, setLoader);
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
-    useEffect(() => { setPageNumber(0); }, [pageSize]);
+    useEffect(() => { setPageNumber(1); }, [pageSize]);
 
     const headerData = [
         {
@@ -143,7 +140,7 @@ export default function PatientsView() {
                         Dodaj pacjenta
                     </button>
                 </div>
-                <PatientList 
+                <PatientTable
                     headerData={headerData}
                     setModalOpened={setModalOpened}
                     setModalData={setModalData}
@@ -151,28 +148,20 @@ export default function PatientsView() {
 
                     orderByColumn={orderByColumn} 
                     setOrderByColumn={setOrderByColumn} 
+                    
+                    pagesCount={pagesCount}
+                    totalCount={patientsCount}
                     setPageNumber={setPageNumber}
+                    currentPage={pageNumber}
+                    pageSize={pageSize}
+                    
+                    setPageSize={setPageSize}
 
                     order={order} 
                     setOrder={setOrder} 
-                    patients={patients} 
-                    patientsCount={patientsCount}
+                    items={patients} 
                     itemsPerPage={pageSize}
                 />
-                {patients.length !== 0 ? 
-                    <>
-                        <div className="table-summary">
-                            <p className="found">
-                            </p>
-                            <div className="dropdown-wrapper">
-                                <p>Wyników na stronie</p>
-                                <Dropdown title={pageSize} handler={setPageSize} defaultValue={pageSize} values={[5, 10, 20]} />
-                            </div>
-                        </div>
-                        <Pagination pagesCount={pagesCount} totalCount={patientsCount} setPageNumber={setPageNumber} currentPage={pageNumber} pageSize={pageSize} />
-                    </>
-                    : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
-                }
                 <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatientsList} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
                 <Toast message={toastMessage} setToastMessage={setToastMessage} />
             </div>

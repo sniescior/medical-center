@@ -30,8 +30,6 @@ export default function PatientModal(props) {
             setMonthOfBirth(month);
             setDateOfBirth(day);
         }
-
-        console.log('Date', dateOfBirth);
     });
 
     const setDate = (dateString) => {

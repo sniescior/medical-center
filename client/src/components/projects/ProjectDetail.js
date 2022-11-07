@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getParticipants, getProjectDetails } from "../../database/projectsQuery";
-import { fetchAllPatients } from "../../database/patientsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
-import PatientsTable from "../patients/PatientsTable";
+import PatientsTable from "../patients/PatientTable";
 import ProjectModal from "./ProjectModal";
 import { useParams } from "react-router-dom";
 import TabsHeader from "../utility/TabsHeader";
