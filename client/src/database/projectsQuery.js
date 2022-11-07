@@ -129,6 +129,24 @@ export const removeParticipant = (postParams, setLoader, setToastMessage, refres
     ).then(
         data => {
             setToastMessage(data.message);
+            refreshPage();
+            setLoader(false);
+        }
+    )
+}
+
+export const updateParticipant = (postParams, setLoader, setToastMessage, refreshPage) => {
+    setLoader(true);
+    console.log(postParams);
+    fetch('/api/projects/update-participant', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setToastMessage(data.message);
             console.log(data);
             refreshPage();
             setLoader(false);

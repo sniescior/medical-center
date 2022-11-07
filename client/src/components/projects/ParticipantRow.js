@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { removeParticipant } from "../../database/projectsQuery";
+import { removeParticipant, updateParticipant } from "../../database/projectsQuery";
 
 function ActionButton(props) {
 
@@ -48,40 +48,23 @@ export default function ParticipantRow(props) {
     const params = useParams();
 
     const postParams = {
+        consent: !element.consent,
         patientID: element.id,
         projectID: params.projectID
     }
 
-    console.log(postParams);
-
-    var actions = [];
-    if(consent) {
-        actions = [
-            {
-                name: 'Usuń z projektu',
-                icon: 'bi bi-person-dash',
-                action: () => { removeParticipant(postParams, setLoader, setToastMessage, refreshPage); }
-            },
-            {
-                name: 'Usuń zgodę',
-                icon: 'bi bi-x-circle',
-                action: () => { console.log('Zmiana informacji o zgodzie'); }
-            },
-        ];
-    } else {
-        actions = [
-            {
-                name: 'Usuń z projektu',
-                icon: 'bi bi-person-dash',
-                action: () => { removeParticipant(postParams, setLoader, setToastMessage, refreshPage); }
-            },
-            {
-                name: 'Dodaj zgodę',
-                icon: 'bi bi-check-circle',
-                action: () => { console.log('Zmiana informacji o zgodzie'); }
-            },
-        ];
-    }
+    var actions = [
+        {
+            name: 'Usuń z projektu',
+            icon: 'bi bi-person-dash',
+            action: () => { removeParticipant(postParams, setLoader, setToastMessage, refreshPage); }
+        },
+        {
+            name: 'Zmień zgodę',
+            icon: 'bi bi-person-rolodex',
+            action: () => { updateParticipant(postParams, setLoader, setToastMessage, refreshPage) }
+        },
+    ];
 
     return (
         <tr className={element.consent ? "non-hover bg-success" : "non-hover bg-danger"}>

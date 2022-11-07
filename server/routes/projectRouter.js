@@ -11,8 +11,9 @@ const queries = {
     CREATE_PROJECT: 'INSERT INTO projects (name) VALUES (?)',
     UPDATE_PROJECT: 'UPDATE projects SET name = ? WHERE id = ?',
     DELETE_PROJECT: 'DELETE FROM projects WHERE id = ?',
-
+    
     DELETE_PARTICIPANT: 'DELETE FROM participants WHERE patient_id = ? AND project_ID = ?',
+    UPDATE_PARTICIPANT: 'UPDATE participants SET consent = ? WHERE patient_id = ? AND project_id = ?',
 
     COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
@@ -99,6 +100,23 @@ router.post('/', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
+})
+
+router.put('/update-participant', async (req, res) => {
+    console.log('Request body: ', req.body);
+    try {
+        database.query(queries.UPDATE_PARTICIPANT, [req.body.consent, req.body.patientID, req.body.projectID], (err, result) => {
+            if(!err) {
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano dane uczestnika'));
+            } else {
+                console.log(err.message);
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
+            }
+        });
+    } catch(err) {
+        console.log(err);
+        res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+    }
 })
 
 router.put('/:id', async (req, res) => {
