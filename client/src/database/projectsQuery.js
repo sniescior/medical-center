@@ -117,3 +117,39 @@ export const updateProject = (projectID, putParams, setProjectID, setModalOpened
         }
     );
 }
+
+export const removeParticipant = (postParams, setLoader, setToastMessage, refreshPage) => {
+    setLoader(true);
+    fetch('/api/projects/remove-participant', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setToastMessage(data.message);
+            refreshPage();
+            setLoader(false);
+        }
+    )
+}
+
+export const updateParticipant = (postParams, setLoader, setToastMessage, refreshPage) => {
+    setLoader(true);
+    console.log(postParams);
+    fetch('/api/projects/update-participant', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postParams)
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setToastMessage(data.message);
+            console.log(data);
+            refreshPage();
+            setLoader(false);
+        }
+    )
+}

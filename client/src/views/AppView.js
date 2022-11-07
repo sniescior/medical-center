@@ -5,12 +5,16 @@ import TestsView from "../components/tests/TestsView";
 import PatientsView from './PatientsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
 import '../styles/index/index.css'
-import ProjectController from "../controllers/ProjectController";
 
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import ProjectDetail from "../components/projects/ProjectDetail";
+import ProjectsView from "./ProjectsView";
+import Toast from "../components/utility/Toast";
 
 export default function AppView() {
+
+  const [toastMessage, setToastMessage] = useState('');
+
   const routes = [
     {
       view: <DashboardView />,
@@ -18,17 +22,17 @@ export default function AppView() {
       name: 'dashboard'
     },
     {
-      view: <ProjectController />,
-      href: '/projects',
-      name: 'projects'
-    },
-    {
-      view: <PatientsView />,
+      view: <PatientsView setToastMessage={setToastMessage} />,
       href: '/patients',
       name: 'patients'
     },
     {
-      view: <ProjectDetail />,
+      view: <ProjectsView setToastMessage={setToastMessage} />,
+      href: '/projects/',
+      name: 'patients'
+    },
+    {
+      view: <ProjectDetail setToastMessage={setToastMessage} />,
       href: '/projects/:projectID',
       name: 'patients'
     },
@@ -52,6 +56,7 @@ export default function AppView() {
         <NavBar setNavOpen={setNavOpen} navOpen={navOpen} />
         <MiniNavBar navOpen={navOpen} setNavOpen={setNavOpen} />
         </BrowserRouter>
+        <Toast message={toastMessage} />
     </div>
   );
 }

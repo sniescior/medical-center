@@ -54,17 +54,19 @@ VALUES ('Krystyna', 'Kowalczyk', 'krystyna.kowalczyk@mail.com', 'Stary Rynek 25'
 INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth)
 VALUES ('Damian', 'Nowicki', 'damian.nowicki@mail.com', 'Łąkowa 1-2', 'Gdańsk', 'Poland', STR_TO_DATE('12-4-1988', '%d-%m-%Y'));
 
+DROP TABLE participants;
 CREATE TABLE participants (
     project_id      BIGINT UNSIGNED NOT NULL,
-    patient_id       BIGINT UNSIGNED NOT NULL,
+    patient_id      BIGINT UNSIGNED NOT NULL,
+    consent         BOOLEAN DEFAULT FALSE,
 
     FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 );
 
-INSERT INTO participants VALUES ('1', '91');
-INSERT INTO participants VALUES ('1', '92');
-INSERT INTO participants VALUES ('1', '93');
+INSERT INTO participants VALUES ('1', '105', FALSE);
+INSERT INTO participants VALUES ('1', '92', TRUE);
+INSERT INTO participants VALUES ('1', '95', FALSE);
 INSERT INTO participants VALUES ('2', '92');
 INSERT INTO participants VALUES ('2', '95');
 INSERT INTO participants VALUES ('3', '96');
