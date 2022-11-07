@@ -6,6 +6,7 @@ import LoaderPage from "../utility/LoaderPage";
 import PatientsTable from "../patients/PatientsTable";
 import ProjectModal from "./ProjectModal";
 import { useParams } from "react-router-dom";
+import TabsHeader from "../utility/TabsHeader";
 
 const headerData = [
     {
@@ -35,12 +36,68 @@ const headerData = [
     },
 ];
 
+const tabs = [
+    {
+        id: 0,
+        title: 'Uczestnicy',
+        icon: 'bi bi-people',
+    },
+    {
+        id: 1,
+        title: 'Pacjenci',
+        icon: 'bi bi-person-plus',
+    },
+    {
+        id: 2,
+        title: 'Badania',
+        icon: 'bi bi-activity',
+    },
+];
+
+function ParticipantsTab(props) {
+    const { active, consentOnly, setConsentOnly, setLoader, setToastMessage, refreshPage, order, setOrder, orderByColumn, setOrderByColumn, items, headerData } = props;
+    return (
+        <div className={active == 0 ? "tab-wrapper active" : "tab-wrapper"}>
+            <div className="button-wrapper">
+                <button
+                    onClick={() => { setConsentOnly(!consentOnly); console.log(consentOnly); }} 
+                    className={consentOnly ? "button-filter active" : "button-filter"}>
+                    <i className="bi bi-check-circle"></i>
+                    Tylko ze zgodą
+                </button>
+            </div>
+
+            <PatientsTable setLoader={setLoader} setToastMessage={setToastMessage} refreshPage={refreshPage} noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={items} headerData={headerData} />
+
+        </div>
+    );
+}
+
+function PatientsTab(props) {
+    const { active } = props;
+    return (
+        <div className={active == 1 ? "tab-wrapper active" : "tab-wrapper"}>
+            <h2>Pacjenci</h2>
+        </div>
+    );
+}
+
+function TestsTab(props) {
+    const { active } = props;
+    return (
+        <div className={active == 2 ? "tab-wrapper active" : "tab-wrapper"}>
+            <h2>Testy</h2>
+        </div>
+    );
+}
+
 export default function ProjectDetail(props) {
 
     const params = useParams();
     
+    const [activeTab, setActiveTab] = useState(0);
+
     const [loader, setLoader] = useState(false);
-    const [tableLoader, setTableLoader] = useState(false);
     const [error, setError] = useState({});
 
     const [modalOpened, setModalOpened] = useState(false);
@@ -64,7 +121,7 @@ export default function ProjectDetail(props) {
     
     const refreshPage = () => {
         getProjectDetails(params.projectID, setProject, setLoader, setError)
-        getParticipants(params.projectID, queryParams, setPatients, setTableLoader, setError);
+        getParticipants(params.projectID, queryParams, setPatients, setLoader, setError);
     }
 
     useEffect(() => {
@@ -92,33 +149,29 @@ export default function ProjectDetail(props) {
                         <span className="dot"></span>
                     </button>
                 </div>
-                <div className="content-info">
-                    <div>
-                        <h2>13-12-2020</h2>
-                        <h4>data rozpoczęcia</h4>
-                    </div>
-                    <div>
-                        <h2>32</h2>
-                        <h4>zleceń</h4>
-                    </div>
-                    <div>
-                        <h2>12</h2>
-                        <h4>przeprowadzonych badań</h4>
-                    </div>
-                </div>
+                {/* <div className="content-info"> */}
+                {/* </div> */}
 
-                <span className="divider"></span>
+                <TabsHeader tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-                <div className="button-wrapper">
-                    <button
-                        onClick={() => { setConsentOnly(!consentOnly); console.log(consentOnly); }} 
-                        className={consentOnly ? "button-filter active" : "button-filter"}>
-                        <i className="bi bi-check-circle"></i>
-                        Tylko ze zgodą
-                    </button>
-                </div>
+                <ParticipantsTab
+                    active={activeTab}
+                    setToastMessage={props.setToastMessage} 
+                    setConsentOnly={setConsentOnly} 
+                    consentOnly={consentOnly} 
+                    setLoader={setLoader} 
+                    refreshPage={refreshPage} 
+                    noSort={true} 
+                    participants={true} 
+                    order={order} 
+                    setOrder={setOrder} 
+                    orderByColumn={orderByColumn} 
+                    setOrderByColumn={setOrderByColumn} 
+                    items={patients}
+                    headerData={headerData} />
 
-                <PatientsTable setLoader={setLoader} setToastMessage={props.setToastMessage} refreshPage={refreshPage} noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
+                <PatientsTab active={activeTab} />
+                <TestsTab active={activeTab} />
 
                 <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
             </div>
