@@ -1,0 +1,46 @@
+$font_color: #182747;
+$table_primary: #ffd484d0;
+
+.pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .pagination {
+        list-style-type: none;
+        display: flex;
+        gap: 10px;
+        margin: 0 20px;
+        padding: 0;
+        
+        .pagination-item {
+            font-size: 1.2em;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(221, 221, 221, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: .2s ease-in-out;
+            cursor: pointer;
+            color: $font_color;
+
+            &.dots {
+                background-color: transparent;
+                cursor: default;
+                pointer-events: none;
+            }
+            
+            &:hover {
+                background-color: rgba(221, 221, 221, 0.9);
+            }
+            
+            &.active {
+                background-color: $table_primary;
+                font-weight: 600;
+            }
+        }
+    }
+}

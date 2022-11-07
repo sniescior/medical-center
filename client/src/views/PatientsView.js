@@ -12,9 +12,8 @@ export default function PatientsView() {
     const [loader, setLoader] = useState(true);
 
     const [pagesCount, setPagesCount] = useState(0);
-    const [pages, setPages] = useState([]);
     const [patients, setPatients] = useState([]);
-    const [patientsCount, setPatientsCount] = useState(1);
+    const [patientsCount, setPatientsCount] = useState(5);
 
     // toast messages
     const [toastMessage, setToastMessage] = useState('');
@@ -22,8 +21,8 @@ export default function PatientsView() {
     // queries parameters
     const [orderByColumn, setOrderByColumn] = useState('id');
     const [order, setOrder] = useState('ASC');
-    const [pageNumber, setPageNumber] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [pageNumber, setPageNumber] = useState(2);
+    const [pageSize, setPageSize] = useState(1);
 
     // patient details modal states
     const [modalOpened, setModalOpened] = useState(false);
@@ -45,7 +44,7 @@ export default function PatientsView() {
 
     const searchParams = new URLSearchParams({
         page: pageNumber,               // requested page number (handled by server)
-        count: itemsPerPage,            // patients number to return on single page
+        count: pageSize,            // patients number to return on single page
         orderByColumn: orderByColumn,
         order: order,
         idQuery: idQuery,
@@ -63,33 +62,17 @@ export default function PatientsView() {
     });
         
     useEffect(() => {
-        setPagesCount(Math.ceil(patientsCount/itemsPerPage));
-    }, [patientsCount, itemsPerPage]);
-
-    useEffect(() => {
-        var array = [];
-        for(var i = 0; i < pagesCount; i++) array.push(i);
-        setPages(array);
-    }, [pagesCount, itemsPerPage, patients]);
-
-    const refreshPatientsList = () => {
-        fetchPatients(searchParams, setPatients, setLoader);
-    }
-    
-    useEffect(() => {
-        // If page would be empty -> go back
-        if(patients.length == 0 && pageNumber > 0) {
-            setPageNumber(pageNumber - 1);
-        }
-    }, [patients]);
-
-    useEffect(() => {
-        fetchPatients(searchParams, setPatients, setLoader);
-    }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
-
-    useEffect(() => {
+        setPagesCount(Math.ceil(patientsCount / pageSize));
         setPageNumber(0);
-    }, [itemsPerPage]);
+    }, [patientsCount, pageSize]);
+
+    const refreshPatientsList = () => { fetchPatients(searchParams, setPatients, setLoader); }
+
+    useEffect(() => {
+        fetchPatients(searchParams, setPatients, setLoader);
+    }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
+
+    useEffect(() => { setPageNumber(0); }, [pageSize]);
 
     const headerData = [
         {
@@ -174,7 +157,7 @@ export default function PatientsView() {
                     setOrder={setOrder} 
                     patients={patients} 
                     patientsCount={patientsCount}
-                    itemsPerPage={itemsPerPage}
+                    itemsPerPage={pageSize}
                 />
                 {patients.length !== 0 ? 
                     <>
@@ -183,10 +166,10 @@ export default function PatientsView() {
                             </p>
                             <div className="dropdown-wrapper">
                                 <p>Wyników na stronie</p>
-                                <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                                <Dropdown title={pageSize} handler={setPageSize} defaultValue={pageSize} values={[5, 10, 20]} />
                             </div>
                         </div>
-                        <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
+                        <Pagination pagesCount={pagesCount} totalCount={patientsCount} setPageNumber={setPageNumber} currentPage={pageNumber} pageSize={pageSize} />
                     </>
                     : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
                 }

@@ -1,111 +1,54 @@
-import React, { useEffect, useState } from "react";
-
-function ButtonsRight(props) {
-    return (
-        <>
-            <button 
-                className="button-right" 
-                onClick={() => { if(props.currentPage < props.pagesCount - 1) props.setPageNumber(props.currentPage + 1); }}
-                >
-                <i className="bi bi-chevron-right"></i>
-            </button>
-            <button 
-                className="button-right" 
-                onClick={() => { props.setPageNumber(props.pagesCount - 1); }}
-                >
-                <i className="bi bi-chevron-double-right"></i>
-            </button>
-        </>
-    );
-}
-
-function ButtonsLeft(props) {
-    return (
-        <>
-            <button 
-                className="button-left" 
-                onClick={() => { props.setPageNumber(0); }}
-                >
-                <i className="bi bi-chevron-double-left"></i>
-            </button>
-            <button 
-                className="button-left" 
-                onClick={() => { if(props.currentPage > 0) props.setPageNumber(props.currentPage - 1); }}
-                >
-                <i className="bi bi-chevron-left"></i>
-            </button>
-        </>
-    );
-}
+import React, { useEffect } from "react";
+import { usePagination, DOTS } from "../../hooks/usePagination";
+import '../../styles/pagination/pagination.css';
 
 export default function Pagination(props) {
+    const {
+        totalCount,
+        siblingCount = 1,
+        currentPage,
+        pageSize,
+        setPageNumber,
+        pagesCount
+    } = props;
 
-    const [indicationNumbers, setIndicationNumbers] = useState([]);
-    const [itemsPerPage, setItemsPerPage] = useState(props.itemsPerPage);
+    const paginationRange = usePagination({
+        currentPage,
+        totalCount,
+        siblingCount,
+        pageSize
+    });
 
-    useEffect(() => {
-        setIndicationNumbers([1, 2, 3, 4, 5, '...', props.pagesCount]);
-    }, [props.pagesCount]);
-    
-    useEffect(() => {
-        if(props.currentPage < 3) {
-            setIndicationNumbers([1, 2, 3, 4, 5, '...', props.pagesCount]);
-        } else if(props.currentPage > 3 && props.currentPage >= props.pagesCount - 1) {
-            setIndicationNumbers([1, '...', props.currentPage - 3, props.currentPage - 2, props.currentPage - 1, props.currentPage, props.currentPage + 1]);
-        } else if(props.currentPage > 3 && props.currentPage >= props.pagesCount - 2) {
-            setIndicationNumbers([1, '...', props.currentPage - 2, props.currentPage - 1, props.currentPage, props.currentPage + 1, props.currentPage + 2]);
-        } else if(props.currentPage > 3 && props.currentPage >= props.pagesCount - 3) {
-            setIndicationNumbers([1, '...', props.currentPage - 1, props.currentPage, props.currentPage + 1, props.currentPage + 2, props.currentPage + 3]);
-        } else {
-            setIndicationNumbers([1, '...', props.currentPage, props.currentPage + 1, props.currentPage + 2, '...', props.pagesCount]);
-        }
-    }, [props.currentPage]);
+    const nextPage = () => {
+        if(currentPage < pagesCount - 1) { setPageNumber(currentPage + 1); }
+    }
 
-    if(props.pagesCount == 0) {
-        return (
-            <div className="pagination">
-                <button className="disabled">0</button>
-            </div>
-        );
-    } else if(props.pagesCount == 1) {
-        return (
-            <div className="pagination">
-                {props.pages.map(page => {
-                    return (
-                        <button key={page} onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
-                    );
-                })}
-            </div>
-        );
-    } else if(props.pagesCount < 5) {
-        return (
-            <div className="pagination">
-                <ButtonsLeft currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
-                {props.pages.map(page => {
-                    return (
-                        <button key={page} onClick={() => { props.setPageNumber(page) }} className={props.currentPage == page ? 'active' : ''}>{page + 1}</button>
-                    );
-                })}
-                <ButtonsRight currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
-            </div>
-        );
-    } else {
-        return (
-            <div className="pagination">
-                <ButtonsLeft currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
-                {indicationNumbers.map(element => {
-                    if(element === '...') {
-                        return(
-                            <button key={element} className='disabled'>{element}</button>
+    const prevPage = () => {
+        if(currentPage > 0) { setPageNumber(currentPage - 1); }
+    }    
+
+    return (
+        <div className="pagination-wrapper">
+            <button onClick={prevPage}><i className="bi bi-chevron-left"></i></button>
+            <ul className="pagination">
+                {paginationRange.map(element => {
+                    if(element == DOTS) {
+                        return ( 
+                            <li className={"pagination-item dots"}>{element}</li> 
                         );
                     } else {
-                        return(
-                            <button key={element} onClick={() => { props.setPageNumber(element - 1) }} className={props.currentPage == element - 1 ? 'active' : ''}>{element}</button>
+                        return ( 
+                            <li 
+                                className={element == currentPage + 1 ? "pagination-item active" : "pagination-item"}
+                                onClick={() => { setPageNumber(element - 1); }}
+                                >
+                                {element}
+                            </li>
                         );
                     }
                 })}
-                <ButtonsRight currentPage={props.currentPage} pagesCount={props.pagesCount} setPageNumber={props.setPageNumber} />
-            </div>
-        );
-    }
+            </ul>
+            <button onClick={nextPage}><i className="bi bi-chevron-right"></i></button>
+        </div>
+    );
 };

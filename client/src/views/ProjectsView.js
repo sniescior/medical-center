@@ -12,7 +12,6 @@ export default function ProjectsView(props) {
     const [loader, setLoader] = useState(true);
 
     const [pagesCount, setPagesCount] = useState(0);
-    const [pages, setPages] = useState([]);
     const [projects, setProjects] = useState([]);
     const [projectsCount, setProjectsCount] = useState(1);
     
@@ -20,7 +19,7 @@ export default function ProjectsView(props) {
     const [orderByColumn, setOrderByColumn] = useState('id');
     const [order, setOrder] = useState('ASC');
     const [pageNumber, setPageNumber] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [pageSize, setPageSize] = useState(2);
 
     // project details modal states
     const [modalOpened, setModalOpened] = useState(false);
@@ -37,7 +36,7 @@ export default function ProjectsView(props) {
 
     const searchParams = new URLSearchParams({
         page: pageNumber,               // requested page number (handled by server)
-        count: itemsPerPage,            // projects number to return on single page
+        count: pageSize,            // projects number to return on single page
         orderByColumn: orderByColumn,
         order: order,
         idQuery: idQuery,
@@ -76,28 +75,15 @@ export default function ProjectsView(props) {
 
     useEffect(() => {
         refreshProjectList();
-    }, [itemsPerPage, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
+    }, [pageSize, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => {
-        setPagesCount(Math.ceil(projectsCount/itemsPerPage));
-    }, [projectsCount, itemsPerPage]);
-
-    useEffect(() => {
-        var array = [];
-        for(var i = 0; i < pagesCount; i++) array.push(i);
-        setPages(array);
-    }, [pagesCount, itemsPerPage, projects]);
-
-    useEffect(() => {
-        // If page would be empty -> go back
-        if(projects.length == 0 && pageNumber > 0) {
-            setPageNumber(pageNumber - 1);
-        }
-    }, [projects]);
+        setPagesCount(Math.ceil(projectsCount / pageSize));
+    }, [projectsCount, pageSize]);
 
     useEffect(() => {
         setPageNumber(0);
-    }, [itemsPerPage]);
+    }, [pageSize]);
 
     return (
         <div>
@@ -119,7 +105,7 @@ export default function ProjectsView(props) {
                     
                     projects={projects}
                     projectsCount={projectsCount}
-                    itemsPerPage={itemsPerPage}
+                    itemsPerPage={pageSize}
 
                     orderByColumn={orderByColumn}
                     setOrderByColumn={setOrderByColumn}
@@ -137,10 +123,10 @@ export default function ProjectsView(props) {
                             </p>
                             <div className="dropdown-wrapper">
                                 <p>Wyników na stronie</p>
-                                <Dropdown title={itemsPerPage} handler={setItemsPerPage} defaultValue={itemsPerPage} values={[5, 10, 20]} />
+                                <Dropdown title={pageSize} handler={setPageSize} defaultValue={pageSize} values={[5, 10, 20]} />
                             </div>
                         </div>
-                        <Pagination setPageNumber={setPageNumber} pages={pages} currentPage={pageNumber} pagesCount={pagesCount} itemsPerPage={itemsPerPage} />
+                        <Pagination pagesCount={pagesCount} totalCount={projectsCount} setPageNumber={setPageNumber} currentPage={pageNumber} pageSize={pageSize} />
                     </> : <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
                 }
                 

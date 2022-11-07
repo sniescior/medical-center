@@ -13,7 +13,7 @@ import Toast from "../components/utility/Toast";
 
 export default function AppView() {
 
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState(null);
 
   const routes = [
     {

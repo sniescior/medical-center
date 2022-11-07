@@ -14,8 +14,9 @@ $font_color: #182747;
     align-items: center;
     gap: 24px;
     transition: .4s ease-in-out;
-
+    
     &.hidden {
+        display: none;
         transform: translateY(100px);
         transition: none;
     }
