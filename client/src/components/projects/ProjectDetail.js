@@ -39,7 +39,7 @@ export default function ProjectDetail(props) {
 
     const params = useParams();
     
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
     const [tableLoader, setTableLoader] = useState(false);
     const [error, setError] = useState({});
 
@@ -53,24 +53,23 @@ export default function ProjectDetail(props) {
 
     // filtering states
     const [consentOnly, setConsentOnly] = useState(false);
-    const [participantsOnly, setParticipantsOnly] = useState(true);
 
     const defaultModalData = { id: '', name: '' }
     const [modalData, setModalData] = useState(defaultModalData);
 
+    const queryParams = new URLSearchParams({
+        id: params.projectID,
+        consentOnly: consentOnly ? 1 : 0
+    });
+    
     const refreshPage = () => {
         getProjectDetails(params.projectID, setProject, setLoader, setError)
-
-        if(participantsOnly) {
-            getParticipants(params.projectID, setPatients, setTableLoader, setError);
-        } else {
-            fetchAllPatients(setPatients, setTableLoader);
-        }
+        getParticipants(params.projectID, queryParams, setPatients, setTableLoader, setError);
     }
 
     useEffect(() => {
         refreshPage();
-    }, [participantsOnly]);
+    }, [consentOnly]);
 
     const openModal = () => {
         setModalData({ id: project.id, name: project.name });
@@ -112,13 +111,7 @@ export default function ProjectDetail(props) {
 
                 <div className="button-wrapper">
                     <button
-                        onClick={() => { setParticipantsOnly(!participantsOnly); }}
-                        className={participantsOnly ? "button-filter active" : "button-filter"}>
-                        <i className="bi bi-person-check-fill"></i>
-                        Tylko uczestnicy
-                    </button>
-                    <button
-                        onClick={() => { setConsentOnly(!consentOnly); }} 
+                        onClick={() => { setConsentOnly(!consentOnly); console.log(consentOnly); }} 
                         className={consentOnly ? "button-filter active" : "button-filter"}>
                         <i className="bi bi-check-circle"></i>
                         Tylko ze zgodą

@@ -22,14 +22,25 @@ const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
 
-router.get('/get-participants/:id', async (req, res) => {
+router.get('/get-participants', async (req, res) => {
     const idQuery = req.params.idQuery || ''
+    console.log('Req: ', req.query);
 
-    const query = `
-        SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
-        WHERE part.patient_id = pat.id
-        AND part.project_id = ${req.params.id}
-    `;
+    var query = '';
+    if(parseInt(req.query.consentOnly)) {
+        query = `
+            SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
+            WHERE part.patient_id = pat.id
+            AND part.project_id = ${req.query.id}
+            AND part.consent = true
+        `;
+    } else {
+        query = `
+            SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
+            WHERE part.patient_id = pat.id
+            AND part.project_id = ${req.query.id}
+        `;
+    }
 
     database.query(query, (err, result) => {
         try {
@@ -103,7 +114,6 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/update-participant', async (req, res) => {
-    console.log('Request body: ', req.body);
     try {
         database.query(queries.UPDATE_PARTICIPANT, [req.body.consent, req.body.patientID, req.body.projectID], (err, result) => {
             if(!err) {

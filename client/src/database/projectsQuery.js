@@ -34,9 +34,9 @@ export const getProjectDetails = (projectID, setProject, setLoader, setError) =>
     )
 }
 
-export const getParticipants = (projectID, setPatients, setLoader, setError) => {
+export const getParticipants = (projectID, searchParams, setPatients, setLoader, setError) => {
     setLoader(true);
-    fetch(`/api/projects/get-participants/${projectID}`).then(
+    fetch('/api/projects/get-participants?' + searchParams).then(
         response => response.json()
         .then(
             data => {
