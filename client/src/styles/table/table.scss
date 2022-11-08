@@ -43,6 +43,11 @@ $table_primary_hover: #ffc65c7d;
                         &:hover {
                             background-color: transparent;
                         }
+
+                        &.dummy {
+                            padding: 0;
+                            height: 0;
+                        }
                     }
                     
                     input {
@@ -171,7 +176,7 @@ $table_primary_hover: #ffc65c7d;
             &::after {
                 content: '';
                 display: block;
-                height: 90px;
+                height: 40px;
                 pointer-events: none;
                 z-index: -10000;
             }
@@ -187,18 +192,6 @@ $table_primary_hover: #ffc65c7d;
                 
                 &:last-of-type {
                     border-bottom: 5px solid $table_primary;
-                }
-                
-                &.non-hover {
-                    cursor: default;
-
-                    &:hover {
-                        background-color: transparent;
-
-                        &:nth-of-type(even) {
-                            background-color: #f3f3f3;
-                        }
-                    }
                 }
 
                 &:hover {

@@ -169,6 +169,7 @@ body {
         &.button-disabled {
             pointer-events: none;
             color: $dimmed_font_color;
+            white-space: nowrap;
         }
 
         &.button-icon {
@@ -185,6 +186,7 @@ body {
 
         &.button-danger {
             color: #be0000;
+            white-space: nowrap;
         }
 
         &.button-secondary {

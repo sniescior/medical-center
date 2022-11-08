@@ -150,6 +150,7 @@ body button.hidden {
 body button.button-disabled {
   pointer-events: none;
   color: rgba(24, 39, 71, 0.6078431373);
+  white-space: nowrap;
 }
 body button.button-icon {
   display: flex;
@@ -163,6 +164,7 @@ body button.button-icon:hover {
 }
 body button.button-danger {
   color: #be0000;
+  white-space: nowrap;
 }
 body button.button-secondary:hover {
   text-decoration: underline;

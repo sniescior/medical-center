@@ -1,49 +1,105 @@
 import React, { useEffect, useState } from "react";
-import { getParticipants, getProjectDetails } from "../../database/projectsQuery";
-import { fetchAllPatients } from "../../database/patientsQuery";
+import { getParticipants, getProjectDetails, getParticipantsCount } from "../../database/projectsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
-import PatientsTable from "../patients/PatientsTable";
 import ProjectModal from "./ProjectModal";
+import ParticipantModal from "./ParticipantModal";
 import { useParams } from "react-router-dom";
+import TabsHeader from "../utility/TabsHeader";
+import Patients from "../patients/Patients";
 
-const headerData = [
+const tabs = [
     {
-        key: 'id',
-        title: 'ID',
-        class: ''
+        id: 0,
+        title: 'Uczestnicy',
+        icon: 'bi bi-people',
     },
     {
-        key: 'name',
-        title: 'Imię',
-        class: ''
+        id: 1,
+        title: 'Dodawanie pacjenów',
+        icon: 'bi bi-person-plus',
     },
     {
-        key: 'last_name',
-        title: 'Nazwisko',
-        class: ''
-    },
-    {
-        key: 'consent',
-        title: 'Zgoda',
-        class: 'short'
-    },
-    {
-        key: 'more_actions',
-        title: '',
-        class: 'short'
+        id: 2,
+        title: 'Badania',
+        icon: 'bi bi-activity',
     },
 ];
+
+function ParticipantsTab(props) {
+    const headerData = [{
+        title: 'Zgoda',
+        placeholder: '',
+        key: 'id',
+        sort: false
+    }];
+    
+    const { projectID, active, setLoader, setModalOpened, setModalData, setError } = props;
+
+    const fetchParticipants = (searchParams, setPatients) => {
+        searchParams.append('projectID', projectID);
+        getParticipants(projectID, searchParams, setPatients, setLoader, setError);
+    }
+    
+    const countAction = (searchParams, setParticipantsCount) => {
+        searchParams.append('projectID', projectID);
+        getParticipantsCount(searchParams, setParticipantsCount, setError);
+    }
+
+    const sayHello = (element) => {
+        setModalData(element);
+        setModalOpened(true);
+    }
+
+    return (
+        <div className={active === 0 ? "tab-wrapper active" : "tab-wrapper"}>
+            <h2>Pacjenci zarejestrowani do udziału w projekcie</h2>
+            <Patients 
+                headerData={headerData}
+                refreshAction={fetchParticipants}
+                countAction={countAction}
+                participants={true}
+
+                onClickAction={sayHello}
+            />
+        </div>
+    );
+}
+
+function PatientsTab(props) {
+    const { active } = props;
+    return (
+        <div className={active === 1 ? "tab-wrapper active" : "tab-wrapper"}>
+            <h2>Pacjenci</h2>
+        </div>
+    );
+}
+
+function TestsTab(props) {
+    const { active } = props;
+    return (
+        <div className={active === 2 ? "tab-wrapper active" : "tab-wrapper"}>
+            <h2>Testy</h2>
+        </div>
+    );
+}
 
 export default function ProjectDetail(props) {
 
     const params = useParams();
     
+    const [activeTab, setActiveTab] = useState(0);
+
     const [loader, setLoader] = useState(true);
-    const [tableLoader, setTableLoader] = useState(false);
     const [error, setError] = useState({});
 
     const [modalOpened, setModalOpened] = useState(false);
+    const defaultModalData = { id: '', name: '' }
+    const [modalData, setModalData] = useState(defaultModalData);
+    
+    const [participantModalOpened, setParticipantModalOpened] = useState(false);
+    const defaultParticiantModalData = { patient_id: '', first_name: '', last_name: '', consent: '', project_id: '' }
+    const [participantModalData, setParticipantModalData] = useState(defaultModalData);
     
     const [project, setProject] = useState({});
     const [patients, setPatients] = useState([]);
@@ -51,31 +107,23 @@ export default function ProjectDetail(props) {
     const [order, setOrder] = useState('ASC');
     const [orderByColumn, setOrderByColumn] = useState('id');
 
-    // filtering states
-    const [consentOnly, setConsentOnly] = useState(false);
-    const [participantsOnly, setParticipantsOnly] = useState(true);
-
-    const defaultModalData = { id: '', name: '' }
-    const [modalData, setModalData] = useState(defaultModalData);
-
+    const queryParams = new URLSearchParams({
+        id: params.projectID,
+    });
+    
     const refreshPage = () => {
         getProjectDetails(params.projectID, setProject, setLoader, setError)
-
-        if(participantsOnly) {
-            getParticipants(params.projectID, setPatients, setTableLoader, setError);
-        } else {
-            fetchAllPatients(setPatients, setTableLoader);
-        }
+        getParticipants(params.projectID, queryParams, setPatients, setLoader, setError);
     }
-
-    useEffect(() => {
-        refreshPage();
-    }, [participantsOnly]);
 
     const openModal = () => {
         setModalData({ id: project.id, name: project.name });
         setModalOpened(true);
     };
+
+    useEffect(() => {
+        refreshPage();
+    }, []);
 
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
@@ -93,40 +141,21 @@ export default function ProjectDetail(props) {
                         <span className="dot"></span>
                     </button>
                 </div>
-                <div className="content-info">
-                    <div>
-                        <h2>13-12-2020</h2>
-                        <h4>data rozpoczęcia</h4>
-                    </div>
-                    <div>
-                        <h2>32</h2>
-                        <h4>zleceń</h4>
-                    </div>
-                    <div>
-                        <h2>12</h2>
-                        <h4>przeprowadzonych badań</h4>
-                    </div>
-                </div>
 
-                <span className="divider"></span>
+                <TabsHeader tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-                <div className="button-wrapper">
-                    <button
-                        onClick={() => { setParticipantsOnly(!participantsOnly); }}
-                        className={participantsOnly ? "button-filter active" : "button-filter"}>
-                        <i className="bi bi-person-check-fill"></i>
-                        Tylko uczestnicy
-                    </button>
-                    <button
-                        onClick={() => { setConsentOnly(!consentOnly); }} 
-                        className={consentOnly ? "button-filter active" : "button-filter"}>
-                        <i className="bi bi-check-circle"></i>
-                        Tylko ze zgodą
-                    </button>
-                </div>
+                <ParticipantsTab 
+                    projectID={params.projectID}
+                    active={activeTab}
+                    setLoader={setLoader}
+                    setError={setError}
+                    setModalData={setParticipantModalData}
+                    setModalOpened={setParticipantModalOpened} />
 
-                <PatientsTable setLoader={setLoader} setToastMessage={props.setToastMessage} refreshPage={refreshPage} noSort={true} participants={true} order={order} setOrder={setOrder} orderByColumn={orderByColumn} setOrderByColumn={setOrderByColumn} items={patients} headerData={headerData} />
+                <PatientsTab active={activeTab} />
+                <TestsTab active={activeTab} />
 
+                <ParticipantModal refreshPage={refreshPage} modalOpened={participantModalOpened} setModalOpened={setParticipantModalOpened} modalData={participantModalData} setModalData={setParticipantModalData} setToastMessage={props.setToastMessage} />
                 <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
             </div>
         );

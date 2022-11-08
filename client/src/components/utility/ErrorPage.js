@@ -5,8 +5,8 @@ export default function ErrorPage(props) {
         <div className="content">
             <div className="empty-table bigger">
                 <img src="notfound.svg" />
-                <h1>{props.error.statusCode ? props.error.statusCode : "Nieznany błąd"}</h1>
-                <h2>{props.error.message ? props.error.message : "Wystąpił problem. Przepraszamy"}</h2>
+                <h1>{props.error.statusCode ? props.error.statusCode : "Oops"}</h1>
+                <h2>{props.error.message ? props.error.message : "Wystąpił błąd"}</h2>
             </div>
         </div>
     );

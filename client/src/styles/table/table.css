@@ -37,6 +37,10 @@
 .table-wrapper table thead tr.search-row th:hover {
   background-color: transparent;
 }
+.table-wrapper table thead tr.search-row th.dummy {
+  padding: 0;
+  height: 0;
+}
 .table-wrapper table thead tr.search-row input {
   width: 100%;
   padding: 8px 12px;
@@ -139,7 +143,7 @@
 .table-wrapper table tbody::after {
   content: "";
   display: block;
-  height: 90px;
+  height: 40px;
   pointer-events: none;
   z-index: -10000;
 }
@@ -153,15 +157,6 @@
 }
 .table-wrapper table tbody tr:last-of-type {
   border-bottom: 5px solid rgba(255, 212, 132, 0.8156862745);
-}
-.table-wrapper table tbody tr.non-hover {
-  cursor: default;
-}
-.table-wrapper table tbody tr.non-hover:hover {
-  background-color: transparent;
-}
-.table-wrapper table tbody tr.non-hover:hover:nth-of-type(even) {
-  background-color: #f3f3f3;
 }
 .table-wrapper table tbody tr:hover {
   background-color: #dddddd;
