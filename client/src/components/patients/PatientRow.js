@@ -14,7 +14,7 @@ export default function PatientRow(props) {
             <td>{props.element.address}</td>
             <td>{props.element.city}</td>
             <td>{props.element.country}</td>
-            <td>{date}.{(month + 1).toString().length > 1 ? (month + 1) : '0' + (month + 1)}.{year}</td>
+            <td>{date}-{(month + 1).toString().length > 1 ? (month + 1) : '0' + (month + 1)}-{year}</td>
         </tr>
     );
 };

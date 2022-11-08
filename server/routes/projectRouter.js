@@ -22,29 +22,83 @@ const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
 
-router.get('/get-participants', async (req, res) => {
-    const idQuery = req.params.idQuery || ''
-    console.log('Req: ', req.query);
+router.get('/participants-count', async (req, res) => {
+    const projectIdQuery = parseInt(req.query.projectID);
 
-    var query = '';
-    if(parseInt(req.query.consentOnly)) {
-        query = `
-            SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
-            WHERE part.patient_id = pat.id
-            AND part.project_id = ${req.query.id}
-            AND part.consent = true
-        `;
-    } else {
-        query = `
-            SELECT pat.id, pat.first_name, pat.last_name, part.consent FROM participants part, patients pat
-            WHERE part.patient_id = pat.id
-            AND part.project_id = ${req.query.id}
-        `;
-    }
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
+
+    const query = `
+        SELECT COUNT(*) AS patientsCount FROM patients 
+        WHERE id LIKE '${idQuery}%' 
+        AND first_name LIKE '${first_nameQuery}%'
+        AND last_name LIKE '%${last_nameQuery}%'
+        AND email LIKE '${emailQuery}%'
+        AND address LIKE '${addressQuery}%'
+        AND city LIKE '${cityQuery}%'
+        AND country LIKE '${countryQuery}%'
+        AND date_of_birth LIKE '${date_of_birthQuery}%'
+        AND id IN (SELECT patient_id FROM participants WHERE project_id = ${projectIdQuery})`;
 
     database.query(query, (err, result) => {
         try {
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: result }));
+            const normalResult = normalizeResult(result);
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+})
+
+const normalizeArray = (result) => {
+    return Array.from(result);
+}
+
+router.get('/get-participants', async (req, res) => {
+    const count = parseInt(req.query.count);
+    const page = parseInt(req.query.page);
+    const orderByColumn = req.query.orderByColumn;
+    const order = req.query.order;
+
+    const projectIdQuery = parseInt(req.query.projectID);
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
+
+    const query = `
+        SELECT *, (SELECT consent from participants part where part.patient_id = p.id) AS consent FROM patients p 
+        WHERE p.id LIKE '%${idQuery}%'
+        AND p.first_name LIKE '%${first_nameQuery}%'
+        AND p.last_name LIKE '%${last_nameQuery}%'
+        AND p.email LIKE '%${emailQuery}%'
+        AND p.address LIKE '%${addressQuery}%'
+        AND p.city LIKE '%${cityQuery}%'
+        AND p.country LIKE '%${countryQuery}%'
+        AND p.date_of_birth LIKE '%${date_of_birthQuery}%'
+        AND p.id IN (SELECT patient_id FROM participants WHERE project_id = ${projectIdQuery})
+        ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
+
+    database.query(query, (err, result) => {
+        try {
+            var resultArray = [];
+            try {
+                result.forEach(element => {
+                    resultArray.push(Object.assign({}, element));
+                });
+            } catch(err) {}
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));

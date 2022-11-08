@@ -49,7 +49,7 @@ export default function AppView() {
     } 
   ];
 
-  const [navOpen, setNavOpen] = useState(true);
+  const [navOpen, setNavOpen] = useState(false);
 
   return (
     <div className={!navOpen ? "container" : "container offset"}>

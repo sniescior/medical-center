@@ -163,6 +163,7 @@ body button.button-icon:hover {
 }
 body button.button-danger {
   color: #be0000;
+  white-space: nowrap;
 }
 body button.button-secondary:hover {
   text-decoration: underline;

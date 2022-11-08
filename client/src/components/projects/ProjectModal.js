@@ -3,8 +3,6 @@ import '../../styles/modal/modal.css';
 import { addProject, deleteProject, updateProject } from "../../database/projectsQuery";
 
 export default function ProjectModal(props) {
-
-    // Edit patient or add a new patient
     const [projectID, setProjectID] = useState(null);
     const [name, setName] = useState('');
 
@@ -61,22 +59,21 @@ export default function ProjectModal(props) {
                                 <i className="bi bi-trash3"></i>Usuń
                         </button>
                         <div className="button-wrapper">
-                        <button
-                            type="button"
-                            className={!loader ? "button-primary" : "button-primary button-disabled"}
-                            onClick={() => {
-                                if(!projectID) {    // no id -> means we are creating a brand new object
-                                    if(formFullyFilled()) {
-                                        const finalPostParams = { name: name }
-                                        addProject(finalPostParams, props.setProjectID, props.setModalOpened, setLoader, props.setToastMessage);
-                                    }
-                                } else {
-                                    const finalPutParams = { name: name }
+                            <button
+                                type="button"
+                                className={!loader ? "button-primary" : "button-primary button-disabled"}
+                                onClick={() => {
+                                    if(!projectID) {    // no id -> means we are creating a brand new object
+                                        if(formFullyFilled()) {
+                                            const finalPostParams = { name: name }
+                                            addProject(finalPostParams, props.setProjectID, props.setModalOpened, setLoader, props.setToastMessage);
+                                        }
+                                    } else {
+                                        const finalPutParams = { name: name }
 
-                                    updateProject(projectID, finalPutParams, props.setProjectID, props.setModalOpened, setLoader, props.setToastMessage, props.refreshPage);
-                                }
-                            }}
-                                >
+                                        updateProject(projectID, finalPutParams, props.setProjectID, props.setModalOpened, setLoader, props.setToastMessage, props.refreshPage);
+                                    }
+                                }}>
                                 {projectID ? "Zapisz" : "Dodaj"}
                             </button>
                         </div>

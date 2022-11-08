@@ -68,7 +68,7 @@ $table_primary_hover: #ffc65c7d;
     transform: translateX(-10px);
     transition: transform .3s ease-in-out;
     position: absolute;
-    
+
     &.active {
         position: relative;
         transform: translateX(0);

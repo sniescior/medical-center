@@ -46,11 +46,23 @@ export const getParticipants = (projectID, searchParams, setPatients, setLoader,
                         message: data.message
                     })
                 } else {
-                    setPatients(data.data.patients)
+                    setPatients(data.data.patients);
                     setLoader(false);
                 }
             }
         )
+    );
+}
+
+export const getParticipantsCount = (searchParams, setPatientsCount) => {
+    fetch('/api/projects/participants-count?' + searchParams, {
+        method: 'GET'
+    }).then(
+        response => response.json()
+    ).then(
+        data => {
+            setPatientsCount(data.data.patientsCount);
+        }
     );
 }
 
@@ -135,9 +147,8 @@ export const removeParticipant = (postParams, setLoader, setToastMessage, refres
     )
 }
 
-export const updateParticipant = (postParams, setLoader, setToastMessage, refreshPage) => {
+export const updateParticipant = (postParams, setLoader, setToastMessage, refreshPage, setModalOpened) => {
     setLoader(true);
-    console.log(postParams);
     fetch('/api/projects/update-participant', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -146,10 +157,9 @@ export const updateParticipant = (postParams, setLoader, setToastMessage, refres
         response => response.json()
     ).then(
         data => {
-            setToastMessage(data.message);
-            console.log(data);
-            refreshPage();
             setLoader(false);
+            setModalOpened(false);
+            setToastMessage(data.message);
         }
     )
 }
