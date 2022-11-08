@@ -169,6 +169,7 @@ body {
         &.button-disabled {
             pointer-events: none;
             color: $dimmed_font_color;
+            white-space: nowrap;
         }
 
         &.button-icon {

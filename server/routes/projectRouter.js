@@ -173,7 +173,6 @@ router.put('/update-participant', async (req, res) => {
             if(!err) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano dane uczestnika'));
             } else {
-                console.log(err.message);
                 res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
             }
         });
@@ -193,7 +192,6 @@ router.put('/:id', async (req, res) => {
                     if(!err) {
                         res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt zaktualizowany pomyślnie', { id: req.params.id, ...req.body } ));
                     } else {
-                        console.log(err.message);
                         res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
                     }
                 });
@@ -206,7 +204,6 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/remove-participant', async (req, res) => {
-    console.log('Body: ', req.body);
     database.query(queries.DELETE_PARTICIPANT, [req.body.patientID, req.body.projectID], (err, result) => {
         try {
             if(result.affectedRows > 0) {

@@ -43,7 +43,7 @@ function ParticipantsTab(props) {
     
     const countAction = (searchParams, setParticipantsCount) => {
         searchParams.append('projectID', projectID);
-        getParticipantsCount(searchParams, setParticipantsCount);
+        getParticipantsCount(searchParams, setParticipantsCount, setError);
     }
 
     const sayHello = (element) => {

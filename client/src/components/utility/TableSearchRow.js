@@ -18,7 +18,7 @@ export default function TableSearchRow(props) {
                     );
                 } else {
                     return (
-                        <th key={key}></th>
+                        <th key={key} className="dummy"></th>
                     );
                 }
             })}

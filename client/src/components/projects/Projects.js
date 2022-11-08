@@ -30,7 +30,7 @@ export default function Projects(props) {
     });
 
     useEffect(() => {
-        getProjectsCount(searchParams, setProjectsCount, props.setLoader);
+        getProjectsCount(searchParams, setProjectsCount, props.setLoader, props.setError);
     }, []);
     
     useEffect(() => {

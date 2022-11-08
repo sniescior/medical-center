@@ -43,6 +43,11 @@ $table_primary_hover: #ffc65c7d;
                         &:hover {
                             background-color: transparent;
                         }
+
+                        &.dummy {
+                            padding: 0;
+                            height: 0;
+                        }
                     }
                     
                     input {

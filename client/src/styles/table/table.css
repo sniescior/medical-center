@@ -37,6 +37,10 @@
 .table-wrapper table thead tr.search-row th:hover {
   background-color: transparent;
 }
+.table-wrapper table thead tr.search-row th.dummy {
+  padding: 0;
+  height: 0;
+}
 .table-wrapper table thead tr.search-row input {
   width: 100%;
   padding: 8px 12px;

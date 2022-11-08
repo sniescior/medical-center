@@ -54,11 +54,17 @@ export default function ProjectModal(props) {
                             type="button" 
                             className={projectID ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} 
                             onClick={() => { 
-                                deleteProject(props.modalData.id, props.setModalOpened, setLoader, props.setToastMessage, props.setProjectID);
+                                deleteProject(props.modalData.id, setLoader, props.setToastMessage);
                                 }}>
                                 <i className="bi bi-trash3"></i>Usuń
                         </button>
                         <div className="button-wrapper">
+                            <button 
+                                type="button"
+                                className={!loader ? "button-secondary" : "button-secondary button-disabled"}
+                                onClick={() => { props.setModalOpened(false);  props.setModalData({ id: '', name: '' }); }}>
+                                Anuluj
+                            </button>
                             <button
                                 type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
@@ -71,7 +77,7 @@ export default function ProjectModal(props) {
                                     } else {
                                         const finalPutParams = { name: name }
 
-                                        updateProject(projectID, finalPutParams, props.setProjectID, props.setModalOpened, setLoader, props.setToastMessage, props.refreshPage);
+                                        updateProject(projectID, finalPutParams, props.setModalOpened, setLoader, props.setToastMessage);
                                     }
                                 }}>
                                 {projectID ? "Zapisz" : "Dodaj"}

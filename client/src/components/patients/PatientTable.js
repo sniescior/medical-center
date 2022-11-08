@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import EmptyTable from "../utility/EmptyTable";
+import React from "react";
 import PatientRow from "./PatientRow";
 import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSummary from "../utility/TableSummary";
@@ -25,7 +24,6 @@ export default function PatientTable(props) {
                         })}
                     </tbody>
                 </table>
-                {props.items.length === 0 ? <EmptyTable /> : <></> }
             </div>
             <TableSummary
                 pagesCount={props.pagesCount}

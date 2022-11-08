@@ -48,20 +48,20 @@ export default function ParticipantModal(props) {
                         <button 
                             type="button" 
                             className={!loader ? "button-icon button-danger" : "button-icon button-disabled"}
-                            onClick={() => removeParticipant(postParams, setLoader, setToastMessage, refreshPage)}>
+                            onClick={() => removeParticipant(postParams, setLoader, setToastMessage)}>
                             <i className="bi bi-trash3"></i>Usuń z projektu
                         </button>
                         <div className="button-wrapper">
                             <button
                                 type="button"
-                                className={!loader ? "button-secondary" : "button-primary button-disabled"}
+                                className={!loader ? "button-secondary" : "button-secondary button-disabled"}
                                 onClick={() => setModalOpened(false)}>
                                 Anuluj
                             </button>
                             <button
                                 type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
-                                onClick={() => updateParticipant(postParams, setLoader, setToastMessage, refreshPage, setModalOpened)}>
+                                onClick={() => updateParticipant(postParams, setLoader, setToastMessage, setModalOpened)}>
                                 Zapisz
                             </button>
                         </div>

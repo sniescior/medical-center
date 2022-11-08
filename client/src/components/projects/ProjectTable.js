@@ -19,8 +19,8 @@ export default function ProjectTable(props) {
                         {props.items.map(element => {
                             return (
                                 <ProjectRow key={element.id} element={element} setModalOpened={props.setModalOpened} setProjectID={props.setProjectID} setModalData={props.setModalData} />
-                                );
-                            })}
+                            );
+                        })}
                     </tbody>
                     <tfoot></tfoot>
                 </table>
