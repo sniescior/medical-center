@@ -185,6 +185,56 @@ export const getParticipantsCount = (searchParams, setPatientsCount, setError) =
     });
 }
 
+export const getNotParticipants = (projectID, searchParams, setPatients, setLoader, setError) => {
+    setLoader(true);
+    fetch('/api/projects/get-not-participants?' + searchParams)
+    .then(
+        (response) => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw (response.status);
+        }
+    ).then(
+        data => {
+            if(data.statusCode !== 200) {
+                setError({
+                    statusCode: data.statusCode,
+                    message: data.message
+                })
+            } else {
+                setPatients(data.data.patients);
+                setLoader(false);
+            }
+        }
+    ).catch((error) => {
+        setError({
+            statusCode: error
+        });
+    });
+}
+
+export const getNotParticipantsCount = (searchParams, setPatientsCount, setError) => {
+    fetch('/api/projects/not-participants-count?' + searchParams, {
+        method: 'GET'
+    }).then(
+        (response) => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw (response.status);
+        }
+    ).then(
+        data => {
+            setPatientsCount(data.data.patientsCount);
+        }
+    ).catch((error) => {
+        setError({
+            statusCode: error
+        });
+    });
+}
+
 export const removeParticipant = (postParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/projects/remove-participant', {
@@ -209,7 +259,7 @@ export const removeParticipant = (postParams, setLoader, setToastMessage) => {
     });
 }
 
-export const updateParticipant = (postParams, setLoader, setToastMessage, setModalOpened) => {
+export const updateParticipant = (postParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/projects/update-participant', {
         method: 'PUT',
@@ -225,7 +275,30 @@ export const updateParticipant = (postParams, setLoader, setToastMessage, setMod
     ).then(
         data => {
             setLoader(false);
-            setModalOpened(false);
+            setToastMessage(data.message);
+            window.location.reload();
+        }
+    ).catch((error) => {
+        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+    });
+}
+
+export const addPatientToProject = (postParams, setLoader, setToastMessage) => {
+    setLoader(true);
+    fetch('/api/projects/add-participant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postParams)
+    }).then(
+        (response) => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw (response.status);
+        }
+    ).then(
+        data => {
+            setLoader(false);
             setToastMessage(data.message);
             window.location.reload();
         }

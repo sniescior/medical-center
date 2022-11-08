@@ -15,12 +15,29 @@ const queries = {
     DELETE_PARTICIPANT: 'DELETE FROM participants WHERE patient_id = ? AND project_ID = ?',
     UPDATE_PARTICIPANT: 'UPDATE participants SET consent = ? WHERE patient_id = ? AND project_id = ?',
 
+    ADD_PARTICIPANT: 'INSERT INTO participants VALUES (?, ?, FALSE)',
+
     COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
 
 const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
+
+router.post('/add-participant', async (req, res) => {
+    database.query(queries.ADD_PARTICIPANT, [req.body.project_id, req.body.patient_id], (err, result) => {
+        try {
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Dodano pacjenta do projektu', { project_id: req.body.project_id }));
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
 
 router.get('/participants-count', async (req, res) => {
     const projectIdQuery = parseInt(req.query.projectID);
@@ -55,11 +72,42 @@ router.get('/participants-count', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
-const normalizeArray = (result) => {
-    return Array.from(result);
-}
+router.get('/not-participants-count', async (req, res) => {
+    const projectIdQuery = parseInt(req.query.projectID);
+
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
+
+    const query = `
+        SELECT COUNT(*) AS patientsCount FROM patients 
+        WHERE id LIKE '${idQuery}%' 
+        AND first_name LIKE '${first_nameQuery}%'
+        AND last_name LIKE '%${last_nameQuery}%'
+        AND email LIKE '${emailQuery}%'
+        AND address LIKE '${addressQuery}%'
+        AND city LIKE '${cityQuery}%'
+        AND country LIKE '${countryQuery}%'
+        AND date_of_birth LIKE '${date_of_birthQuery}%'
+        AND id NOT IN (SELECT patient_id FROM participants WHERE project_id = ${projectIdQuery})`;
+
+    database.query(query, (err, result) => {
+        try {
+            const normalResult = normalizeResult(result);
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
 
 router.get('/get-participants', async (req, res) => {
     const count = parseInt(req.query.count);
@@ -104,7 +152,52 @@ router.get('/get-participants', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
+
+router.get('/get-not-participants', async (req, res) => {
+    const count = parseInt(req.query.count);
+    const page = parseInt(req.query.page);
+    const orderByColumn = req.query.orderByColumn;
+    const order = req.query.order;
+
+    const projectIdQuery = parseInt(req.query.projectID);
+    const idQuery = req.query.idQuery || '';
+    const first_nameQuery = req.query.first_nameQuery || '';
+    const last_nameQuery = req.query.last_nameQuery || '';
+    const emailQuery = req.query.emailQuery || '';
+    const addressQuery = req.query.addressQuery || '';
+    const cityQuery = req.query.cityQuery || '';
+    const countryQuery = req.query.countryQuery || '';
+    const date_of_birthQuery = req.query.date_of_birthQuery || '';
+
+    const query = `
+        SELECT *, (SELECT consent from participants part where part.patient_id = p.id) AS consent FROM patients p 
+        WHERE p.id LIKE '%${idQuery}%'
+        AND p.first_name LIKE '%${first_nameQuery}%'
+        AND p.last_name LIKE '%${last_nameQuery}%'
+        AND p.email LIKE '%${emailQuery}%'
+        AND p.address LIKE '%${addressQuery}%'
+        AND p.city LIKE '%${cityQuery}%'
+        AND p.country LIKE '%${countryQuery}%'
+        AND p.date_of_birth LIKE '%${date_of_birthQuery}%'
+        AND p.id NOT IN (SELECT patient_id FROM participants WHERE project_id = ${projectIdQuery})
+        ORDER BY ${orderByColumn} ${order} LIMIT ${page*count}, ${count}`;
+
+    database.query(query, (err, result) => {
+        try {
+            var resultArray = [];
+            try {
+                result.forEach(element => {
+                    resultArray.push(Object.assign({}, element));
+                });
+            } catch(err) {}
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
 
 router.get('/count-projects', async (req, res) => {
     const idQuery = req.query.idQuery || '';

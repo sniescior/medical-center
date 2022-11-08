@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getParticipants, getProjectDetails, getParticipantsCount } from "../../database/projectsQuery";
+import { getParticipants, getProjectDetails, getParticipantsCount, addPatientToProject, getNotParticipants, getNotParticipantsCount } from "../../database/projectsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
 import ProjectModal from "./ProjectModal";
@@ -7,6 +7,7 @@ import ParticipantModal from "./ParticipantModal";
 import { useParams } from "react-router-dom";
 import TabsHeader from "../utility/TabsHeader";
 import Patients from "../patients/Patients";
+import AlertModal from "../utility/AlertModal";
 
 const tabs = [
     {
@@ -39,11 +40,13 @@ function ParticipantsTab(props) {
     const fetchParticipants = (searchParams, setPatients) => {
         searchParams.append('projectID', projectID);
         getParticipants(projectID, searchParams, setPatients, setLoader, setError);
+        searchParams.delete('projectID');
     }
     
     const countAction = (searchParams, setParticipantsCount) => {
         searchParams.append('projectID', projectID);
         getParticipantsCount(searchParams, setParticipantsCount, setError);
+        searchParams.delete('projectID');
     }
 
     const sayHello = (element) => {
@@ -67,10 +70,34 @@ function ParticipantsTab(props) {
 }
 
 function PatientsTab(props) {
-    const { active } = props;
+    const { projectID, active, setLoader, setModalOpened, setModalData, setError } = props;
+
+    const fetchParticipants = (searchParams, setPatients) => {
+        searchParams.append('projectID', projectID);
+        getNotParticipants(projectID, searchParams, setPatients, setLoader, setError);
+        searchParams.delete('projectID');
+    }
+    
+    const countAction = (searchParams, setParticipantsCount) => {
+        searchParams.append('projectID', projectID);
+        getNotParticipantsCount(searchParams, setParticipantsCount, setError);
+        searchParams.delete('projectID');
+    }
+
+    const openModal = (element) => {
+        setModalData({ patient_id: element.id, project_id: projectID, title: `Dodać pacjenta (${element.first_name} ${element.last_name}) do projektu?` });
+        setModalOpened(true);
+    }
+
     return (
         <div className={active === 1 ? "tab-wrapper active" : "tab-wrapper"}>
-            <h2>Pacjenci</h2>
+            <h2>Dodawanie pacjentów do projektu</h2>
+            <Patients
+                refreshAction={fetchParticipants}
+                countAction={countAction}
+
+                onClickAction={openModal}
+            />
         </div>
     );
 }
@@ -98,8 +125,12 @@ export default function ProjectDetail(props) {
     const [modalData, setModalData] = useState(defaultModalData);
     
     const [participantModalOpened, setParticipantModalOpened] = useState(false);
-    const defaultParticiantModalData = { patient_id: '', first_name: '', last_name: '', consent: '', project_id: '' }
+    const defaultParticiantModalData = { patient_id: '', first_name: '', last_name: '', consent: '', project_id: '' };
     const [participantModalData, setParticipantModalData] = useState(defaultModalData);
+
+    const [candidateModalOpened, setCandidateModalOpened] = useState(false);
+    const [candidateModalData, setCandidateModalData] = useState({ title: '', project_id: '', patient_id: '' });
+    const [candidateModalLoader, setCandidateModalLoader] = useState(false);
     
     const [project, setProject] = useState({});
     const [patients, setPatients] = useState([]);
@@ -125,6 +156,11 @@ export default function ProjectDetail(props) {
         refreshPage();
     }, []);
 
+    const addPatient = () => {
+        console.log("Adding patient to project ...", candidateModalData);
+        addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
+    }
+
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
     } else {
@@ -133,9 +169,7 @@ export default function ProjectDetail(props) {
                 <LoaderPage loader={loader} />
                 <div className="content-header">
                     <h2>{project.name}</h2>
-                    <button className="action-button" onClick={() => {
-                        openModal();
-                    }}>
+                    <button className="action-button" onClick={() => { openModal(); }}>
                         <span className="dot"></span>
                         <span className="dot"></span>
                         <span className="dot"></span>
@@ -152,11 +186,20 @@ export default function ProjectDetail(props) {
                     setModalData={setParticipantModalData}
                     setModalOpened={setParticipantModalOpened} />
 
-                <PatientsTab active={activeTab} />
+                <PatientsTab
+                    projectID={params.projectID}
+                    active={activeTab}
+                    setLoader={setLoader}
+                    setError={setError}
+                    setModalData={setCandidateModalData}
+                    setModalOpened={setCandidateModalOpened}
+                    setModalLodader={setCandidateModalLoader} />
+
                 <TestsTab active={activeTab} />
 
-                <ParticipantModal refreshPage={refreshPage} modalOpened={participantModalOpened} setModalOpened={setParticipantModalOpened} modalData={participantModalData} setModalData={setParticipantModalData} setToastMessage={props.setToastMessage} />
                 <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
+                <ParticipantModal refreshPage={refreshPage} modalOpened={participantModalOpened} setModalOpened={setParticipantModalOpened} modalData={participantModalData} setModalData={setParticipantModalData} setToastMessage={props.setToastMessage} />
+                <AlertModal loader={candidateModalLoader} modalOpened={candidateModalOpened} setModalOpened={setCandidateModalOpened} action={addPatient} modalData={candidateModalData} />
             </div>
         );
     }

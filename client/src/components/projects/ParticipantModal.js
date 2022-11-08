@@ -61,7 +61,7 @@ export default function ParticipantModal(props) {
                             <button
                                 type="button"
                                 className={!loader ? "button-primary" : "button-primary button-disabled"}
-                                onClick={() => updateParticipant(postParams, setLoader, setToastMessage, setModalOpened)}>
+                                onClick={() => updateParticipant(postParams, setLoader, setToastMessage)}>
                                 Zapisz
                             </button>
                         </div>

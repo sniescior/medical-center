@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react';  
+import React from 'react';
 
 export default function AlertModal(props) {
+
+    const { modalData, action, modalOpened, setModalOpened, loader } = props;
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal alert">
                 <div className="modal-header">
-                    <h2>{props.title}</h2>
+                    <h2>{modalData.title}</h2>
+                    <button 
+                        className={loader ? "hidden" : ""}
+                        onClick={() => { props.setModalOpened(false); }}>
+                        <i className="bi bi-x-lg"></i>
+                    </button>
+                    <span className={loader ? "loader spinning" : "loader none"}></span>
                 </div>
                 <div className="button-wrapper">
-                    <button className="button-secondary" onClick={() => { props.setModalOpened(false); }}>Anuluj</button>
-                    <button className="button-primary danger" onClick={() => { props.action(); }}>Usuń</button>
+                    <button className={!loader? "button-secondary" : "button-secondary button-disabled"} onClick={() => { props.setModalOpened(false); }}>Anuluj</button>
+                    <button className={!loader? "button-primary" : "button-primary button-disabled"} onClick={() => { props.action(); }}>Zapisz</button>
                 </div>
             </div>
         </div>
