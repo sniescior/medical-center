@@ -50,19 +50,22 @@ export default function Projects(props) {
             title: 'ID',
             key: 'id',
             query: idQuery,
-            setQuery: setIdQuery
+            setQuery: setIdQuery,
+            sort: true
         },
         {
             title: 'Nazwa',
             key: 'name',
             query: nameQuery,
-            setQuery: setNameQuery
+            setQuery: setNameQuery,
+            sort: true
         },
         {
             title: 'Liczba uczestników',
             key: 'participantsCount',
             query: participantsCountQuery,
-            setQuery: setParticipantsCountQuery
+            setQuery: setParticipantsCountQuery,
+            sort: true
         }
     ];
 
