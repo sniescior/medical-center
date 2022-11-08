@@ -4,6 +4,7 @@ import LoaderPage from "../components/utility/LoaderPage";
 import Patients from "../components/patients/Patients";
 import PatientModal from "../components/patients/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
+import ErrorPage from "../components/utility/ErrorPage";
 
 export default function PatientsView() {
     const [toastMessage, setToastMessage] = useState('');
@@ -14,33 +15,39 @@ export default function PatientsView() {
     const [modalOpened, setModalOpened] = useState(false);
     const [modalData, setModalData] = useState(defaultModalData);
 
+    const [error, setError] = useState({});
+
     const openModal = (element) => {
         setModalData(element);
         setModalOpened(true);
     }
 
-    const refreshPatients = (searchParams, setPatients) => { fetchPatients(searchParams, setPatients, setLoader); }
+    const refreshPatients = (searchParams, setPatients) => { fetchPatients(searchParams, setPatients, setLoader, setError); }
     const countAction = (searchParams, setPatientsCount) => { getPatientsCount(searchParams, setPatientsCount); }
     
-    return (
-        <div>
-            <div className="content">
-                <LoaderPage loader={loader} />
-                <div className="content-header">
-                    <h2>Pacjenci</h2>
-                    <button className="button-secondary" onClick={() => { setModalData(defaultModalData); setModalOpened(true); }}>
-                        Dodaj pacjenta
-                    </button>
-                </div>
-                
-                <Patients 
-                    onClickAction={openModal} 
-                    refreshAction={refreshPatients}
-                    countAction={countAction} />
+    if(error.statusCode) {
+        return <ErrorPage error={error} />
+    } else {
+        return (
+            <div>
+                <div className="content">
+                    <LoaderPage loader={loader} />
+                    <div className="content-header">
+                        <h2>Pacjenci</h2>
+                        <button className="button-secondary" onClick={() => { setModalData(defaultModalData); setModalOpened(true); }}>
+                            Dodaj pacjenta
+                        </button>
+                    </div>
+                    
+                    <Patients 
+                        onClickAction={openModal} 
+                        refreshAction={refreshPatients}
+                        countAction={countAction} />
 
-                <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatients} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
-                <Toast message={toastMessage} setToastMessage={setToastMessage} />
+                    <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatients} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
+                    <Toast message={toastMessage} setToastMessage={setToastMessage} />
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }

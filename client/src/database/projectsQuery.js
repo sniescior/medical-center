@@ -15,8 +15,8 @@ export const deleteProject = (projectID, setLoader, setToastMessage) => {
             window.location.href = '/projects';
         }
     ).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
-    })
+        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
+    });
 }
 
 export const getProjectDetails = (projectID, setProject, setLoader, setError) => {
