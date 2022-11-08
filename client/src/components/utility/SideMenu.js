@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import '../../styles/navbar/navbar.css';
 import { Link } from "react-router-dom";
 
-export default function NavBar(props) {
+export default function SideMenu(props) {
     const links = [
         {
             name: 'dashboard',
@@ -23,10 +23,10 @@ export default function NavBar(props) {
             href: '/patients',
         },
         {
-            name: 'tests',
+            name: 'examinations',
             icon: 'bi bi-eyeglasses',
             title: 'Badania',
-            href: '/tests',
+            href: '/examinations',
         }
     ];
 

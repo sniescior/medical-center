@@ -3,11 +3,13 @@ CREATE DATABASE IF NOT EXISTS medical_center;
 
 USE medical_center;
 
-DROP TABLE IF EXISTS patients;      -- Pacjenci
-DROP TABLE IF EXISTS projects;      -- Projekty badawcze
-DROP TABLE IF EXISTS participants;  -- Pacjenci przypisani do projektu (uczestnicy)
-DROP TABLE IF EXISTS med_orders;    -- Zlecenia badań
-DROP TABLE IF EXISTS tests;         -- Badania
+DROP TABLE IF EXISTS patients;              -- Pacjenci
+DROP TABLE IF EXISTS projects;              -- Projekty badawcze
+DROP TABLE IF EXISTS participants;          -- Pacjenci przypisani do projektu (uczestnicy)
+DROP TABLE IF EXISTS examinations;          -- Badania
+DROP TABLE IF EXISTS orders;                -- Zlecenia
+DROP TABLE IF EXISTS examination_order;     -- Badania przypisane do danego zlecenia
+DROP TABLE IF EXISTS participants_order;    -- Zlecenia przypisane do uczestnika projektu
 
 
 CREATE TABLE patients (
@@ -75,3 +77,30 @@ INSERT INTO participants VALUES (4, 105, FALSE);
 INSERT INTO participants VALUES (2, 95);
 INSERT INTO participants VALUES (3, 96);
 INSERT INTO participants VALUES (3, 105);
+
+
+CREATE TABLE examinations (
+    examination_id  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title           VARCHAR(255) NOT NULL,
+    PRIMARY KEY (examination_id)
+);
+
+INSERT INTO examinations VALUES (1, "Badanie krwi");
+INSERT INTO examinations VALUES (2, "Badanie słuchu");
+INSERT INTO examinations VALUES (3, "Badanie wzroku");
+
+CREATE TABLE orders (
+    order_id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    project_id      BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
+
+
+CREATE TABLE examination_orders (
+    examination_id  BIGINT UNSIGNED NOT NULL,
+    order_id        BIGINT UNSIGNED NOT NULL,
+
+    FOREIGN KEY (examination_id) REFERENCES examinations(examination_id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+);

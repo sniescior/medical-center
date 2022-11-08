@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function PatientRow(props) {
     const date_of_birth = new Date(props.element.date_of_birth);

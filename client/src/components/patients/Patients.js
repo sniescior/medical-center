@@ -52,8 +52,6 @@ export default function Patients(props) {
         props.refreshAction(searchParams, setPatients);
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
-    useEffect(() => { setPageNumber(1); }, [pageSize]);
-
     var defaultHeaderData = [
         {
             title: 'ID',
@@ -151,7 +149,6 @@ export default function Patients(props) {
             itemsPerPage={pageSize}
 
             onClickAction={props.onClickAction}
-            refresh={props.refreshAction}
 
             participants={props.participants}
         />

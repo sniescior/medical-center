@@ -71,7 +71,12 @@ export const getPatientsCount = (searchParams, setPatientsCount, setError) => {
     fetch('/api/patients/count-patients?' + searchParams, {
         method: 'GET'
     }).then(
-        response => response.json()
+        (response) => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw (response.status);
+        }
     ).then(
         data => {
             setPatientsCount(data.data.patientsCount);

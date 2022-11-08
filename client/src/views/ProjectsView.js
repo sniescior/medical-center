@@ -11,9 +11,7 @@ export default function ProjectsView(props) {
     const [modalOpened, setModalOpened] = useState(false);
 
     const defaultModalData = { id: '', name: '' }
-    const [modalData, setModalData] = useState(
-        defaultModalData
-    );
+    const [modalData, setModalData] = useState( defaultModalData );
 
     const [error, setError] = useState({});
     

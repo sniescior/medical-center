@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "../components/utility/NavBar";
+import React, { useState } from "react";
+import SideMenu from "../components/utility/SideMenu";
 import DashboardView from './DashboardView';
-import TestsView from "../components/tests/TestsView";
 import PatientsView from './PatientsView';
 import MiniNavBar from "../components/utility/MiniNavBar";
 import '../styles/index/index.css'
 
-import { BrowserRouter, Routes, Route, Router, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProjectDetail from "../components/projects/ProjectDetail";
 import ProjectsView from "./ProjectsView";
 import Toast from "../components/utility/Toast";
 import ErrorPage from "../components/utility/ErrorPage";
+import ExaminationsView from "./ExaminationsView";
 
 export default function AppView() {
 
@@ -38,9 +38,9 @@ export default function AppView() {
       name: 'patients'
     },
     {
-      view: <TestsView />,
-      href: '/tests',
-      name: 'tests'
+      view: <ExaminationsView setToastMessage={setToastMessage} />,
+      href: '/examinations',
+      name: 'examinations'
     },
     {
       view: <ErrorPage error={{ statusCode: 404, message: "Page not found"}} />,
@@ -59,7 +59,7 @@ export default function AppView() {
           return ( <Route key={key} path={route.href} element={route.view} /> );
         })}
       </Routes>
-        <NavBar setNavOpen={setNavOpen} navOpen={navOpen} />
+        <SideMenu setNavOpen={setNavOpen} navOpen={navOpen} />
         <MiniNavBar navOpen={navOpen} setNavOpen={setNavOpen} />
         </BrowserRouter>
         <Toast message={toastMessage} />
