@@ -126,7 +126,7 @@ router.get('/get-participants', async (req, res) => {
     const date_of_birthQuery = req.query.date_of_birthQuery || '';
 
     const query = `
-        SELECT *, (SELECT consent from participants part where part.patient_id = p.id) AS consent FROM patients p 
+        SELECT *, (SELECT consent from participants part where part.patient_id = p.id and part.project_id = ${projectIdQuery}) AS consent FROM patients p 
         WHERE p.id LIKE '%${idQuery}%'
         AND p.first_name LIKE '%${first_nameQuery}%'
         AND p.last_name LIKE '%${last_nameQuery}%'

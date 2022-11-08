@@ -135,7 +135,7 @@ export const updateProject = (projectID, putParams, setModalOpened, setLoader, s
     });
 }
 
-export const getParticipants = (projectID, searchParams, setPatients, setLoader, setError) => {
+export const getParticipants = (searchParams, setPatients, setLoader, setError) => {
     setLoader(true);
     fetch('/api/projects/get-participants?' + searchParams)
     .then(
@@ -154,6 +154,7 @@ export const getParticipants = (projectID, searchParams, setPatients, setLoader,
                 })
             } else {
                 setPatients(data.data.patients);
+                console.log(data.data);
                 setLoader(false);
             }
         }
@@ -185,7 +186,7 @@ export const getParticipantsCount = (searchParams, setPatientsCount, setError) =
     });
 }
 
-export const getNotParticipants = (projectID, searchParams, setPatients, setLoader, setError) => {
+export const getNotParticipants = (searchParams, setPatients, setLoader, setError) => {
     setLoader(true);
     fetch('/api/projects/get-not-participants?' + searchParams)
     .then(

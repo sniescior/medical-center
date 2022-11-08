@@ -39,7 +39,7 @@ function ParticipantsTab(props) {
 
     const fetchParticipants = (searchParams, setPatients) => {
         searchParams.append('projectID', projectID);
-        getParticipants(projectID, searchParams, setPatients, setLoader, setError);
+        getParticipants(searchParams, setPatients, setLoader, setError);
         searchParams.delete('projectID');
     }
     
@@ -74,7 +74,7 @@ function PatientsTab(props) {
 
     const fetchParticipants = (searchParams, setPatients) => {
         searchParams.append('projectID', projectID);
-        getNotParticipants(projectID, searchParams, setPatients, setLoader, setError);
+        getNotParticipants(searchParams, setPatients, setLoader, setError);
         searchParams.delete('projectID');
     }
     
@@ -143,8 +143,7 @@ export default function ProjectDetail(props) {
     });
     
     const refreshPage = () => {
-        getProjectDetails(params.projectID, setProject, setLoader, setError)
-        getParticipants(params.projectID, queryParams, setPatients, setLoader, setError);
+        getProjectDetails(params.projectID, setProject, setLoader, setError);
     }
 
     const openModal = () => {
