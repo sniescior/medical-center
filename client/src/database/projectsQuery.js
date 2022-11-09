@@ -84,7 +84,7 @@ export const getProjectsCount = (searchParams, setProjectsCount, setLoader, setE
     });
 }
 
-export const addProject = (postParams, setProjectID, setModalOpened, setLoader, setToastMessage) => {
+export const addProject = (postParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/projects', {
         method: 'POST',
@@ -100,9 +100,6 @@ export const addProject = (postParams, setProjectID, setModalOpened, setLoader, 
     ).then(
         data => {
             setToastMessage(data.message);
-            setModalOpened(false);
-            setLoader(false);
-            console.log(data.data);
             window.location.href = `/projects/${data.data.project.id}`
         }
     ).catch((error) => {
@@ -110,7 +107,7 @@ export const addProject = (postParams, setProjectID, setModalOpened, setLoader, 
     });
 }
 
-export const updateProject = (projectID, putParams, setModalOpened, setLoader, setToastMessage) => {
+export const editProject = (projectID, putParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch(`/api/projects/${projectID}`, {
         method: 'PUT',
@@ -126,8 +123,6 @@ export const updateProject = (projectID, putParams, setModalOpened, setLoader, s
     ).then(
         data => {
             setToastMessage(data.message);
-            setModalOpened(false);
-            setLoader(false);
             window.location.reload();
         }
     ).catch((error) => {

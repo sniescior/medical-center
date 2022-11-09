@@ -29,9 +29,17 @@ function ModalButtons(props) {
 function switchRender(input) {
     switch (input.inputElement) {
         case 'input':
-            return (
-                <input type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
-            );
+            switch (input.type) {
+                case 'checkbox':
+                    return (
+                        <input type={input.type} checked={input.state} onChange={(e) => input.setState(!input.state)} />
+                    );
+            
+                default:
+                    return (
+                        <input type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
+                    );
+            }
 
         case 'textarea':
             return (

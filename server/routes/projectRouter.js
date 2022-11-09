@@ -24,6 +24,12 @@ const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
 }
 
+/**
+ * 
+ * -------------------------------- POST METHODS --------------------------------
+ * 
+ */
+
 router.post('/add-participant', async (req, res) => {
     database.query(queries.ADD_PARTICIPANT, [req.body.project_id, req.body.patient_id], (err, result) => {
         try {
@@ -39,7 +45,107 @@ router.post('/add-participant', async (req, res) => {
     });
 });
 
-router.get('/participants-count', async (req, res) => {
+router.post('/', async (req, res) => {
+    database.query(queries.CREATE_PROJECT, Object.values(req.body), (err, result) => {
+        try {
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                const project = { id: result.insertId, name: req.body.name };
+                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { project: project }));
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
+/**
+ * 
+ * -------------------------------- PUT METHODS --------------------------------
+ * 
+ */
+
+router.put('/update-participant', async (req, res) => {
+    try {
+        database.query(queries.UPDATE_PARTICIPANT, [req.body.consent, req.body.patientID, req.body.projectID], (err, result) => {
+            if(!err) {
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano dane uczestnika'));
+            } else {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
+            }
+        });
+    } catch(err) {
+        console.log(err);
+        res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    database.query(queries.SELECT_PROJECT, [req.params.id], (err, result) => {
+        try {
+            if(!result[0]) {
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No project with given id (${req.params.id}) was found`));
+            } else {
+                database.query(queries.UPDATE_PROJECT, [req.body.name, req.params.id], (err, result) => {
+                    if(!err) {
+                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt zaktualizowany pomyślnie', { id: req.params.id, ...req.body } ));
+                    } else {
+                        res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
+                    }
+                });
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
+/**
+ * 
+ * -------------------------------- DELETE METHODS --------------------------------
+ * 
+ */
+
+router.delete('/remove-participant', async (req, res) => {
+    database.query(queries.DELETE_PARTICIPANT, [req.body.patientID, req.body.projectID], (err, result) => {
+        try {
+            if(result.affectedRows > 0) {
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Usunięto pacjenta z projektu'));
+            } else {
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Uczestnik (id: ${req.body.patientID}) nie jest przypisany do projektu (id: ${req.body.projectID})`));
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
+router.delete('/:id', async (req, res) => {
+    database.query(queries.DELETE_PROJECT, [req.params.id], (err, result) => {
+        try {
+            if(result.affectedRows > 0) {
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt został usunięty'));
+            } else {
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Nie znaleziono projektu (id: ${req.params.id})`));
+            }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
+/**
+ * 
+ * -------------------------------- GET METHODS --------------------------------
+ * 
+ */
+
+ router.get('/participants-count', async (req, res) => {
     const projectIdQuery = parseInt(req.query.projectID);
 
     const idQuery = req.query.idQuery || '';
@@ -242,89 +348,7 @@ router.get('/:id', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
-
-router.post('/', async (req, res) => {
-    database.query(queries.CREATE_PROJECT, Object.values(req.body), (err, result) => {
-        try {
-            if(!result) {
-                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
-            } else {
-                const project = { id: result.insertId, name: req.body.name };
-                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { project: project }));
-            }
-        } catch(err) {
-            console.log(err);
-            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-        }
-    });
-})
-
-router.put('/update-participant', async (req, res) => {
-    try {
-        database.query(queries.UPDATE_PARTICIPANT, [req.body.consent, req.body.patientID, req.body.projectID], (err, result) => {
-            if(!err) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano dane uczestnika'));
-            } else {
-                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
-            }
-        });
-    } catch(err) {
-        console.log(err);
-        res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-    }
-})
-
-router.put('/:id', async (req, res) => {
-    database.query(queries.SELECT_PROJECT, [req.params.id], (err, result) => {
-        try {
-            if(!result[0]) {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `No project with given id (${req.params.id}) was found`));
-            } else {
-                database.query(queries.UPDATE_PROJECT, [req.body.name, req.params.id], (err, result) => {
-                    if(!err) {
-                        res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt zaktualizowany pomyślnie', { id: req.params.id, ...req.body } ));
-                    } else {
-                        res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, `Internal Server Error`));
-                    }
-                });
-            }
-        } catch(err) {
-            console.log(err);
-            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-        }
-    });
-})
-
-router.delete('/remove-participant', async (req, res) => {
-    database.query(queries.DELETE_PARTICIPANT, [req.body.patientID, req.body.projectID], (err, result) => {
-        try {
-            if(result.affectedRows > 0) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Usunięto pacjenta z projektu'));
-            } else {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Uczestnik (id: ${req.body.patientID}) nie jest przypisany do projektu (id: ${req.body.projectID})`));
-            }
-        } catch(err) {
-            console.log(err);
-            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-        }
-    });
-})
-
-router.delete('/:id', async (req, res) => {
-    database.query(queries.DELETE_PROJECT, [req.params.id], (err, result) => {
-        try {
-            if(result.affectedRows > 0) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projekt został usunięty'));
-            } else {
-                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, `Nie znaleziono projektu (id: ${req.params.id})`));
-            }
-        } catch(err) {
-            console.log(err);
-            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-        }
-    });
-})
+});
 
 router.get('/*', async (req, res) => {
     
@@ -372,6 +396,6 @@ router.get('/*', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
 
 module.exports = router;
