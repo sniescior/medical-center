@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { addExamination, editExamination, deleteExamination } from "../../database/examinationsQuery";
 import ModalBody from "../utility/ModalBody";
 
 export default function ExaminationModal(props) {
 
-  	const { modalData, modalOpened, setModalOpened } = props;
+  	const { modalData, modalOpened, setModalOpened, setToastMessage } = props;
 
   	const [examinationID, setExaminationID] = useState(null);
   	const [examinationTitle, setExaminationTitle] = useState('');
-  	const [description, setDescription] = useState('');
+  	const [examinationDescription, setExaminationDescription] = useState('');
 
 	const [modalTitle, setModalTitle] = useState("Edycja danych badania");
   
@@ -16,7 +17,7 @@ export default function ExaminationModal(props) {
   	useEffect(() => {
     	setExaminationID(modalData.examination_id);
     	setExaminationTitle(modalData.examination_title);
-    	setDescription(modalData.examination_description);
+    	setExaminationDescription(modalData.examination_description);
   	}, [modalData]);
 
   	const inputs = [
@@ -29,22 +30,23 @@ export default function ExaminationModal(props) {
     	},
 		{
 			label: 'Description',
-			state: description,
-			setState: setDescription,
+			state: examinationDescription,
+			setState: setExaminationDescription,
 			inputElement: 'textarea',
 			type: ''
 		}
   	];
 
-	const deleteExamination = () => {
-		console.log('Deleting examination', examinationID, examinationTitle);
+	const deleteExaminationAction = () => { 
+		deleteExamination({ examinationID: examinationID }, setLoader, setToastMessage); 
 	}
 	
-	const saveExamination = () => {
+	const saveExaminationAction = () => {
 		if(examinationID) {
-			console.log('Saving examination', examinationID, examinationTitle);
+			editExamination({ examinationID: examinationID, examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
+
 		} else {
-			console.log('Adding examination', examinationTitle);
+			addExamination({ examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
 		}
 	}
 
@@ -58,7 +60,7 @@ export default function ExaminationModal(props) {
 
 	return (
 		<div className={modalOpened ? "overlay" : "overlay hidden"}>
-			<ModalBody title={modalTitle} saveAction={saveExamination} deleteAction={deleteExamination} setModalOpened={setModalOpened} elementIDState={examinationID} inputs={inputs} loader={loader} />
+			<ModalBody title={modalTitle} saveAction={saveExaminationAction} deleteAction={deleteExaminationAction} setModalOpened={setModalOpened} elementIDState={examinationID} inputs={inputs} loader={loader} />
 		</div>
 	);
 }

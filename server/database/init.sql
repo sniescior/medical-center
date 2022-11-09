@@ -79,15 +79,16 @@ INSERT INTO participants VALUES (3, 96);
 INSERT INTO participants VALUES (3, 105);
 
 
-CREATE TABLE examinations (
-    examination_id  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    title           VARCHAR(255) NOT NULL,
-    PRIMARY KEY (examination_id)
+CREATE TABLE `examinations` (
+    `examination_id`  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title`           VARCHAR(255) NOT NULL,
+    `description`     VARCHAR(2000) NULL,
+    PRIMARY KEY (`examination_id`)
 );
 
-INSERT INTO examinations VALUES (1, "Badanie krwi");
-INSERT INTO examinations VALUES (2, "Badanie słuchu");
-INSERT INTO examinations VALUES (3, "Badanie wzroku");
+INSERT INTO examinations VALUES (1, "Badanie krwi", "Opis badania krwi");
+INSERT INTO examinations VALUES (2, "Badanie słuchu", "Opis badania słuchu");
+INSERT INTO examinations VALUES (3, "Badanie wzroku", "Opis badania wzroku");
 
 CREATE TABLE orders (
     order_id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

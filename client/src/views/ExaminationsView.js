@@ -14,7 +14,7 @@ export default function ExaminationsView(props) {
     const [modalOpened, setModalOpened] = useState(false);
 
     const openModal = (element) => {
-        setModalData({ examination_id: element.examination_id, examination_title: element.title });
+        setModalData({ examination_id: element.examination_id, examination_title: element.title, examination_description: element.description });
         setModalOpened(true);
     }
 
@@ -44,7 +44,7 @@ export default function ExaminationsView(props) {
                     onClickAction={openModal}
                     refreshAction={refreshExaminations} />
 
-                <ExaminationModal modalData={modalData} setModalOpened={setModalOpened} modalOpened={modalOpened} />
+                <ExaminationModal modalData={modalData} setModalOpened={setModalOpened} modalOpened={modalOpened} setToastMessage={props.setToastMessage} />
             </div>
         );
     }

@@ -8,7 +8,6 @@ export default function ModalBody(props) {
     return (
         <div className="modal">
             <ModalHeader title={title} setModalOpened={setModalOpened} loader={loader} />
-            <span className={loader ? "loader spinning" : "loader none"}></span>
             <ModalForm saveAction={saveAction} deleteAction={deleteAction} setModalOpened={setModalOpened} elementIDState={elementIDState} inputs={inputs} loader={loader} />
         </div>
     );

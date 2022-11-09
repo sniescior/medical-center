@@ -30,12 +30,12 @@ function switchRender(input) {
     switch (input.inputElement) {
         case 'input':
             return (
-                <input type={input.type} value={input.state} onChange={(e) => input.setState(e.target.value)} />
+                <input type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
             );
 
         case 'textarea':
             return (
-                <textarea value={input.state} onChange={(e) => input.setState(e.target.value)} />
+                <textarea value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
             );
     
         default:
