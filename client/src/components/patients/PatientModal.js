@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
 import { deletePatient, addPatient, editPatient } from "../../database/patientsQuery";
 import ModalBody from "../utility/ModalBody";
+import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 
 export default function PatientModal(props) {
 
@@ -46,50 +47,50 @@ export default function PatientModal(props) {
             label: 'Imię',
             state: firstName,
             setState: setFirstName,
-            inputElement: 'input',
-            type: 'text'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT
         },
         {
             label: 'Nazwisko',
             state: lastName,
             setState: setLastName,
-            inputElement: 'input',
-            type: 'text'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT
         },
         {
             label: 'E-mail',
             state: email,
             setState: setEmail,
-            inputElement: 'input',
-            type: 'email'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.EMAIL
         },
         {
             label: 'Adres',
             state: address,
             setState: setAddress,
-            inputElement: 'input',
-            type: 'text'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT
         },
         {
             label: 'Miasto',
             state: city,
             setState: setCity,
-            inputElement: 'input',
-            type: 'text'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT
         },
         {
             label: 'Państwo',
             state: country,
             setState: setCountry,
-            inputElement: 'input',
-            type: 'text'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT
         },
         {
             label: 'Data urodzenia',
             state: dateOfBirth,
             setState: setDateOfBirth,
-            inputElement: 'input',
-            type: 'date'
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.DATE
         },
     ]
 

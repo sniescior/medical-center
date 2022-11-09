@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 import { removeParticipant, updateParticipant } from "../../database/projectsQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
@@ -25,8 +26,8 @@ export default function ParticipantModal(props) {
             label: 'Zgoda na udział',
 			state: consent,
 			setState: setConsent,
-			inputElement: 'input',
-			type: 'checkbox'
+			inputElement: INPUT_ELEMENTS.INPUT,
+			type: INPUT_TYPES.CHECKBOX
         }
     ];
 

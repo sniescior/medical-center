@@ -1,4 +1,5 @@
 import React from "react";
+import { INPUT_TYPES, INPUT_ELEMENTS } from "../../constants/inputs";
 
 function ModalButtons(props) {
     const { elementIDState, setModalOpened, loader, deleteAction, saveAction } = props;
@@ -28,22 +29,22 @@ function ModalButtons(props) {
 
 function switchRender(input) {
     switch (input.inputElement) {
-        case 'input':
+        case INPUT_ELEMENTS.INPUT:
             switch (input.type) {
-                case 'checkbox':
+                case INPUT_TYPES.CHECKBOX:
                     return (
-                        <input type={input.type} checked={input.state} onChange={(e) => input.setState(!input.state)} />
+                        <input type="checkbox" checked={input.state} onChange={(e) => input.setState(!input.state)} />
                     );
             
                 default:
                     return (
-                        <input type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
+                        <input placeholder={input.placeholder} type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
                     );
             }
 
-        case 'textarea':
+        case INPUT_ELEMENTS.TEXTAREA:
             return (
-                <textarea value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
+                <textarea placeholder={input.placeholder} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
             );
     
         default:

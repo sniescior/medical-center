@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 import { addExamination, editExamination, deleteExamination } from "../../database/examinationsQuery";
 import ModalBody from "../utility/ModalBody";
 
@@ -25,15 +26,17 @@ export default function ExaminationModal(props) {
 			label: 'Nazwa',
 			state: examinationTitle,
 			setState: setExaminationTitle,
-			inputElement: 'input',
-			type: 'text'
+			placeholder: 'Nazwa badania',
+			inputElement: INPUT_ELEMENTS.INPUT,
+			type: INPUT_TYPES.TEXT
     	},
 		{
-			label: 'Description',
+			label: 'Opis',
 			state: examinationDescription,
 			setState: setExaminationDescription,
-			inputElement: 'textarea',
-			type: ''
+			placeholder: 'Opis badania',
+			inputElement: INPUT_ELEMENTS.TEXTAREA,
+			type: INPUT_TYPES.NONE
 		}
   	];
 

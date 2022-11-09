@@ -7,5 +7,6 @@ export const INPUT_TYPES = {
     CHECKBOX: 'checkbox',
     TEXT: 'textarea',
     EMAIL: 'email',
-    DATE: 'email'
+    DATE: 'date',
+    NONE: ''
 }

@@ -3,6 +3,7 @@ import '../../styles/modal/modal.css';
 import { addProject, deleteProject, editProject } from "../../database/projectsQuery";
 import { useParams } from "react-router-dom";
 import ModalBody from "../utility/ModalBody";
+import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 
 export default function ProjectModal(props) {
     const params = useParams()
@@ -31,8 +32,8 @@ export default function ProjectModal(props) {
             label: 'Nazwa',
             state: name,
             setState: setName,
-            inputElement: 'input',
-            type: 'text',
+            inputElement: INPUT_ELEMENTS.INPUT,
+            type: INPUT_TYPES.TEXT,
             placeholder: 'Nazwa'
         }
     ];
