@@ -3,11 +3,11 @@ $table_primary: #ffd484d0;
 $dimmed_font_color: #1827479b;
 
 .overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     background-color: rgba(226, 226, 226, 0.6);
     z-index: 10000000;
     backdrop-filter: blur(1px);
@@ -86,6 +86,7 @@ $dimmed_font_color: #1827479b;
                     text-align: right;
                 }
 
+                textarea,
                 input {
                     padding: 8px 12px;
                     background-color: #dddddd71;
@@ -109,6 +110,11 @@ $dimmed_font_color: #1827479b;
                         box-shadow: 0 0 0 2pt $table_primary;
                         outline: none;
                     }
+                }
+
+                textarea {
+                    resize: none;
+                    min-height: 120px;
                 }
             }
 

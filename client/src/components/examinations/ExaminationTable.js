@@ -17,7 +17,7 @@ export default function ExaminationTable(props) {
                     <tbody>
                         {props.items.map((element, key) => {
                             return (
-                                <ExaminationRow key={key} element={element} />
+                                <ExaminationRow onClickAction={props.onClickAction} key={key} element={element} />
                             );
                         })}
                     </tbody>

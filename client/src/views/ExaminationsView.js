@@ -6,7 +6,7 @@ import Examinations from "../components/examinations/Examinations";
 import { getExaminations, getExaminationsCount } from "../database/examinationsQuery";
 
 export default function ExaminationsView(props) {
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
     const [error, setError] = useState({});
 
     const defaultModalData = { examination_id: '', examination_title: '' }
@@ -14,7 +14,7 @@ export default function ExaminationsView(props) {
     const [modalOpened, setModalOpened] = useState(false);
 
     const openModal = (element) => {
-        setModalData(element);
+        setModalData({ examination_id: element.examination_id, examination_title: element.title });
         setModalOpened(true);
     }
 
@@ -44,7 +44,7 @@ export default function ExaminationsView(props) {
                     onClickAction={openModal}
                     refreshAction={refreshExaminations} />
 
-                <ExaminationModal setModalOpened={setModalOpened} modalOpened={modalOpened} />
+                <ExaminationModal modalData={modalData} setModalOpened={setModalOpened} modalOpened={modalOpened} />
             </div>
         );
     }

@@ -297,6 +297,7 @@ body .container .content {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 body .container .content .loader-wrapper {
   display: flex;
