@@ -1,14 +1,14 @@
 import React from "react";
 
 function ModalButtons(props) {
-    const { elementIDState, setModalOpened, loader } = props;
+    const { elementIDState, setModalOpened, loader, deleteAction, saveAction } = props;
 
     return (
         <div className="button-wrapper">
             <button 
                 type="button" 
                 className={elementIDState ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} 
-                onClick={() => { console.log('Delete element'); }}>
+                onClick={() => deleteAction()}>
                     <i className="bi bi-trash3"></i>
                     Usuń
             </button>
@@ -18,7 +18,7 @@ function ModalButtons(props) {
                 <button 
                     type="button" 
                     className={!loader ? "button-primary" : "button-primary button-disabled"}
-                    onClick={(e) => { console.log('Submit modal form action goes here'); }}>
+                    onClick={(e) => saveAction()}>
                         Zapisz
                 </button>
             </div>
@@ -55,7 +55,7 @@ function InputWrapper(props) {
 }
 
 export default function ModalForm(props) {
-    const { setModalOpened, elementIDState, inputs, loader } = props;
+    const { setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
 
     return (
         <form onSubmit={(e) => { e.preventDefault(); }}>
@@ -66,7 +66,7 @@ export default function ModalForm(props) {
                     );
                 })}
             </div>
-            <ModalButtons elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
+            <ModalButtons saveAction={saveAction} deleteAction={deleteAction} elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
         </form>
     )
 }

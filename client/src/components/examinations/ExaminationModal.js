@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import ModalForm from "../utility/ModalForm";
+import ModalBody from "../utility/ModalBody";
 
 export default function ExaminationModal(props) {
 
   	const { modalData, modalOpened, setModalOpened } = props;
 
   	const [examinationID, setExaminationID] = useState(null);
-  	const [title, setTitle] = useState('');
+  	const [examinationTitle, setExaminationTitle] = useState('');
   	const [description, setDescription] = useState('');
+
+	const [modalTitle, setModalTitle] = useState("Edycja danych badania");
   
   	const [loader, setLoader] = useState(false);
 
   	useEffect(() => {
     	setExaminationID(modalData.examination_id);
-    	setTitle(modalData.examination_title);
+    	setExaminationTitle(modalData.examination_title);
     	setDescription(modalData.examination_description);
   	}, [modalData]);
 
   	const inputs = [
     	{
 			label: 'Nazwa',
-			state: title,
-			setState: setTitle,
+			state: examinationTitle,
+			setState: setExaminationTitle,
 			inputElement: 'input',
 			type: 'text'
     	},
@@ -35,28 +37,28 @@ export default function ExaminationModal(props) {
   	];
 
 	const deleteExamination = () => {
-		console.log('Deleting examination', examinationID, title);
+		console.log('Deleting examination', examinationID, examinationTitle);
 	}
 	
 	const saveExamination = () => {
-		console.log('Saving examination', examinationID, title);
+		if(examinationID) {
+			console.log('Saving examination', examinationID, examinationTitle);
+		} else {
+			console.log('Adding examination', examinationTitle);
+		}
 	}
+
+	useEffect(() => {
+		if(examinationID) {
+			setModalTitle("Edycja danych badania");
+		} else {
+			setModalTitle("Dodaj badanie");
+		}
+	}, [examinationID]);
 
 	return (
 		<div className={modalOpened ? "overlay" : "overlay hidden"}>
-			<div className="modal">
-				<div className="modal-header">
-					<h2>{modalData.examination_title}</h2>
-					<button 
-						className={loader ? "hidden" : ""}
-						onClick={() => { setModalOpened(false); }}>
-						<i className="bi bi-x-lg"></i>
-					</button>
-					<span className={loader ? "loader spinning" : "loader none"}></span>
-				</div>
-				<span className="divider"></span>
-				<ModalForm saveAction={saveExamination} deleteAction={deleteExamination} setModalOpened={setModalOpened} elementIDState={examinationID} loader={loader} inputs={inputs} />
-			</div>
+			<ModalBody title={modalTitle} saveAction={saveExamination} deleteAction={deleteExamination} setModalOpened={setModalOpened} elementIDState={examinationID} inputs={inputs} loader={loader} />
 		</div>
 	);
 }
