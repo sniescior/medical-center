@@ -37,14 +37,11 @@ export default function ExaminationModal(props) {
 		}
   	];
 
-	const deleteExaminationAction = () => { 
-		deleteExamination({ examinationID: examinationID }, setLoader, setToastMessage); 
-	}
+	const deleteExaminationAction = () => { deleteExamination({ examinationID: examinationID }, setLoader, setToastMessage); }
 	
 	const saveExaminationAction = () => {
 		if(examinationID) {
 			editExamination({ examinationID: examinationID, examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
-
 		} else {
 			addExamination({ examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
 		}

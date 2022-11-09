@@ -1,4 +1,4 @@
-export const deletePatient = (id, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+export const deletePatient = (id, setLoader, setToastMessage) => {
     setLoader(true);
     fetch(`/api/patients/${id}`, {
         method: 'DELETE'
@@ -11,17 +11,15 @@ export const deletePatient = (id, refreshPatientsList, setModalOpened, setLoader
         }
     ).then(
         data => {
-            refreshPatientsList();
             setToastMessage(data.message);
-            setModalOpened(false);
-            setLoader(false);
+            window.location.href = '/patients';
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
     })
 }
 
-export const updatePatient = (id, putParams, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+export const editPatient = (id, putParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch(`/api/patients/${id}`, {
         method: 'PUT',
@@ -36,10 +34,8 @@ export const updatePatient = (id, putParams, refreshPatientsList, setModalOpened
         }
     ).then(
         data => {
-            refreshPatientsList();
             setToastMessage(data.message);
-            setModalOpened(false);
-            setLoader(false);
+            window.location.href = '/patients';
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
@@ -88,7 +84,7 @@ export const getPatientsCount = (searchParams, setPatientsCount, setError) => {
     });
 }
 
-export const addPatient = (postParams, refreshPatientsList, setModalOpened, setLoader, setToastMessage) => {
+export const addPatient = (postParams, setLoader, setToastMessage) => {
     setLoader(true);
     fetch('/api/patients', {
         method: 'POST',
@@ -103,10 +99,8 @@ export const addPatient = (postParams, refreshPatientsList, setModalOpened, setL
         }
     ).then(
         data => {
-            setModalOpened(false);
-            refreshPatientsList();
             setToastMessage(data.message);
-            setLoader(false);
+            window.location.href = '/patients';
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
