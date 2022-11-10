@@ -22,7 +22,7 @@ const tabs = [
     },
     {
         id: 2,
-        title: 'Badania',
+        title: 'Zlecenia i badania',
         icon: 'bi bi-activity',
     },
 ];
@@ -146,9 +146,10 @@ export default function ProjectDetail(props) {
         setModalData({ id: project.id, name: project.name });
         setModalOpened(true);
     };
-
+    
     useEffect(() => {
         getProjectDetails(params.projectID, setProject, setLoader, setError);
+        setModalData({ id: params.projectID, name: project.name });
     }, []);
 
     const addPatient = () => {

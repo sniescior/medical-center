@@ -20,7 +20,7 @@ export default function ProjectModal(props) {
         setProjectID(modalData.id);
         setName(modalData.name);
 
-        if(projectID) {
+        if(params.projectID) {
             setModalTitle('Edycja danych projektu');
         } else {
             setModalTitle('Dodaj nowy projekt');
