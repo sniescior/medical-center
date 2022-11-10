@@ -30,22 +30,27 @@ export default function PatientModal(props) {
         setCity(modalData.city);
         setCountry(modalData.country);
 
-        try {
-            const date = new Date(props.modalData.date_of_birth).toLocaleDateString();
+        if(modalData.id) {
+            try {
+                const date = new Date(props.modalData.date_of_birth).toLocaleDateString();
+                
+                var [day, month, year] = date.split('.');
+                if(month.length < 2) { month = '0' + month; }
+                if(day.length < 2) { day = '0' + day; }
+                
+                setDateOfBirth(`${year}-${month}-${day}`);
+            } catch(err) {}
+        } else {
+            setDateOfBirth('');
+        }
             
-            var [day, month, year] = date.split('.');
-            if(month.length < 2) { month = '0' + month; }
-            if(day.length < 2) { day = '0' + day; }
-            
-            setDateOfBirth(`${year}-${month}-${day}`);
-        } catch(err) {}
-        
     }, [modalData]);
 
     const inputs = [
         {
             label: 'Imię',
             state: firstName,
+            placeholder: 'Imię',
             setState: setFirstName,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT
@@ -53,6 +58,7 @@ export default function PatientModal(props) {
         {
             label: 'Nazwisko',
             state: lastName,
+            placeholder: 'Nazwisko',
             setState: setLastName,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT
@@ -60,6 +66,7 @@ export default function PatientModal(props) {
         {
             label: 'E-mail',
             state: email,
+            placeholder: 'E-mail',
             setState: setEmail,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.EMAIL
@@ -67,6 +74,7 @@ export default function PatientModal(props) {
         {
             label: 'Adres',
             state: address,
+            placeholder: 'Adres',
             setState: setAddress,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT
@@ -74,6 +82,7 @@ export default function PatientModal(props) {
         {
             label: 'Miasto',
             state: city,
+            placeholder: 'Miasto',
             setState: setCity,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT
@@ -81,6 +90,7 @@ export default function PatientModal(props) {
         {
             label: 'Państwo',
             state: country,
+            placeholder: 'Państwo',
             setState: setCountry,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT
@@ -88,6 +98,7 @@ export default function PatientModal(props) {
         {
             label: 'Data urodzenia',
             state: dateOfBirth,
+            placeholder: 'Data urodzenia',
             setState: setDateOfBirth,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.DATE

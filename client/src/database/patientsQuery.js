@@ -16,6 +16,7 @@ export const deletePatient = (id, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     })
 }
 
@@ -39,6 +40,7 @@ export const editPatient = (id, putParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
+        setLoader(false);
     });
 }
 
@@ -104,5 +106,6 @@ export const addPatient = (postParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
+        setLoader(false);
     });
 }

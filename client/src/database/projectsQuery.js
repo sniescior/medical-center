@@ -16,6 +16,7 @@ export const deleteProject = (projectID, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
+        setLoader(false);
     });
 }
 
@@ -104,6 +105,7 @@ export const addProject = (postParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     });
 }
 
@@ -127,6 +129,7 @@ export const editProject = (projectID, putParams, setLoader, setToastMessage) =>
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     });
 }
 
@@ -149,7 +152,6 @@ export const getParticipants = (searchParams, setPatients, setLoader, setError) 
                 })
             } else {
                 setPatients(data.data.patients);
-                console.log(data.data);
                 setLoader(false);
             }
         }
@@ -252,6 +254,7 @@ export const removeParticipant = (postParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     });
 }
 
@@ -276,6 +279,7 @@ export const updateParticipant = (postParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     });
 }
 
@@ -300,5 +304,6 @@ export const addPatientToProject = (postParams, setLoader, setToastMessage) => {
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+        setLoader(false);
     });
 }

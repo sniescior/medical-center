@@ -6,8 +6,8 @@ import PatientModal from "../components/patients/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import ErrorPage from "../components/utility/ErrorPage";
 
-export default function PatientsView() {
-    const [toastMessage, setToastMessage] = useState('');
+export default function PatientsView(props) {
+    const { toastMessage, setToastMessage } = props;
 
     const [loader, setLoader] = useState(true);
     
@@ -45,7 +45,6 @@ export default function PatientsView() {
                         countAction={countAction} />
 
                     <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatients} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
-                    <Toast message={toastMessage} setToastMessage={setToastMessage} />
                 </div>
             </div>
         );

@@ -74,7 +74,7 @@ export default function AppView() {
         <SideMenu closeMenu={closeMenu} menuOpen={menuOpen} />
         <MiniNavBar menuOpen={menuOpen} openMenu={openMenu} />
       </BrowserRouter>
-      <Toast message={toastMessage} />
+      <Toast message={toastMessage} setToastMessage={setToastMessage} />
     </div>
   );
 }
