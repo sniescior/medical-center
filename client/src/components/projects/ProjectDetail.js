@@ -141,10 +141,6 @@ export default function ProjectDetail(props) {
     const queryParams = new URLSearchParams({
         id: params.projectID,
     });
-    
-    const refreshPage = () => {
-        getProjectDetails(params.projectID, setProject, setLoader, setError);
-    }
 
     const openModal = () => {
         setModalData({ id: project.id, name: project.name });
@@ -152,11 +148,10 @@ export default function ProjectDetail(props) {
     };
 
     useEffect(() => {
-        refreshPage();
+        getProjectDetails(params.projectID, setProject, setLoader, setError);
     }, []);
 
     const addPatient = () => {
-        console.log("Adding patient to project ...", candidateModalData);
         addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
     }
 
@@ -196,9 +191,26 @@ export default function ProjectDetail(props) {
 
                 <TestsTab active={activeTab} />
 
-                <ProjectModal refreshPage={refreshPage} setProjectID={props.setProjectID} modalOpened={modalOpened} setModalOpened={setModalOpened} modalData={modalData} setModalData={setModalData} setToastMessage={props.setToastMessage} />
-                <ParticipantModal refreshPage={refreshPage} modalOpened={participantModalOpened} setModalOpened={setParticipantModalOpened} modalData={participantModalData} setModalData={setParticipantModalData} setToastMessage={props.setToastMessage} />
-                <AlertModal loader={candidateModalLoader} modalOpened={candidateModalOpened} setModalOpened={setCandidateModalOpened} action={addPatient} modalData={candidateModalData} />
+                <ProjectModal
+                    modalOpened={modalOpened}
+                    setModalOpened={setModalOpened}
+                    modalData={modalData}
+                    setModalData={setModalData}
+                    setToastMessage={props.setToastMessage} />
+                
+                <ParticipantModal 
+                    modalOpened={participantModalOpened}
+                    setModalOpened={setParticipantModalOpened}
+                    modalData={participantModalData}
+                    setModalData={setParticipantModalData}
+                    setToastMessage={props.setToastMessage} />
+
+                <AlertModal
+                    loader={candidateModalLoader}
+                    modalOpened={candidateModalOpened}
+                    setModalOpened={setCandidateModalOpened}
+                    action={addPatient}
+                    modalData={candidateModalData} />
             </div>
         );
     }

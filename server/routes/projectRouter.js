@@ -207,6 +207,7 @@ router.get('/not-participants-count', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
+            console.log(normalResult);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
         } catch(err) {
             console.log(err);
@@ -277,7 +278,7 @@ router.get('/get-not-participants', async (req, res) => {
     const date_of_birthQuery = req.query.date_of_birthQuery || '';
 
     const query = `
-        SELECT *, (SELECT consent from participants part where part.patient_id = p.id) AS consent FROM patients p 
+        SELECT * FROM patients p 
         WHERE p.id LIKE '%${idQuery}%'
         AND p.first_name LIKE '%${first_nameQuery}%'
         AND p.last_name LIKE '%${last_nameQuery}%'
@@ -291,13 +292,16 @@ router.get('/get-not-participants', async (req, res) => {
 
     database.query(query, (err, result) => {
         try {
-            var resultArray = [];
-            try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                var resultArray = [];
                 result.forEach(element => {
                     resultArray.push(Object.assign({}, element));
                 });
-            } catch(err) {}
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
+            }
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
