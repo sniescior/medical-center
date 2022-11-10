@@ -31,9 +31,9 @@ export default function SideMenu(props) {
     ];
 
     return (
-        <nav className={props.navOpen ? "navbar" : "navbar hidden"}>
+        <nav className={props.menuOpen ? "navbar" : "navbar hidden"}>
             <div className="navbar-container">
-                <button id="hide-nav-button" onClick={() => { props.setNavOpen(false); }}>
+                <button id="hide-nav-button" onClick={() => { props.closeMenu(); }}>
                     <i className="bi bi-arrow-left"></i>
                 </button>
                 <div className="nav-image">

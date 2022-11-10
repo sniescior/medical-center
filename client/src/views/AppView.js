@@ -49,20 +49,32 @@ export default function AppView() {
     } 
   ];
 
-  const [navOpen, setNavOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(
+    localStorage.getItem('side-menu-open') === 'true'
+  );
+
+  const openMenu = () => { 
+    localStorage.setItem('side-menu-open', true);
+    setMenuOpen(true);
+  }
+  
+  const closeMenu = () => { 
+    localStorage.setItem('side-menu-open', false);
+    setMenuOpen(false);
+  }
 
   return (
-    <div className={!navOpen ? "container" : "container offset"}>
+    <div className={!menuOpen ? "container" : "container offset"}>
       <BrowserRouter>
-      <Routes>
-        {routes.map((route, key) => {
-          return ( <Route key={key} path={route.href} element={route.view} /> );
-        })}
-      </Routes>
-        <SideMenu setNavOpen={setNavOpen} navOpen={navOpen} />
-        <MiniNavBar navOpen={navOpen} setNavOpen={setNavOpen} />
-        </BrowserRouter>
-        <Toast message={toastMessage} />
+        <Routes>
+          {routes.map((route, key) => {
+            return ( <Route key={key} path={route.href} element={route.view} /> );
+          })}
+        </Routes>
+        <SideMenu closeMenu={closeMenu} menuOpen={menuOpen} />
+        <MiniNavBar menuOpen={menuOpen} openMenu={openMenu} />
+      </BrowserRouter>
+      <Toast message={toastMessage} />
     </div>
   );
 }
