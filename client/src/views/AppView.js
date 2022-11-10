@@ -14,7 +14,7 @@ import ExaminationsView from "./ExaminationsView";
 
 export default function AppView() {
 
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toastMessage, setToastMessage] = useState('');
 
   const routes = [
     {

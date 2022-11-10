@@ -20,8 +20,6 @@ export default function Toast(props) {
         }
     }, [message]);
 
-
-
     return (
         <div className={toastActive ? "toast-wrapper": "toast-wrapper hidden"}>
             <h4>
