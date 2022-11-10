@@ -11,7 +11,7 @@ function ModalButtons(props) {
                 className={elementIDState ? (!loader ? "button-icon button-danger" : "button-icon button-disabled") : "button hidden"} 
                 onClick={() => deleteAction()}>
                     <i className="bi bi-trash3"></i>
-                    Usuń
+                    <span>Usuń</span>
             </button>
 
             <div className="button-wrapper between">

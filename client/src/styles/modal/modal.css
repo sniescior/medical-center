@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 .overlay {
   position: absolute;
   top: 0;
@@ -5,7 +6,7 @@
   height: 100vh;
   width: 100%;
   background-color: rgba(226, 226, 226, 0.6);
-  z-index: 10000000;
+  z-index: 1000;
   -webkit-backdrop-filter: blur(1px);
           backdrop-filter: blur(1px);
   overflow-y: hidden;
@@ -26,6 +27,9 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 8px;
   display: block;
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 .overlay .modal .modal-header {
   display: flex;
@@ -114,6 +118,7 @@
 .overlay .modal .form-wrapper .input-wrapper textarea {
   resize: none;
   min-height: 120px;
+  font-family: "Roboto Condensed", sans-serif;
 }
 .overlay .modal .form-wrapper.disabled .input-wrapper label {
   color: rgba(24, 39, 71, 0.6078431373);
@@ -124,6 +129,32 @@
   color: rgba(24, 39, 71, 0.6078431373);
   transition: 0.2s ease-in-out;
 }
+@media (max-width: 520px) {
+  .overlay .modal form .form-wrapper {
+    padding-right: 0;
+  }
+  .overlay .modal form .form-wrapper .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    align-items: flex-start;
+  }
+  .overlay .modal form .form-wrapper .input-wrapper textarea,
+.overlay .modal form .form-wrapper .input-wrapper input {
+    box-sizing: border-box;
+    max-width: unset;
+    width: 100%;
+    margin: 0;
+  }
+  .overlay .modal form .button-wrapper .button-icon span {
+    display: none;
+  }
+  .overlay .modal form .button-wrapper .button-secondary {
+    display: none;
+  }
+}
 .overlay .modal.alert {
   min-width: unset;
   min-height: unset;
@@ -131,7 +162,7 @@
 .overlay .modal.alert .button-wrapper {
   justify-content: center;
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .overlay .modal {
     min-width: unset;
     width: 100%;

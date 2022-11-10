@@ -140,13 +140,6 @@
   padding: 12px 15px;
   white-space: nowrap;
 }
-.table-wrapper table tbody::after {
-  content: "";
-  display: block;
-  height: 40px;
-  pointer-events: none;
-  z-index: -10000;
-}
 .table-wrapper table tbody tr {
   cursor: pointer;
   border-bottom: 1px solid #dddddd;

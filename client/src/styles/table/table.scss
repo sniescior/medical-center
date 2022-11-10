@@ -173,14 +173,6 @@ $table_primary_hover: #ffc65c7d;
         }
         
         tbody {
-            &::after {
-                content: '';
-                display: block;
-                height: 40px;
-                pointer-events: none;
-                z-index: -10000;
-            }
-
             tr {
                 cursor: pointer;
                 border-bottom: 1px solid #dddddd;

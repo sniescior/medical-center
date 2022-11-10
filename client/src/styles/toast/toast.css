@@ -1,7 +1,7 @@
-.toast-wrapper {
+.container .toast-wrapper {
   position: absolute;
-  bottom: 18px;
   right: 20px;
+  bottom: 20px;
   padding: 12px 12px;
   background-color: rgb(238, 238, 238);
   color: #182747;
@@ -11,23 +11,28 @@
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
+  margin-left: 80px;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
 }
-.toast-wrapper.hidden {
-  display: none;
+.container .toast-wrapper.hidden {
+  pointer-events: none;
+  opacity: 0;
+  bottom: 20px;
   transform: translateY(100px);
-  transition: none;
 }
-.toast-wrapper:hover {
+.container .toast-wrapper:hover {
   background-color: rgb(234, 234, 234);
 }
-.toast-wrapper h4 {
+.container .toast-wrapper h4 {
   margin: 0;
   font-size: 1.1em;
   font-weight: 500;
 }
 @media (max-width: 470px) {
-  .toast-wrapper {
+  .container .toast-wrapper {
     left: 18px;
     right: 18px;
   }
