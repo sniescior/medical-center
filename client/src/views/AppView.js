@@ -11,7 +11,7 @@ import ProjectsView from "./ProjectsView";
 import Toast from "../components/utility/Toast";
 import ErrorPage from "../components/utility/ErrorPage";
 import ExaminationsView from "./ExaminationsView";
-import ParticipantDetail from "../components/projects/ParticipantDetail";
+import ParticipantDetail from "../components/participants/ParticipantDetail";
 
 export default function AppView() {
 

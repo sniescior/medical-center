@@ -96,6 +96,12 @@ export const deleteItem = (urlString, params, setToastMessage, setLoader) => {
     });
 }
 
+/**
+ * 
+ * -------------------------------- POST METHODS --------------------------------
+ * 
+ */
+
 export const addItem = (urlString, params, setToastMessage, setLoader) => {
     setLoader(false);
     fetch(urlString, {

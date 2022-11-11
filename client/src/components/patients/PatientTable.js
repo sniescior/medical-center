@@ -3,7 +3,7 @@ import PatientRow from "./PatientRow";
 import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSummary from "../utility/TableSummary";
 import TableSearchRow from "../utility/TableSearchRow";
-import ParticipantRow from "../projects/ParticipantRow";
+import ParticipantRow from "../participants/ParticipantRow";
 
 export default function PatientTable(props) {
     return (
