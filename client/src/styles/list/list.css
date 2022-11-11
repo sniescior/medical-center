@@ -1,0 +1,52 @@
+.selectable-list .input-wrapper {
+  margin: 0 10px;
+}
+.selectable-list .list {
+  padding: 8px 10px;
+  height: 380px;
+  list-style-type: none;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.selectable-list .list li {
+  padding: 30px 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(185, 185, 185, 0.3);
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.selectable-list .list li i {
+  margin-right: 10px;
+}
+.selectable-list .list li p {
+  margin: 0;
+}
+.selectable-list .list li:hover {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.selectable-list .list li.added {
+  background-color: #fff;
+  background-color: rgba(13, 109, 253, 0.8039215686);
+  color: #fff;
+  font-weight: 800;
+  border: 2px solid rgba(13, 109, 253, 0.3411764706);
+}
+.selectable-list .list li.selected {
+  background-color: #fff;
+  font-weight: 800;
+  border: 2px solid #0d6dfd;
+}
+.selectable-list .selected-summary {
+  padding: 0 10px;
+}
+.selectable-list .selected-summary p {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}/*# sourceMappingURL=list.css.map */

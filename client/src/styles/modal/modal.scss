@@ -148,6 +148,24 @@ $dimmed_font_color: #1827479b;
                     min-height: 120px;
                     font-family: 'Roboto Condensed', sans-serif;
                 }
+
+                &.icon {
+                    background-color: rgba(238, 238, 238, 0.9);
+                    display: flex;
+                    border-radius: 10px;
+                    padding: 8px 20px;
+                    color: rgba(17, 17, 17, 0.4);
+
+                    input {
+                        background-color: transparent;
+                        width: 100%;
+
+                        &:focus,
+                        &:hover {
+                            box-shadow: none;
+                        }
+                    }
+                }
             }
 
             &.disabled {

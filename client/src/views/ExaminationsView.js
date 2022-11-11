@@ -4,6 +4,7 @@ import LoaderPage from "../components/utility/LoaderPage";
 import ExaminationModal from "../components/examinations/ExaminationModal";
 import Examinations from "../components/examinations/Examinations";
 import { getExaminations, getExaminationsCount } from "../database/examinationsQuery";
+import { getArrayQuery } from "../database/ordersQuery";
 
 export default function ExaminationsView(props) {
     const [loader, setLoader] = useState(true);
@@ -18,7 +19,7 @@ export default function ExaminationsView(props) {
         setModalOpened(true);
     }
 
-    const refreshExaminations = (searchParams, setExaminations) => { getExaminations(searchParams, setExaminations, setLoader, setError); }
+    const refreshExaminations = (searchParams, setExaminations) => { getArrayQuery('/api/examinations/get-examinations?', searchParams, setExaminations, setLoader, setError); }
     const countAction = (searchParams, setExaminationsCount) => { getExaminationsCount(searchParams, setExaminationsCount, setLoader, setError); }
 
     if(error.statusCode) {

@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
-import { deleteItem } from "../../database/ordersQuery";
+import { addItem, deleteItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
+import ModalForm from "../utility/ModalForm";
+import SelectableList from "../utility/SelectableList";
 
-const tabs = [
-    {
-        id: 0,
-        title: 'Ogólne',
-        icon: 'bi bi-list-nested'
-    },
-    {
-        id: 1,
-        title: 'Badania',
-        icon: 'bi bi-activity'
-    },
-];
+function ExaminationsTab(props) {
+    const { elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+
+    return (
+        <div className="modal-content-wrapper">
+            <SelectableList setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={elementIDState} />
+        </div>
+    );
+}
 
 export default function OrderModal(props) {
     const params = useParams();
     const navigate = useNavigate();
-    const { modalData, setModalOpened, setToastMessage } = props;
+    const { modalData, setModalOpened, setToastMessage, participantID } = props;
     
     const [projectID, setProjectID] = useState(params.projectID);
     const [name, setName] = useState(false);
@@ -39,9 +38,13 @@ export default function OrderModal(props) {
 
     const saveOrderAction = () => { 
         if(modalData.order_id) {
-            console.log('Updating order', name, completionDate);
+            console.log('Updating order', name, completionDate, selectedItems);
+            console.log(selectedItems);
         } else {
-            console.log('Adding new order', name, completionDate);
+            console.log('Adding new order', name, completionDate, selectedItems);
+            const params = { title: name, completionDate: completionDate, examinations: Array.from(selectedItems), participantID: participantID };
+            addItem('/api/orders/add?', params, setToastMessage, setLoader);
+            console.log(selectedItems);
         }
     }
 
@@ -60,6 +63,7 @@ export default function OrderModal(props) {
     }, [modalData]);
 
     const [activeTab, setActiveTab] = useState(0);
+    const [selectedItems, setSelectedItems] = useState(new Set());
 
     const inputs = [
         {
@@ -80,9 +84,24 @@ export default function OrderModal(props) {
         }
     ];
 
+    const tabs = [
+        {
+            id: 0,
+            title: 'Ogólne',
+            icon: 'bi bi-list-nested',
+            component: <ModalForm tabs={[]} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
+        },
+        {
+            id: 1,
+            title: 'Badania',
+            icon: 'bi bi-activity',
+            component: <ExaminationsTab setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+        },
+    ];
+
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} title={modalTitle} subtitle={modalSubtitle} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
+            <ModalBody selectedItems={selectedItems} setSelectedItems={setSelectedItems} tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} title={modalTitle} subtitle={modalSubtitle} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
         </div>
     );
 };

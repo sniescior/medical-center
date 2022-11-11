@@ -40,19 +40,32 @@ router.get('/count-examinations', async (req, res) => {
 });
 
 router.get('/get-examinations', async (req, res) => {
-    const count = parseInt(req.query.count);
-    const page = parseInt(req.query.page);
-    const orderByColumn = req.query.orderByColumn;
-    const order = req.query.order;
+    const count = parseInt(req.query.count) || '';
+    const page = parseInt(req.query.page) || '';
+    const orderByColumn = req.query.orderByColumn || '';
+    const order = req.query.order || '';
 
     const idQuery = req.query.idQuery || '';
     const titleQuery = req.query.titleQuery || '';
 
-    const query = 
+    var query = 
         `SELECT * FROM examinations
          WHERE examination_id LIKE '%${idQuery}%'
          AND title LIKE '%${titleQuery}%'
          ORDER BY ${orderByColumn} ${order} LIMIT ${count*page}, ${count}`;
+
+    if(count && page && orderByColumn && order) {
+        query = 
+        `SELECT * FROM examinations
+         WHERE examination_id LIKE '%${idQuery}%'
+         AND title LIKE '%${titleQuery}%'
+         ORDER BY ${orderByColumn} ${order} LIMIT ${count*page}, ${count}`;
+    } else {
+        query = 
+        `SELECT * FROM examinations
+         WHERE examination_id LIKE '%${idQuery}%'
+         AND title LIKE '%${titleQuery}%'`;
+    }
 
     database.query(query, (err, result) => {
         try {
@@ -63,7 +76,7 @@ router.get('/get-examinations', async (req, res) => {
                     resultArray.push(Object.assign({}, element));
                 });
             } catch(err) {}
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { examinations: resultArray }));
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { items: resultArray }));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));

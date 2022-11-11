@@ -72,6 +72,7 @@ export default function ParticipantDetail(props) {
                     orders={orders}
                     setLoader={setLoader}
                     patientID={params.patientID}
+                    participantID={participant.participant_id}
                     projectID={params.projectID}
                     setError={setError}
                     openModal={openOrderModal} />
@@ -81,6 +82,7 @@ export default function ParticipantDetail(props) {
                     setModalOpened={setOrderModalOpened}
                     modalData={orderModalData}
                     setModalData={() => {}}
+                    participantID={participant.participant_id}
                     setToastMessage={props.setToastMessage} />
 
                 <ParticipantModal 

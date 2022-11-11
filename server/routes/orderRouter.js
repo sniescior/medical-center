@@ -1,18 +1,61 @@
 const express = require('express');
 const database = require('../config/mysqlConfig');
 const Response = require('../domain/response');
-const mysql = require('mysql');
 const HttpStatus = require('../controller/httpStatus');
 const router = express.Router();
 
 const queries = {
     GET_ORDERS_COUNT: 'SELECT COUNT(*) as orders_count FROM participants part, orders ord WHERE part.patient_id = ? AND part.participant_id = ord.participant_id AND part.project_id = ?',
     GET_ORDERS: 'SELECT * FROM participants part, orders ord WHERE part.patient_id = ? AND part.participant_id = ord.participant_id AND part.project_id = ? ORDER BY ? ?'
-}
+};
 
 const normalizeResult = (result) => {
     return Object.assign({}, result[0]);
+};
+
+/**
+ * 
+ * -------------------------------- POST METHODS --------------------------------
+ * 
+ */
+
+const addExaminationsToOrder = (res, orderID, examinations) => {
+    if(examinations.length > 0) {
+        examinations.forEach(examination => {
+            const query = `INSERT INTO examinations_order (examination_id, order_id) VALUES (${examination}, ${orderID})`;
+            database.query(query, (err, result) => {
+                try {
+                    if(err) { throw new Error(`Error running query:\n ${err}`); }
+                } catch(err) {
+                    console.log(err);
+                    res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+                }
+            });
+        });
+    }
+    res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Dodano zlecenie'));
 }
+
+router.post('/add', async (req, res) => {
+
+    var addOrderQuery = ``;
+
+    if(req.body.completionDate) {
+        addOrderQuery = `INSERT INTO orders (participant_id, title, completion_date) VALUES (${req.body.participantID}, '${req.body.title}', STR_TO_DATE('${req.body.completionDate}', '%Y-%m-%d'))`;
+    } else {
+        addOrderQuery = `INSERT INTO orders (participant_id, title) VALUES (${req.body.participantID}, '${req.body.title}')`;
+    }
+
+    database.query(addOrderQuery, (err, result) => {
+        try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+            addExaminationsToOrder(res, result.insertId, req.body.examinations);
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
 
 /**
  * 

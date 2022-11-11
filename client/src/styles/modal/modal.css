@@ -140,6 +140,20 @@
   min-height: 120px;
   font-family: "Roboto Condensed", sans-serif;
 }
+.overlay .modal .modal-content-wrapper .input-wrapper.icon {
+  background-color: rgba(238, 238, 238, 0.9);
+  display: flex;
+  border-radius: 10px;
+  padding: 8px 20px;
+  color: rgba(17, 17, 17, 0.4);
+}
+.overlay .modal .modal-content-wrapper .input-wrapper.icon input {
+  background-color: transparent;
+  width: 100%;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper.icon input:focus, .overlay .modal .modal-content-wrapper .input-wrapper.icon input:hover {
+  box-shadow: none;
+}
 .overlay .modal .modal-content-wrapper.disabled .input-wrapper label {
   color: rgba(24, 39, 71, 0.6078431373);
 }

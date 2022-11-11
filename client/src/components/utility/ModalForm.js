@@ -42,17 +42,19 @@ export default function ModalForm(props) {
     const { tabs, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
 
     return (
+        <>
         <form onSubmit={(e) => { e.preventDefault(); }}>
             <div className={!loader ? "modal-content-wrapper" : "modal-content-wrapper disabled"}>
                 {inputs.map((input, key) => {
                     return (
                         <InputWrapper key={key} input={input} />
-                    );
-                })}
+                        );
+                    })}
             </div>
+        </form>
             {tabs? <></> :
                 <ModalButtons saveAction={saveAction} deleteAction={deleteAction} elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
             }
-        </form>
+        </>
     )
 }

@@ -103,7 +103,7 @@ export const deleteItem = (urlString, params, setToastMessage, setLoader) => {
  */
 
 export const addItem = (urlString, params, setToastMessage, setLoader) => {
-    setLoader(false);
+    setLoader(true);
     fetch(urlString, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
