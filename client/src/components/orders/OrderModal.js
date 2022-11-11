@@ -5,6 +5,19 @@ import { deleteItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
 
+const tabs = [
+    {
+        id: 0,
+        title: 'Ogólne',
+        icon: 'bi bi-list-nested'
+    },
+    {
+        id: 1,
+        title: 'Badania',
+        icon: 'bi bi-activity'
+    },
+];
+
 export default function OrderModal(props) {
     const params = useParams();
     const navigate = useNavigate();
@@ -46,6 +59,8 @@ export default function OrderModal(props) {
         }
     }, [modalData]);
 
+    const [activeTab, setActiveTab] = useState(0);
+
     const inputs = [
         {
             label: 'Nazwa zlecenia',
@@ -67,7 +82,7 @@ export default function OrderModal(props) {
 
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody title={modalTitle} subtitle={modalSubtitle} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
+            <ModalBody tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} title={modalTitle} subtitle={modalSubtitle} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
         </div>
     );
 };

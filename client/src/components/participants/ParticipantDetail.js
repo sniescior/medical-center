@@ -54,7 +54,7 @@ export default function ParticipantDetail(props) {
                             {participant.first_name} {participant.last_name}
                         </h2>
                         <h4>
-                            Karta uczestnika projektu - <button className="button-link" onClick={() => navigate(`/projects/${project.id}`)}>{project.name}</button>
+                            Karta uczestnika projektu: <button className="button-link" onClick={() => navigate(`/projects/${project.id}`)}>{project.name}</button>
                         </h4>
                     </div>
                     <button className="action-button" onClick={() => { openModal(); }}>
@@ -65,7 +65,7 @@ export default function ParticipantDetail(props) {
                 </div>
 
                 <div className="button-wrapper right">
-                    <button className="button-primary" onClick={() => { openOrderModal({ order_id: '' }); }}><i className="bi bi-plus-lg"></i>Dodaj zlecenie</button>
+                    <button className={participant.consent ? "button-primary" : "button-primary button-disabled"} onClick={() => { openOrderModal({ order_id: '' }); }}><i className="bi bi-plus-lg"></i>Dodaj zlecenie</button>
                 </div>
 
                 <Orders 
