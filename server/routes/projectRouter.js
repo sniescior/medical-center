@@ -17,6 +17,7 @@ const queries = {
 
     ADD_PARTICIPANT: 'INSERT INTO participants (project_id, patient_id, consent) VALUES (?, ?, FALSE)',
     GET_PARTICIPANT_INFO: 'SELECT * FROM patients pat, participants part WHERE part.patient_id = pat.id AND pat.id = ? AND part.project_id = ?',
+    GET_PARTICIPANT_ORDERS: 'SELECT ord.project_id, ord.order_id, ord.title, exam_ord.examination_id, exam.title FROM orders ord, examinations_order exam_ord, examinations exam WHERE project_id = ? AND exam_ord.order_id = ord.order_id AND exam.examination_id = exam_ord.examination_id ORDER BY ord.order_id',
 
     COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
@@ -146,8 +147,8 @@ router.delete('/:id', async (req, res) => {
  * 
  */
 
-router.get('/get-participant', async (req, res) => {
-    database.query(queries.GET_PARTICIPANT_INFO, [parseInt(req.query.patientID), parseInt(req.query.projectID)], (err, result) => {
+router.get('/:projectID/get-participant/:patientID/orders', async (req, res) => {
+    database.query(queries.GET_PARTICIPANT_ORDERS, [parseInt(req.params.patientID), parseInt(req.params.projectID)], (err, result) => {
         try {
             if (result.length < 1) {
                 console.log(result);
@@ -160,7 +161,23 @@ router.get('/get-participant', async (req, res) => {
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }
     });
-})
+});
+
+router.get('/:projectID/get-participant/:patientID', async (req, res) => {
+    database.query(queries.GET_PARTICIPANT_INFO, [parseInt(req.params.patientID), parseInt(req.params.projectID)], (err, result) => {
+        try {
+            if (result.length < 1) {
+                console.log(result);
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, '404 not found'));
+                return;
+            }
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { item: result[0] }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
 
 router.get('/participants-count', async (req, res) => {
     const projectIdQuery = parseInt(req.query.projectID);

@@ -176,6 +176,9 @@ body button.button-primary {
   border-radius: 6px;
   transition: 0.2s ease-in-out;
 }
+body button.button-primary i {
+  margin-right: 8px;
+}
 body button.button-primary:hover {
   background-color: rgba(255, 198, 92, 0.4901960784);
   border: 2px solid rgba(255, 236, 201, 0.4901960784);
@@ -214,6 +217,10 @@ body .button-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+body .button-wrapper.right {
+  margin-top: 10px;
+  justify-content: flex-end;
 }
 body .button-wrapper.between {
   justify-content: space-between;

@@ -86,33 +86,37 @@ INSERT INTO `examinations` VALUES (2, "Badanie słuchu", "Opis badania słuchu")
 INSERT INTO `examinations` VALUES (3, "Badanie wzroku", "Opis badania wzroku");
 
 CREATE TABLE `orders` (                                                     -- ZLECENIA
-    `order_id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `project_id`        BIGINT UNSIGNED NOT NULL,
-    `title`             VARCHAR(255),
+    `order_id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `participant_id`        BIGINT UNSIGNED NOT NULL,
+    `title`                 VARCHAR(255),
+    `add_date`              TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `completion_date`       TIMESTAMP DEFAULT NULL,
 
     PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`)
+    FOREIGN KEY (`participant_id`) REFERENCES `participants`(`participant_id`)
 );
 
 
 CREATE TABLE `examinations_order` (                                         -- ZLECENIE BADAŃ
     `examination_id`    BIGINT UNSIGNED NOT NULL,
     `order_id`          BIGINT UNSIGNED NOT NULL,
+    `result`            VARCHAR(2000) NULL,
 
     FOREIGN KEY (`examination_id`) REFERENCES `examinations`(`examination_id`) ON DELETE CASCADE,
     FOREIGN KEY (`order_id`) REFERENCES `orders`(`order_id`) ON DELETE CASCADE,
     UNIQUE KEY Unique_examination_order_pair (`examination_id`, `order_id`)
 );
 
-INSERT INTO `orders` VALUES (1, 1, 'Zlecenie badań nr 1');
-INSERT INTO `orders` VALUES (2, 1, 'Zlecenie badań nr 2');
-INSERT INTO `orders` VALUES (3, 1, 'Zlecenie badań nr 3');
-INSERT INTO `orders` VALUES (4, 43, 'Zlecenie badań nr 50');
-INSERT INTO `orders` VALUES (5, 47, 'Zlecenie badań nr 50');
+INSERT INTO `orders` (`order_id`, `participant_id`, `title`) VALUES (1, 1, 'Zlecenie badań nr 1');
+INSERT INTO `orders` (`order_id`, `participant_id`, `title`) VALUES (2, 1, 'Zlecenie badań nr 2');
+INSERT INTO `orders` (`order_id`, `participant_id`, `title`) VALUES (3, 1, 'Zlecenie badań nr 3');
+INSERT INTO `orders` (`order_id`, `participant_id`, `title`) VALUES (4, 4, 'Zlecenie badań nr 50');
+INSERT INTO `orders` (`order_id`, `participant_id`, `title`) VALUES (5, 7, 'Zlecenie badań nr 50');
 
 INSERT INTO `examinations_order` VALUES (1, 1);
 INSERT INTO `examinations_order` VALUES (2, 1);
 INSERT INTO `examinations_order` VALUES (3, 1);
 INSERT INTO `examinations_order` VALUES (1, 2);
 
+select * from orders;
 

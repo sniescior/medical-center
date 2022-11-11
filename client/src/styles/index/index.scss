@@ -201,6 +201,10 @@ body {
             border: 2px solid #dddddd;
             border-radius: 6px;
             transition: .2s ease-in-out;
+
+            i {
+                margin-right: 8px;
+            }
             
             &:hover {
                 background-color: $table_primary_hover;
@@ -250,6 +254,11 @@ body {
         display: flex;
         align-items: center;
         gap: 10px;
+
+        &.right {
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
 
         &.between {
             justify-content: space-between;
