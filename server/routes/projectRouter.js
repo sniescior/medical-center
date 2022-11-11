@@ -15,7 +15,8 @@ const queries = {
     DELETE_PARTICIPANT: 'DELETE FROM participants WHERE patient_id = ? AND project_ID = ?',
     UPDATE_PARTICIPANT: 'UPDATE participants SET consent = ? WHERE patient_id = ? AND project_id = ?',
 
-    ADD_PARTICIPANT: 'INSERT INTO participants VALUES (?, ?, FALSE)',
+    ADD_PARTICIPANT: 'INSERT INTO participants (project_id, patient_id, consent) VALUES (?, ?, FALSE)',
+    GET_PARTICIPANT_INFO: 'SELECT * FROM patients pat, participants part WHERE part.patient_id = pat.id AND pat.id = ? AND part.project_id = ?',
 
     COUNT_PROJECTS: 'SELECT COUNT(*) AS projectsCount FROM projects',
 };
@@ -145,7 +146,23 @@ router.delete('/:id', async (req, res) => {
  * 
  */
 
- router.get('/participants-count', async (req, res) => {
+router.get('/get-participant', async (req, res) => {
+    database.query(queries.GET_PARTICIPANT_INFO, [parseInt(req.query.patientID), parseInt(req.query.projectID)], (err, result) => {
+        try {
+            if (result.length < 1) {
+                console.log(result);
+                res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, '404 not found'));
+                return;
+            }
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { item: result[0] }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+})
+
+router.get('/participants-count', async (req, res) => {
     const projectIdQuery = parseInt(req.query.projectID);
 
     const idQuery = req.query.idQuery || '';
@@ -207,7 +224,6 @@ router.get('/not-participants-count', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             const normalResult = normalizeResult(result);
-            console.log(normalResult);
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
         } catch(err) {
             console.log(err);

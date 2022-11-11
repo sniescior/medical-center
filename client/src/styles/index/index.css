@@ -204,6 +204,12 @@ body button.button-filter.active {
   color: #eee;
   background-color: #111;
 }
+body button.button-link {
+  color: rgb(13, 110, 253);
+}
+body button.button-link:hover {
+  text-decoration: underline;
+}
 body .button-wrapper {
   display: flex;
   align-items: center;
@@ -334,8 +340,19 @@ body .container .content .content-header {
   justify-content: space-between;
   align-items: center;
 }
+body .container .content .content-header .header-text h4 {
+  font-size: 1.2em;
+  color: rgba(17, 17, 17, 0.7);
+  font-weight: 500;
+  margin: 8px 0;
+  margin-bottom: 0;
+}
+body .container .content .content-header .header-text .button-link {
+  font-size: 1em;
+}
 body .container .content .content-header h2 {
   margin-left: 0;
+  font-size: 1.8em;
 }
 body .container .content .content-header button {
   font-size: 0.8em;

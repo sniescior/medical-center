@@ -1,10 +1,13 @@
 import React from "react"
 
 export default function ModalHeader(props) {
-    const { title, loader, setModalOpened } = props;
+    const { title, subtitle, loader, setModalOpened } = props;
     return (
         <div className="modal-header">
-            <h2>{title}</h2>
+            <div className="header-text">
+                <h2>{title}</h2>
+                <h4>{subtitle}</h4>
+            </div>
             <button 
                 className={loader ? "hidden" : ""}
 				onClick={() => { setModalOpened(false); }}>

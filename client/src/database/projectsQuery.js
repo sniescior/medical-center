@@ -250,7 +250,6 @@ export const removeParticipant = (postParams, setLoader, setToastMessage) => {
         data => {
             setToastMessage(data.message);
             setLoader(false);
-            window.location.reload();
         }
     ).catch((error) => {
         setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)

@@ -3,8 +3,7 @@ import { getParticipants, getProjectDetails, getParticipantsCount, addPatientToP
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
 import ProjectModal from "./ProjectModal";
-import ParticipantModal from "./ParticipantModal";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TabsHeader from "../utility/TabsHeader";
 import Patients from "../patients/Patients";
 import AlertModal from "../utility/AlertModal";
@@ -28,6 +27,8 @@ const tabs = [
 ];
 
 function ParticipantsTab(props) {
+    const navigate = useNavigate();
+
     const headerData = [{
         title: 'Zgoda',
         placeholder: '',
@@ -35,7 +36,7 @@ function ParticipantsTab(props) {
         sort: false
     }];
     
-    const { projectID, active, setLoader, setModalOpened, setModalData, setError } = props;
+    const { projectID, active, setLoader, setError } = props;
 
     const fetchParticipants = (searchParams, setPatients) => {
         searchParams.append('projectID', projectID);
@@ -49,10 +50,7 @@ function ParticipantsTab(props) {
         searchParams.delete('projectID');
     }
 
-    const sayHello = (element) => {
-        setModalData(element);
-        setModalOpened(true);
-    }
+    const openParticipantDetail = (element) => { navigate(`/projects/${projectID}/participant/${element.id}`); }
 
     return (
         <div className={active === 0 ? "tab-wrapper active" : "tab-wrapper"}>
@@ -63,7 +61,7 @@ function ParticipantsTab(props) {
                 countAction={countAction}
                 participants={true}
 
-                onClickAction={sayHello}
+                onClickAction={openParticipantDetail}
             />
         </div>
     );
@@ -112,7 +110,6 @@ function TestsTab(props) {
 }
 
 export default function ProjectDetail(props) {
-
     const params = useParams();
     
     const [activeTab, setActiveTab] = useState(0);
@@ -123,10 +120,6 @@ export default function ProjectDetail(props) {
     const [modalOpened, setModalOpened] = useState(false);
     const defaultModalData = { id: '', name: '' }
     const [modalData, setModalData] = useState(defaultModalData);
-    
-    const [participantModalOpened, setParticipantModalOpened] = useState(false);
-    const defaultParticiantModalData = { patient_id: '', first_name: '', last_name: '', consent: '', project_id: '' };
-    const [participantModalData, setParticipantModalData] = useState(defaultModalData);
 
     const [candidateModalOpened, setCandidateModalOpened] = useState(false);
     const [candidateModalData, setCandidateModalData] = useState({ title: '', project_id: '', patient_id: '' });
@@ -154,6 +147,8 @@ export default function ProjectDetail(props) {
 
     const addPatient = () => {
         addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
+        setActiveTab(0);
+        setCandidateModalOpened(false);
     }
 
     if(error.statusCode) {
@@ -177,9 +172,7 @@ export default function ProjectDetail(props) {
                     projectID={params.projectID}
                     active={activeTab}
                     setLoader={setLoader}
-                    setError={setError}
-                    setModalData={setParticipantModalData}
-                    setModalOpened={setParticipantModalOpened} />
+                    setError={setError} />
 
                 <PatientsTab
                     projectID={params.projectID}
@@ -197,13 +190,6 @@ export default function ProjectDetail(props) {
                     setModalOpened={setModalOpened}
                     modalData={modalData}
                     setModalData={setModalData}
-                    setToastMessage={props.setToastMessage} />
-                
-                <ParticipantModal 
-                    modalOpened={participantModalOpened}
-                    setModalOpened={setParticipantModalOpened}
-                    modalData={participantModalData}
-                    setModalData={setParticipantModalData}
                     setToastMessage={props.setToastMessage} />
 
                 <AlertModal

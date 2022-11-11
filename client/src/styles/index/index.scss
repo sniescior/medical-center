@@ -236,6 +236,14 @@ body {
                 background-color: #111;
             }
         }
+
+        &.button-link {
+            color: rgb(13, 110, 253);
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     .button-wrapper {
@@ -389,8 +397,23 @@ body {
                 justify-content: space-between;
                 align-items: center;
 
+                .header-text {
+                    h4 {
+                        font-size: 1.2em;
+                        color: rgba(17, 17, 17, 0.7);
+                        font-weight: 500;
+                        margin: 8px 0;
+                        margin-bottom: 0;
+                    }
+
+                    .button-link {
+                        font-size: 1em;
+                    }
+                }
+
                 h2 {
                     margin-left: 0;
+                    font-size: 1.8em;
                 }
 
                 button {

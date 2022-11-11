@@ -11,6 +11,7 @@ import ProjectsView from "./ProjectsView";
 import Toast from "../components/utility/Toast";
 import ErrorPage from "../components/utility/ErrorPage";
 import ExaminationsView from "./ExaminationsView";
+import ParticipantDetail from "../components/projects/ParticipantDetail";
 
 export default function AppView() {
 
@@ -30,12 +31,17 @@ export default function AppView() {
     {
       view: <ProjectsView setToastMessage={setToastMessage} />,
       href: '/projects/',
-      name: 'patients'
+      name: 'projects'
     },
     {
       view: <ProjectDetail setToastMessage={setToastMessage} />,
       href: '/projects/:projectID',
-      name: 'patients'
+      name: 'projectdetail'
+    },
+    {
+      view: <ParticipantDetail setToastMessage={setToastMessage} />,
+      href: '/projects/:projectID/participant/:patientID',
+      name: 'participantdetail'
     },
     {
       view: <ExaminationsView setToastMessage={setToastMessage} />,

@@ -42,9 +42,18 @@ $dimmed_font_color: #1827479b;
             padding: 18px 22px;
             gap: 20px;
 
-            h2 {
-                font-weight: 500;
-                margin: 0;
+            .header-text {
+                h2 {
+                    font-weight: 500;
+                    margin: 0;
+                }
+
+                h4 {
+                    margin: 8px 0;
+                    margin-bottom: 0;
+                    color: rgba(17, 17, 17, 0.7);
+                    font-weight: 500;
+                }
             }
 
             button {

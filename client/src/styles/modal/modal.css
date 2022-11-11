@@ -38,9 +38,15 @@
   padding: 18px 22px;
   gap: 20px;
 }
-.overlay .modal .modal-header h2 {
+.overlay .modal .modal-header .header-text h2 {
   font-weight: 500;
   margin: 0;
+}
+.overlay .modal .modal-header .header-text h4 {
+  margin: 8px 0;
+  margin-bottom: 0;
+  color: rgba(17, 17, 17, 0.7);
+  font-weight: 500;
 }
 .overlay .modal .modal-header button {
   border: none;

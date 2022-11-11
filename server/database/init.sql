@@ -3,13 +3,13 @@ CREATE DATABASE IF NOT EXISTS medical_center;
 
 USE medical_center;
 
-DROP TABLE IF EXISTS patients;              -- Pacjenci
-DROP TABLE IF EXISTS projects;              -- Projekty badawcze
-DROP TABLE IF EXISTS participants;          -- Pacjenci przypisani do projektu (uczestnicy)
-DROP TABLE IF EXISTS examinations;          -- Badania
-DROP TABLE IF EXISTS orders;                -- Zlecenia
-DROP TABLE IF EXISTS examination_order;     -- Badania przypisane do danego zlecenia
-DROP TABLE IF EXISTS participants_order;    -- Zlecenia przypisane do uczestnika projektu
+DROP TABLE IF EXISTS `patients`;              -- Pacjenci
+DROP TABLE IF EXISTS `projects`;              -- Projekty badawcze
+DROP TABLE IF EXISTS `participants`;          -- Pacjenci przypisani do projektu (uczestnicy)
+DROP TABLE IF EXISTS `examinations`;          -- Badania
+DROP TABLE IF EXISTS `orders`;                -- Zlecenia
+DROP TABLE IF EXISTS `examinations_order`;     -- Badania przypisane do danego zlecenia
+DROP TABLE IF EXISTS `participants_order`;    -- Zlecenia przypisane do uczestnika projektu
 
 
 CREATE TABLE patients (
@@ -48,60 +48,71 @@ INSERT INTO patients (id, first_name, last_name, email, address, city, country, 
 VALUES (10, 'Damian', 'Nowicki', 'damian.nowicki@mail.com', 'Łąkowa 1-2', 'Gdańsk', 'Poland', STR_TO_DATE('12-4-1988', '%d-%m-%Y'));
 
 
-CREATE TABLE projects (
-    id              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name            VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (id)
+CREATE TABLE `projects` (
+    `id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`            VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
 );
 
-INSERT INTO projects VALUES (1, 'Project 1');
-INSERT INTO projects VALUES (2, 'Project 2');
-INSERT INTO projects VALUES (3, 'Project 3');
-INSERT INTO projects VALUES (4, 'Project 4');
+INSERT INTO `projects` VALUES (1, 'Project 1');
+INSERT INTO `projects` VALUES (2, 'Project 2');
+INSERT INTO `projects` VALUES (3, 'Project 3');
+INSERT INTO `projects` VALUES (4, 'Project 4');
 
-DROP TABLE participants;
-CREATE TABLE participants (
-    project_id      BIGINT UNSIGNED NOT NULL,
-    patient_id      BIGINT UNSIGNED NOT NULL,
-    consent         BOOLEAN DEFAULT FALSE,
+DROP TABLE `participants`;
+CREATE TABLE `participants` (
+    `participant_id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `project_id`        BIGINT UNSIGNED NOT NULL,
+    `patient_id`        BIGINT UNSIGNED NOT NULL,
+    `consent`           BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
-    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    UNIQUE KEY Unique_pair (project_id, patient_id)
+    PRIMARY KEY (`participant_id`),
+    FOREIGN KEY (`patient_id`) REFERENCES `patients`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY Unique_pair (`project_id`, `patient_id`)
 );
 
-INSERT INTO participants VALUES (1, 105, FALSE);
-INSERT INTO participants VALUES (4, 106, TRUE);
-INSERT INTO participants VALUES (1, 106, FALSE);
-INSERT INTO participants VALUES (4, 105, FALSE);
-INSERT INTO participants VALUES (2, 95);
-INSERT INTO participants VALUES (3, 96);
-INSERT INTO participants VALUES (3, 105);
 
+CREATE TABLE `examinations` (                                               -- BADANIA
+    `examination_id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title`             VARCHAR(255) NOT NULL,
+    `description`       VARCHAR(2000) NULL,
 
-CREATE TABLE `examinations` (
-    `examination_id`  BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `title`           VARCHAR(255) NOT NULL,
-    `description`     VARCHAR(2000) NULL,
     PRIMARY KEY (`examination_id`)
 );
 
-INSERT INTO examinations VALUES (1, "Badanie krwi", "Opis badania krwi");
-INSERT INTO examinations VALUES (2, "Badanie słuchu", "Opis badania słuchu");
-INSERT INTO examinations VALUES (3, "Badanie wzroku", "Opis badania wzroku");
+INSERT INTO `examinations` VALUES (1, "Badanie krwi", "Opis badania krwi");
+INSERT INTO `examinations` VALUES (2, "Badanie słuchu", "Opis badania słuchu");
+INSERT INTO `examinations` VALUES (3, "Badanie wzroku", "Opis badania wzroku");
 
-CREATE TABLE orders (
-    order_id        BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    project_id      BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (order_id),
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+CREATE TABLE `orders` (                                                     -- ZLECENIA
+    `order_id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `project_id`        BIGINT UNSIGNED NOT NULL,
+    `title`             VARCHAR(255),
+
+    PRIMARY KEY (`order_id`),
+    FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`)
 );
 
 
-CREATE TABLE examination_orders (
-    examination_id  BIGINT UNSIGNED NOT NULL,
-    order_id        BIGINT UNSIGNED NOT NULL,
+CREATE TABLE `examinations_order` (                                         -- ZLECENIE BADAŃ
+    `examination_id`    BIGINT UNSIGNED NOT NULL,
+    `order_id`          BIGINT UNSIGNED NOT NULL,
 
-    FOREIGN KEY (examination_id) REFERENCES examinations(examination_id) ON DELETE CASCADE,
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+    FOREIGN KEY (`examination_id`) REFERENCES `examinations`(`examination_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`order_id`) REFERENCES `orders`(`order_id`) ON DELETE CASCADE,
+    UNIQUE KEY Unique_examination_order_pair (`examination_id`, `order_id`)
 );
+
+INSERT INTO `orders` VALUES (1, 1, 'Zlecenie badań nr 1');
+INSERT INTO `orders` VALUES (2, 1, 'Zlecenie badań nr 2');
+INSERT INTO `orders` VALUES (3, 1, 'Zlecenie badań nr 3');
+INSERT INTO `orders` VALUES (4, 43, 'Zlecenie badań nr 50');
+INSERT INTO `orders` VALUES (5, 47, 'Zlecenie badań nr 50');
+
+INSERT INTO `examinations_order` VALUES (1, 1);
+INSERT INTO `examinations_order` VALUES (2, 1);
+INSERT INTO `examinations_order` VALUES (3, 1);
+INSERT INTO `examinations_order` VALUES (1, 2);
+
+
