@@ -64,7 +64,17 @@ router.post('/add', async (req, res) => {
  */
 
 router.get('/count/:projectID/:patientID', async (req, res) => {
-    database.query(queries.GET_ORDERS_COUNT, [req.params.patientID, req.params.projectID], (err, result) => {
+
+    const query = 
+        `SELECT * FROM participants part, orders ord 
+         WHERE part.patient_id = ${req.params.patientID} 
+         AND part.participant_id = ord.participant_id 
+         AND part.project_id = ${req.params.projectID} 
+         AND ord.order_id LIKE '${req.query.idQuery}%' 
+         AND ord.title LIKE '%${req.query.titleQuery}%' 
+         ORDER BY ${req.query.orderByColumn} ${req.query.order}`;
+
+    database.query(query, (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }
             res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patients retrieved', { count: result.length }));
@@ -76,7 +86,15 @@ router.get('/count/:projectID/:patientID', async (req, res) => {
 });
 
 router.get('/:projectID/:patientID', async (req, res) => {
-    const query = `SELECT * FROM participants part, orders ord WHERE part.patient_id = ${req.params.patientID} AND part.participant_id = ord.participant_id AND part.project_id = ${req.params.projectID} AND ord.order_id LIKE '${req.query.idQuery}%' AND ord.title LIKE '%${req.query.titleQuery}%' ORDER BY ${req.query.orderByColumn} ${req.query.order}`;
+    const query = 
+        `SELECT * FROM participants part, orders ord 
+         WHERE part.patient_id = ${req.params.patientID} 
+         AND part.participant_id = ord.participant_id 
+         AND part.project_id = ${req.params.projectID} 
+         AND ord.order_id LIKE '${req.query.idQuery}%' 
+         AND ord.title LIKE '%${req.query.titleQuery}%' 
+         ORDER BY ${req.query.orderByColumn} ${req.query.order}
+         LIMIT ${req.query.page*req.query.count}, ${req.query.count}`;
 
     database.query(query, (err, result) => {
         try {
