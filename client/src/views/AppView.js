@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideMenu from "../components/utility/SideMenu";
 import DashboardView from './DashboardView';
 import PatientsView from './PatientsView';
@@ -17,6 +17,10 @@ export default function AppView() {
 
   const [toastMessage, setToastMessage] = useState('');
 
+  const setToast = (message) => {
+    localStorage.setItem('message', message);
+  }
+
   const routes = [
     {
       view: <DashboardView />,
@@ -24,27 +28,27 @@ export default function AppView() {
       name: 'dashboard'
     },
     {
-      view: <PatientsView setToastMessage={setToastMessage} />,
+      view: <PatientsView setToastMessage={setToast} />,
       href: '/patients',
       name: 'patients'
     },
     {
-      view: <ProjectsView setToastMessage={setToastMessage} />,
+      view: <ProjectsView setToastMessage={setToast} />,
       href: '/projects/',
       name: 'projects'
     },
     {
-      view: <ProjectDetail setToastMessage={setToastMessage} />,
+      view: <ProjectDetail setToastMessage={setToast} />,
       href: '/projects/:projectID',
       name: 'projectdetail'
     },
     {
-      view: <ParticipantDetail setToastMessage={setToastMessage} />,
+      view: <ParticipantDetail setToastMessage={setToast} />,
       href: '/projects/:projectID/participant/:patientID',
       name: 'participantdetail'
     },
     {
-      view: <ExaminationsView setToastMessage={setToastMessage} />,
+      view: <ExaminationsView setToastMessage={setToast} />,
       href: '/examinations',
       name: 'examinations'
     },
@@ -54,6 +58,13 @@ export default function AppView() {
       name: 'error_page'
     } 
   ];
+
+  // Fetch any messages from localStorage
+  useEffect(() => {
+    const message = localStorage.getItem('message');
+    if(message) { setToastMessage(message); }
+    console.log('DOM loaded', message);
+  });
 
   const [menuOpen, setMenuOpen] = useState(
     localStorage.getItem('side-menu-open') === 'true'

@@ -3,10 +3,10 @@
   right: 20px;
   bottom: 20px;
   padding: 12px 12px;
-  background-color: rgb(238, 238, 238);
+  background-color: #fff;
   color: #182747;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border: 2px solid #dddddd;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  border: 2px solid rgba(221, 221, 221, 0.5843137255);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,6 +16,7 @@
   transform: translateY(0);
   opacity: 1;
   pointer-events: all;
+  border-radius: 18px;
 }
 .container .toast-wrapper.hidden {
   pointer-events: none;
@@ -24,10 +25,11 @@
   transform: translateY(100px);
 }
 .container .toast-wrapper:hover {
-  background-color: rgb(234, 234, 234);
+  background-color: #eee;
 }
 .container .toast-wrapper h4 {
   margin: 0;
+  margin-left: 8px;
   font-size: 1.1em;
   font-weight: 500;
 }

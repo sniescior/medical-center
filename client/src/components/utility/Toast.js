@@ -10,6 +10,7 @@ export default function Toast(props) {
         setTimeout(() => {
             setToastMessage('');
         }, 300);
+        localStorage.removeItem('message');
     }
 
     useEffect(() => {
