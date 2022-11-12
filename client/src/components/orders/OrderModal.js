@@ -11,18 +11,21 @@ function ExaminationsTab(props) {
     const { modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
     const [titleQuery, setTitleQuery] = useState('');
+
+    // For fetching data
     const [addedItems, setAddedItems] = useState([]);
     const [items, setItems] = useState([]);
+
+    // For displaying converted data in selectable list
     const [listItems, setListItems] = useState([]);
+    const [addedListItems, setAddedListItems] = useState([]);
 
     useEffect(() => {
-        if(!modalOpened) {
-            setSelectedItems(new Set());
-        }
+        if(!modalOpened) { setSelectedItems(new Set()); }
     }, [modalOpened]);
 
     useEffect(() => {
-        let convertedItems = [];
+        var convertedItems = [];
         
         // Converting item list to make selectable list universal 
         convertedItems = items.map(item => {
@@ -33,10 +36,29 @@ function ExaminationsTab(props) {
         });
 
         setListItems(convertedItems);
-    }, [items]);
+
+        if(elementIDState) {
+            convertedItems = [];
+
+            convertedItems = addedItems.map(item => {
+                return {
+                    id: item.examination_id,
+                    title: item.title
+                }
+            });
+
+            setAddedListItems(convertedItems);
+        }
+
+    }, [items, addedItems]);
 
     const refreshList = (setLoader, setError) => {
-        getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setItems, setError, setLoader);
+        if(elementIDState) {
+            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), setAddedItems, setError, setLoader);
+            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), setItems, setError, setLoader);
+        } else {
+            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setItems, setError, setLoader);
+        }
     }
 
     return (
@@ -48,7 +70,7 @@ function ExaminationsTab(props) {
                 elementIDState={elementIDState} 
                 titleQuery={titleQuery}
                 setTitleQuery={setTitleQuery}
-                addedItems={addedItems}
+                addedItems={addedListItems}
                 items={listItems}
                 setItems={setItems} 
                 refreshList={refreshList} />
@@ -127,7 +149,7 @@ export default function OrderModal(props) {
         {
             id: 0,
             title: 'Ogólne',
-            icon: 'bi bi-list-nested',
+            icon: 'bi bi-pen',
             component: <ModalForm tabs={[]} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
         },
         {

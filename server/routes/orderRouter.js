@@ -63,6 +63,34 @@ router.post('/add', async (req, res) => {
  * 
  */
 
+router.get('/examinations/:orderID', async (req, res) => {
+    var query = ``;
+    
+    if(parseInt(req.query.assigned)) {
+        console.log('Return only assigned exminations');
+        query = 
+        `SELECT ord.title, exam_ord.order_id, exam_ord.examination_id, exam.title, exam.description, exam_ord.result FROM orders ord, examinations exam, examinations_order exam_ord
+        WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} AND ord.order_id = exam_ord.order_id AND exam_ord.examination_id = exam.examination_id
+        ORDER BY ord.title`;
+    } else {
+        console.log('Return all assigned exminations');
+        query = 
+        `SELECT * FROM examinations WHERE examination_id NOT IN ( SELECT exam_ord.examination_id FROM orders ord, examinations exam, examinations_order exam_ord
+         WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} AND ord.order_id = exam_ord.order_id AND exam_ord.examination_id = exam.examination_id
+         ORDER BY ord.title )`;
+    }
+
+    database.query(query, (err, result) => {
+        try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Orders retrieved', { items: result }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
 router.get('/count/:projectID/:patientID', async (req, res) => {
 
     const query = 

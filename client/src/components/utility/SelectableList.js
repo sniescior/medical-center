@@ -35,12 +35,10 @@ function ListItem(props) {
 export default function SelectableList(props) {
     const [loader, setLoader] = useState(false);
 
-    const { refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, items, setItems } = props;
+    const { refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
 
     useEffect(() => {
-        if(elementIDState === '') {
-            refreshList(setLoader, setError);
-        }
+        refreshList(setLoader, setError);
     }, [elementIDState, titleQuery]);
 
     const unSelectItem = (id) => {
