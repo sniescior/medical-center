@@ -67,17 +67,23 @@ router.get('/examinations/:orderID', async (req, res) => {
     var query = ``;
     
     if(parseInt(req.query.assigned)) {
-        console.log('Return only assigned exminations');
         query = 
-        `SELECT ord.title, exam_ord.order_id, exam_ord.examination_id, exam.title, exam.description, exam_ord.result FROM orders ord, examinations exam, examinations_order exam_ord
-        WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} AND ord.order_id = exam_ord.order_id AND exam_ord.examination_id = exam.examination_id
-        ORDER BY ord.title`;
+            `SELECT ord.title, exam_ord.order_id, exam_ord.examination_id, exam.title, exam.description, exam_ord.result FROM orders ord, examinations exam, examinations_order exam_ord
+            WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} 
+            AND ord.order_id = exam_ord.order_id 
+            AND exam_ord.examination_id = exam.examination_id
+            AND exam.title LIKE '%${req.query.titleQuery}%'
+            ORDER BY ord.title`;
     } else {
-        console.log('Return all assigned exminations');
         query = 
-        `SELECT * FROM examinations WHERE examination_id NOT IN ( SELECT exam_ord.examination_id FROM orders ord, examinations exam, examinations_order exam_ord
-         WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} AND ord.order_id = exam_ord.order_id AND exam_ord.examination_id = exam.examination_id
-         ORDER BY ord.title )`;
+            `SELECT * FROM examinations e 
+            WHERE examination_id NOT IN (
+                SELECT exam_ord.examination_id FROM orders ord, examinations exam, examinations_order exam_ord
+                WHERE exam_ord.order_id = ${parseInt(req.params.orderID)} 
+                AND ord.order_id = exam_ord.order_id 
+                AND exam_ord.examination_id = exam.examination_id
+            )
+            AND e.title LIKE '%${req.query.titleQuery}%'`;
     }
 
     database.query(query, (err, result) => {

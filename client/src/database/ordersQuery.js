@@ -7,21 +7,27 @@
 
 export const getArrayQuery = (urlString, params, setArray, setError, setLoader) => {
     setLoader(true);
-    fetch(urlString + params, {
-        method: 'GET'
-    }).then(
-        response => {
-            if(response.ok) { return response.json(); }
-            throw (response.status);
+
+    return new Promise((resolve, reject) => {
+        fetch(urlString + params, {
+            method: 'GET'
+        }).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+            ).then(data => {
+                setLoader(false);
+                setArray(data.data.items);
+                resolve(true);
+            }).catch((error) => {
+                setError({
+                    statusCode: error
+                });
+                resolve(true);
+            });
         }
-    ).then(data => {
-        setLoader(false);
-        setArray(data.data.items);
-    }).catch((error) => {
-        setError({
-            statusCode: error
-        });
-    });
+    )
 }
 
 export const getItemsCount = (urlString, params, setCount, setError, setLoader) => {

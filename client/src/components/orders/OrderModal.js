@@ -15,13 +15,20 @@ function ExaminationsTab(props) {
     // For fetching data
     const [addedItems, setAddedItems] = useState([]);
     const [items, setItems] = useState([]);
+    const [elementID, setElementID] = useState(elementIDState);
 
     // For displaying converted data in selectable list
     const [listItems, setListItems] = useState([]);
     const [addedListItems, setAddedListItems] = useState([]);
 
     useEffect(() => {
-        if(!modalOpened) { setSelectedItems(new Set()); }
+        if(!modalOpened) { 
+            setSelectedItems(new Set());
+            setAddedItems([]);
+            setElementID(null);
+            setTitleQuery('');
+        }
+
     }, [modalOpened]);
 
     useEffect(() => {
@@ -50,7 +57,7 @@ function ExaminationsTab(props) {
             setAddedListItems(convertedItems);
         }
 
-    }, [items, addedItems]);
+    }, [items, addedItems, titleQuery]);
 
     const refreshList = (setLoader, setError) => {
         if(elementIDState) {
