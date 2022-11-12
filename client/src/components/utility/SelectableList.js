@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getArrayQuery } from "../../database/ordersQuery";
 import "../../styles/list/list.css";
 
 function AddedListItem(props) {
@@ -15,38 +14,32 @@ function ListItem(props) {
     const { item, selectedItems, selectItem, unSelectItem } = props;
 
     const ifSelected = (id) => {
-        if(selectedItems.has(id)) {
-            return true;
-        } else {
-            return false;
-        }
+        if(selectedItems.has(id)) { return true; }
+        return false;
     }
 
     return (
-        <li className={ifSelected(item.examination_id) ? "selected" : ""} onClick={() => { 
-            if(ifSelected(item.examination_id)) {
-                unSelectItem(item.examination_id);
+        <li className={ifSelected(item.id) ? "selected" : ""} onClick={() => { 
+            if(ifSelected(item.id)) {
+                unSelectItem(item.id);
             } else {
-                selectItem(item.examination_id);
+                selectItem(item.id);
             }
         }}>
             <p>{item.title}</p>
-            <i className={!ifSelected(item.examination_id) ? "bi bi-plus-lg" : "bi bi-dash-lg"}></i>
+            <i className={!ifSelected(item.id) ? "bi bi-plus-lg" : "bi bi-dash-lg"}></i>
         </li>
     );
 }
 
 export default function SelectableList(props) {
-    const [titleQuery, setTitleQuery] = useState('');
-    const [addedItems, setAddedItems] = useState([]);
-    const [items, setItems] = useState([]);
     const [loader, setLoader] = useState(false);
 
-    const { elementIDState, setError, selectedItems, setSelectedItems } = props;
+    const { refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, items, setItems } = props;
 
     useEffect(() => {
         if(elementIDState === '') {
-            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setItems, setError, setLoader);
+            refreshList(setLoader, setError);
         }
     }, [elementIDState, titleQuery]);
 

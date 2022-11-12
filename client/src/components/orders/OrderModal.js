@@ -1,18 +1,57 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
-import { addItem, deleteItem } from "../../database/ordersQuery";
+import { addItem, deleteItem, getArrayQuery } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
 import ModalForm from "../utility/ModalForm";
 import SelectableList from "../utility/SelectableList";
 
 function ExaminationsTab(props) {
-    const { elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+    const { modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+
+    const [titleQuery, setTitleQuery] = useState('');
+    const [addedItems, setAddedItems] = useState([]);
+    const [items, setItems] = useState([]);
+    const [listItems, setListItems] = useState([]);
+
+    useEffect(() => {
+        if(!modalOpened) {
+            setSelectedItems(new Set());
+        }
+    }, [modalOpened]);
+
+    useEffect(() => {
+        let convertedItems = [];
+        
+        // Converting item list to make selectable list universal 
+        convertedItems = items.map(item => {
+            return {
+                id: item.examination_id,
+                title: item.title
+            }
+        });
+
+        setListItems(convertedItems);
+    }, [items]);
+
+    const refreshList = (setLoader, setError) => {
+        getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setItems, setError, setLoader);
+    }
 
     return (
         <div className="modal-content-wrapper">
-            <SelectableList setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={elementIDState} />
+            <SelectableList 
+                setActiveTab={setActiveTab} 
+                selectedItems={selectedItems} 
+                setSelectedItems={setSelectedItems} 
+                elementIDState={elementIDState} 
+                titleQuery={titleQuery}
+                setTitleQuery={setTitleQuery}
+                addedItems={addedItems}
+                items={listItems}
+                setItems={setItems} 
+                refreshList={refreshList} />
         </div>
     );
 }
@@ -20,7 +59,7 @@ function ExaminationsTab(props) {
 export default function OrderModal(props) {
     const params = useParams();
     const navigate = useNavigate();
-    const { modalData, setModalOpened, setToastMessage, participantID } = props;
+    const { modalOpened, modalData, setModalOpened, setToastMessage, participantID } = props;
     
     const [projectID, setProjectID] = useState(params.projectID);
     const [name, setName] = useState(false);
@@ -95,7 +134,7 @@ export default function OrderModal(props) {
             id: 1,
             title: 'Badania',
             icon: 'bi bi-activity',
-            component: <ExaminationsTab setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+            component: <ExaminationsTab modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
         },
     ];
 
