@@ -31,7 +31,7 @@ export default function TableSummary(props) {
         );
     } else {
         return (
-            <EmptyTable message={"Nie znaleziono wyników spełniających podane kryteria"} />
+            <EmptyTable tableLoader={props.tableLoader} message={"Nie znaleziono wyników spełniających podane kryteria"} />
         );
     }
 }

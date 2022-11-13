@@ -9,6 +9,9 @@
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 10px;
+  min-height: -webkit-fit-content;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
 }
 .table-wrapper table {
   overflow-y: hidden;
@@ -16,6 +19,7 @@
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 12px;
+  position: relative;
 }
 .table-wrapper table thead tr {
   background-color: rgba(255, 212, 132, 0.8156862745);
@@ -140,16 +144,90 @@
   padding: 12px 15px;
   white-space: nowrap;
 }
+@-webkit-keyframes onLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes onLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.table-wrapper table tbody {
+  opacity: 1;
+}
+.table-wrapper table tbody.hide {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.table-wrapper table tbody.table-loader {
+  width: 100%;
+  pointer-events: none;
+  cursor: default;
+}
+.table-wrapper table tbody.table-loader.none {
+  position: absolute;
+  display: none;
+  z-index: -100;
+}
+.table-wrapper table tbody.table-loader.none tr {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+}
+.table-wrapper table tbody.table-loader.none tr:nth-of-type(even) {
+  -webkit-animation: none;
+          animation: none;
+}
+.table-wrapper table tbody.table-loader.none tr:nth-of-type(odd) {
+  -webkit-animation: none;
+          animation: none;
+}
+@-webkit-keyframes table-loader-animation-even {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: rgba(238, 238, 238, 0.65);
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+@keyframes table-loader-animation-even {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: rgba(238, 238, 238, 0.65);
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+.table-wrapper table tbody.table-loader tr {
+  width: 100%;
+  color: transparent;
+}
+.table-wrapper table tbody.table-loader tr:nth-of-type(even) {
+  -webkit-animation: table-loader-animation-even 2s infinite;
+          animation: table-loader-animation-even 2s infinite;
+}
 .table-wrapper table tbody tr {
   cursor: pointer;
   border-bottom: 1px solid #dddddd;
+  opacity: 1;
   transition: 0.2s ease-in-out;
 }
 .table-wrapper table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
-}
-.table-wrapper table tbody tr:last-of-type {
-  border-bottom: 5px solid rgba(255, 212, 132, 0.8156862745);
 }
 .table-wrapper table tbody tr:hover {
   background-color: #dddddd;

@@ -17,6 +17,9 @@ export default function Orders(props) {
     const [addDateQuery, setAddDateQuery] = useState('');
     const [completionDateQuery, setCompletionDateQuery] = useState('');
 
+    const [tableLoader, setTableLoader] = useState(true);
+    const [paginationLoader, setPaginationLoader] = useState(false);
+
     const searchParams = new URLSearchParams({
         page: pageNumber - 1,               // requested page number (handled by server)
         count: pageSize,                    // patients number to return on single page
@@ -66,7 +69,7 @@ export default function Orders(props) {
     const [headerData, setHeaderData] = useState(defaultHeaderData);
 
     useEffect(() => {
-        getItemsCount(`/api/orders/count/${props.projectID}/${props.patientID}?`, searchParams, setOrdersCount, props.setError, props.setLoader);
+        getItemsCount(`/api/orders/count/${props.projectID}/${props.patientID}?`, searchParams, setOrdersCount, props.setError, setPaginationLoader);
     }, []);
     
     useEffect(() => {
@@ -75,7 +78,19 @@ export default function Orders(props) {
     }, [ordersCount, pageSize]);
     
     useEffect(() => {
-        getArrayQuery(`/api/orders/${props.projectID}/${props.patientID}?`, searchParams, setOrders, props.setError, props.setLoader);
+        let ignore = false;
+        
+        if(!ignore) { setTableLoader(true); }
+
+        getArrayQuery(`/api/orders/${props.projectID}/${props.patientID}?`, searchParams, props.setError, () => {})
+        .then((data) => {
+            if(!ignore) { 
+                setOrders(data);
+                setTableLoader(false);
+            }
+        });
+
+        return () => { ignore = true; }
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, titleQuery, addDateQuery, completionDateQuery]);
     
     useEffect(() => {
@@ -85,6 +100,9 @@ export default function Orders(props) {
 
     return (
         <OrderTable
+            tableLoader={tableLoader}
+            paginationLoader={paginationLoader}
+
             headerData={headerData}
 
             orderByColumn={orderByColumn}

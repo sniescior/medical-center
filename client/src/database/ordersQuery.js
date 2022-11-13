@@ -5,27 +5,29 @@
  * 
  */
 
-export const getArrayQuery = (urlString, params, setArray, setError, setLoader) => {
+export const getArrayQuery = (urlString, params, setError, setLoader) => {
     setLoader(true);
 
     return new Promise((resolve, reject) => {
-        fetch(urlString + params, {
-            method: 'GET'
-        }).then(
-            response => {
-                if(response.ok) { return response.json(); }
-                throw (response.status);
-            }
-            ).then(data => {
-                setLoader(false);
-                setArray(data.data.items);
-                resolve(true);
-            }).catch((error) => {
-                setError({
-                    statusCode: error
+        setTimeout(() => {
+
+            fetch(urlString + params, {
+                method: 'GET'
+            }).then(
+                response => {
+                    if(response.ok) { return response.json(); }
+                    throw (response.status);
+                }
+                ).then(data => {
+                    setLoader(false);
+                    resolve(data.data.items);
+                }).catch((error) => {
+                    setError({
+                        statusCode: error
+                    });
+                    resolve(true);
                 });
-                resolve(true);
-            });
+            }, 0);
         }
     )
 }

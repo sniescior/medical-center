@@ -58,10 +58,22 @@ function ExaminationsTab(props) {
 
     const refreshList = (setLoader, setError) => {
         if(elementIDState) {
-            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), setAddedItems, setError, setLoader);
-            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), setItems, setError, setLoader);
+            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), setError, setLoader)
+                .then((data) => {
+                    setAddedItems(data);
+                });
+
+            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), setError, setLoader)
+                .then((data) => {
+                    setItems(data);
+                });
         } else {
-            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setItems, setError, setLoader);
+            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setError, setLoader)
+                .then((data) => {
+                    setItems(data);
+                });
+
+            setAddedListItems([]);
         }
     }
 

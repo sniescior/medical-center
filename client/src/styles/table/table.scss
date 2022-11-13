@@ -14,6 +14,7 @@ $table_primary_hover: #ffc65c7d;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 10px;
+    min-height: fit-content;
     
     table {
         overflow-y: hidden;
@@ -21,6 +22,7 @@ $table_primary_hover: #ffc65c7d;
         border-collapse: collapse;
         width: 100%;
         margin-bottom: 12px;
+        position: relative;
         
         thead {
             tr {
@@ -31,7 +33,7 @@ $table_primary_hover: #ffc65c7d;
                 padding: 12px 15px;
                 cursor: pointer;
                 white-space: nowrap;
-
+                
                 &.search-row {
                     background-color: transparent;
                     border-bottom: 1px solid #dddddd;
@@ -171,19 +173,74 @@ $table_primary_hover: #ffc65c7d;
             padding: 12px 15px;
             white-space: nowrap;
         }
+
+        @keyframes onLoad {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
         
         tbody {
+            opacity: 1;
+            
+            &.hide {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            &.table-loader {
+                width: 100%;
+                pointer-events: none;
+                cursor: default;
+
+                &.none {
+                    position: absolute;
+                    display: none;
+                    z-index: -100;
+
+                    tr {
+                        background-color: transparent;
+                        border-bottom: 1px solid transparent;
+
+                        &:nth-of-type(even) {
+                            animation: none;
+                        }
+    
+                        &:nth-of-type(odd) {
+                            animation: none;
+                        }
+                    }
+                }
+
+                @keyframes table-loader-animation-even {
+                    0% { background-color: #fff }
+                    50% { background-color: rgba(238, 238, 238, 0.65) }
+                    100% { background-color: #fff }
+                }
+
+                tr {
+                    width: 100%;  
+                    color: transparent;
+
+                    &:nth-of-type(even) {
+                        animation: table-loader-animation-even 2s infinite;
+                    }
+                }
+            }
+
             tr {
                 cursor: pointer;
                 border-bottom: 1px solid #dddddd;
+                opacity: 1;
                 transition: .2s ease-in-out;
                 
                 &:nth-of-type(even) {
                     background-color: #f3f3f3;
-                }
-                
-                &:last-of-type {
-                    border-bottom: 5px solid $table_primary;
                 }
 
                 &:hover {
