@@ -25,6 +25,7 @@ function ExaminationsTab(props) {
         if(!modalOpened) { 
             setElementID(null);
             setTitleQuery('');
+            setSelectedItems(new Set());
         }
     }, [modalOpened]);
 
