@@ -95,7 +95,7 @@ function PatientsTab(props) {
     }
 
     const openModal = (element) => {
-        setModalData({ patient_id: element.id, project_id: projectID, title: `Dodać pacjenta (${element.first_name} ${element.last_name}) do projektu?` });
+        setModalData({ patient_id: element.id, project_id: projectID, title: `Dodać pacjenta do projektu?`, subtitle: `${element.first_name} ${element.last_name}` });
         setModalOpened(true);
     }
 

@@ -204,6 +204,16 @@
 .overlay .modal.alert .button-wrapper {
   justify-content: center;
 }
+.overlay .modal.alert .modal-header h2 {
+  font-weight: 500;
+  display: grid;
+  gap: 3px;
+  margin-left: 0;
+}
+.overlay .modal.alert .modal-header h2 span {
+  color: rgba(24, 39, 71, 0.6078431373);
+  font-size: 0.9em;
+}
 @media (max-width: 875px) {
   .overlay .modal {
     min-width: unset;

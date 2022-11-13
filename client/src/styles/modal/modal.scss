@@ -239,6 +239,20 @@ $dimmed_font_color: #1827479b;
             .button-wrapper {
                 justify-content: center;
             }
+
+            .modal-header {
+                h2 {
+                    font-weight: 500;
+                    display: grid;
+                    gap: 3px;
+                    margin-left: 0;
+
+                    span {
+                        color: $dimmed_font_color;
+                        font-size: 0.9em;
+                    }
+                }
+            }
         }
 
         @media (max-width: 875px) {

@@ -7,7 +7,12 @@ export default function AlertModal(props) {
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal alert">
                 <div className="modal-header">
-                    <h2>{modalData.title}</h2>
+                    <h2>
+                        {modalData.title}
+                        <span>
+                            {modalData.subtitle}
+                        </span>
+                    </h2>
                     <button 
                         className={loader ? "hidden" : ""}
                         onClick={() => { props.setModalOpened(false); }}>
