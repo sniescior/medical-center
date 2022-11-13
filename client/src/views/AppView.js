@@ -63,7 +63,6 @@ export default function AppView() {
   useEffect(() => {
     const message = localStorage.getItem('message');
     if(message) { setToastMessage(message); }
-    console.log('DOM loaded', message);
   });
 
   const [menuOpen, setMenuOpen] = useState(

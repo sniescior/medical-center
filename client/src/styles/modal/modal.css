@@ -90,6 +90,23 @@
 .overlay .modal .modal-content-wrapper {
   margin-top: 12px;
 }
+.overlay .modal .modal-content-wrapper.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.overlay .modal .modal-content-wrapper .modal-image {
+  margin-left: 20px;
+  width: 200px;
+  height: 200px;
+}
+.overlay .modal .modal-content-wrapper p {
+  margin: 0;
+  padding: 0;
+  margin-left: 8px;
+  font-size: 1.1em;
+}
 .overlay .modal .modal-content-wrapper .input-wrapper {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -198,7 +215,7 @@
   }
 }
 .overlay .modal.alert {
-  min-width: unset;
+  min-width: 400px;
   min-height: unset;
 }
 .overlay .modal.alert .button-wrapper {
@@ -222,6 +239,7 @@
     max-height: 100vh;
   }
   .overlay .modal.alert {
+    min-width: unset;
     width: 80%;
     height: unset;
   }

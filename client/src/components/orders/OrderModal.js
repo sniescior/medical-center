@@ -7,6 +7,25 @@ import ModalBody from "../utility/ModalBody";
 import ModalForm from "../utility/ModalForm";
 import SelectableList from "../utility/SelectableList";
 
+function ResultsTab(props) {
+    const { elementIDState } = props;
+
+    if(elementIDState === '') {
+        return (
+            <div className="modal-content-wrapper center">
+                <img className="modal-image" src="submit.svg"></img>
+                <p>Zatwierdź zlecenie aby zarejestrować wyniki badań</p>
+            </div>
+        );
+    } else {
+        return (
+            <div className="modal-content-wrapper">
+                <p>Wprowadź resultat poszczególnych badań w ramach zlecenia</p>
+            </div>
+        );
+    }
+}
+
 function ExaminationsTab(props) {
     const { modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
@@ -199,7 +218,7 @@ export default function OrderModal(props) {
             id: 2,
             title: 'Wyniki',
             icon: 'bi bi-file-spreadsheet',
-            component: <div className="modal-content-wrapper"><h2>Wyniki</h2></div>
+            component: <ResultsTab modalOpened={modalOpened} setActiveTab={setActiveTab} elementIDState={modalData.order_id} />
         },
     ];
 

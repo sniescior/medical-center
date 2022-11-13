@@ -173,16 +173,6 @@ $table_primary_hover: #ffc65c7d;
             padding: 12px 15px;
             white-space: nowrap;
         }
-
-        @keyframes onLoad {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
         
         tbody {
             opacity: 1;
@@ -218,9 +208,9 @@ $table_primary_hover: #ffc65c7d;
                 }
 
                 @keyframes table-loader-animation-even {
-                    0% { background-color: #fff }
+                    0% { background-color: transparent }
                     50% { background-color: rgba(238, 238, 238, 0.65) }
-                    100% { background-color: #fff }
+                    100% { background-color: transparent }
                 }
 
                 tr {
@@ -228,7 +218,7 @@ $table_primary_hover: #ffc65c7d;
                     color: transparent;
 
                     &:nth-of-type(even) {
-                        animation: table-loader-animation-even 2s infinite;
+                        animation: table-loader-animation-even 1.4s infinite;
                     }
                 }
             }

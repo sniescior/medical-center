@@ -107,6 +107,26 @@ $dimmed_font_color: #1827479b;
         .modal-content-wrapper {
             margin-top: 12px;
 
+            &.center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            .modal-image {
+                margin-left: 20px;
+                width: 200px;
+                height: 200px;
+            }
+
+            p {
+                margin: 0;
+                padding: 0;
+                margin-left: 8px;
+                font-size: 1.1em;
+            }
+
             .input-wrapper {
                 display: grid;
                 grid-template-columns: 1fr 2fr;
@@ -233,7 +253,7 @@ $dimmed_font_color: #1827479b;
         }
 
         &.alert {
-            min-width: unset;
+            min-width: 400px;
             min-height: unset;
 
             .button-wrapper {
@@ -262,6 +282,7 @@ $dimmed_font_color: #1827479b;
             max-height: 100vh;
             
             &.alert {
+                min-width: unset;
                 width: 80%;
                 height: unset;
                 

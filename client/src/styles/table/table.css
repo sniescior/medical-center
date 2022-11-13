@@ -144,22 +144,6 @@
   padding: 12px 15px;
   white-space: nowrap;
 }
-@-webkit-keyframes onLoad {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes onLoad {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 .table-wrapper table tbody {
   opacity: 1;
 }
@@ -192,24 +176,24 @@
 }
 @-webkit-keyframes table-loader-animation-even {
   0% {
-    background-color: #fff;
+    background-color: transparent;
   }
   50% {
     background-color: rgba(238, 238, 238, 0.65);
   }
   100% {
-    background-color: #fff;
+    background-color: transparent;
   }
 }
 @keyframes table-loader-animation-even {
   0% {
-    background-color: #fff;
+    background-color: transparent;
   }
   50% {
     background-color: rgba(238, 238, 238, 0.65);
   }
   100% {
-    background-color: #fff;
+    background-color: transparent;
   }
 }
 .table-wrapper table tbody.table-loader tr {
@@ -217,8 +201,8 @@
   color: transparent;
 }
 .table-wrapper table tbody.table-loader tr:nth-of-type(even) {
-  -webkit-animation: table-loader-animation-even 2s infinite;
-          animation: table-loader-animation-even 2s infinite;
+  -webkit-animation: table-loader-animation-even 1.4s infinite;
+          animation: table-loader-animation-even 1.4s infinite;
 }
 .table-wrapper table tbody tr {
   cursor: pointer;
