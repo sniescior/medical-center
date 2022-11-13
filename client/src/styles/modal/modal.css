@@ -32,6 +32,17 @@
   box-sizing: border-box;
   overflow-y: scroll;
 }
+.overlay .modal .modal-message {
+  padding: 16px 20px;
+  border: 1px solid #ffecb5;
+  background-color: #fff3cd;
+  color: #664d03;
+  margin: 0 20px;
+  border-radius: 8px;
+}
+.overlay .modal .modal-message.hidden {
+  display: none;
+}
 .overlay .modal.high {
   max-height: 90vh;
   min-height: 660px;

@@ -104,7 +104,7 @@ function ExaminationsTab(props) {
         .then((data) => {
             setToastMessage(data.message);
             setRefreshState(!refreshState);
-        })
+        });
     }
 
     return (
@@ -136,6 +136,7 @@ export default function OrderModal(props) {
     const [projectID, setProjectID] = useState(params.projectID);
     const [name, setName] = useState(false);
     const [completionDate, setCompletionDate] = useState('');
+    const [consent, setConsent] = useState(1);
 
     const [modalTitle, setModalTitle] = useState(`Modyfikacja zlecenia`);
     const [modalSubtitle, setModalSubtitle] = useState('Podtytuł');
@@ -167,6 +168,7 @@ export default function OrderModal(props) {
             setModalTitle('Modyfikacja zlecenia');
             setName(modalData.title);
             setModalSubtitle(modalData.title);
+            setConsent(modalData.consent === 1 ? true : false);
 
             try {
                 if(modalData.completion_date) {
@@ -236,7 +238,22 @@ export default function OrderModal(props) {
 
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody selectedItems={selectedItems} setSelectedItems={setSelectedItems} tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} title={modalTitle} subtitle={modalSubtitle} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
+            <ModalBody 
+                modalMessage={modalData.consent === 0 ? "Nie można wprowadzić zmian. Pacjent nie wyraził zgody." : ""}
+                saveDisabled={modalData.consent}
+                saveTooltip={"Nie można zapisać"}
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                tabs={tabs} activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                title={modalTitle}
+                subtitle={modalSubtitle}
+                saveAction={saveOrderAction}
+                deleteAction={deleteOrderAction}
+                setModalOpened={setModalOpened}
+                elementIDState={modalData.order_id}
+                inputs={inputs}
+                loader={loader} />
         </div>
     );
 };

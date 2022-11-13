@@ -89,6 +89,53 @@ body {
         font-size: 1em;
         color: $font_color;
         background-color: transparent;
+        position: relative;
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(17, 17, 17, 0.75);
+            margin: 0;
+            color: #eee;
+            padding: 8px 12px;
+            opacity: 0;
+            pointer-events: none;
+            line-height: 1;
+            display: inline-block;
+            border-radius: 8px;
+
+            &.hidden {
+                display: none;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                transform: translateY(-50%);
+                width: 0;
+                height: 0;
+            }
+
+
+            &.left {
+                top: 50%;
+                left: -12px;
+                transform: translate(-100%, -50%);
+
+                &::after {
+                    right: -8px;
+                    top: 50%;
+                    border-top: 8px solid transparent;
+                    border-bottom: 8px solid transparent;
+                    border-left: 8px solid rgba(17, 17, 17, 0.75);
+                }
+            }
+        }
+
+        &:hover {
+            .tooltip {
+                opacity: 1;
+            }
+        }
 
         &.action-button {
             display: flex;
@@ -167,9 +214,9 @@ body {
         }
 
         &.button-disabled {
-            pointer-events: none;
             color: $dimmed_font_color;
             white-space: nowrap;
+            cursor: default;
         }
 
         &.button-icon {

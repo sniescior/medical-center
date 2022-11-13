@@ -80,6 +80,44 @@ body button {
   font-size: 1em;
   color: #182747;
   background-color: transparent;
+  position: relative;
+}
+body button .tooltip {
+  position: absolute;
+  background-color: rgba(17, 17, 17, 0.75);
+  margin: 0;
+  color: #eee;
+  padding: 8px 12px;
+  opacity: 0;
+  pointer-events: none;
+  line-height: 1;
+  display: inline-block;
+  border-radius: 8px;
+}
+body button .tooltip.hidden {
+  display: none;
+}
+body button .tooltip::after {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+}
+body button .tooltip.left {
+  top: 50%;
+  left: -12px;
+  transform: translate(-100%, -50%);
+}
+body button .tooltip.left::after {
+  right: -8px;
+  top: 50%;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid rgba(17, 17, 17, 0.75);
+}
+body button:hover .tooltip {
+  opacity: 1;
 }
 body button.action-button {
   display: flex;
@@ -148,9 +186,9 @@ body button.hidden {
   display: none;
 }
 body button.button-disabled {
-  pointer-events: none;
   color: rgba(24, 39, 71, 0.6078431373);
   white-space: nowrap;
+  cursor: default;
 }
 body button.button-icon {
   display: flex;

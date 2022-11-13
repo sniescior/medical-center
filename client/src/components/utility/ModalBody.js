@@ -4,7 +4,7 @@ import ModalHeader from "./ModalHeader";
 import TabsHeader from "./TabsHeader";
 
 export default function ModalBody(props) {
-    const { title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
+    const { modalMessage, title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
 
     if(!tabs) {
         return (
@@ -27,14 +27,19 @@ export default function ModalBody(props) {
                         );
                     })}
                 </div>
-                <div className="button-wrapper between">
-                    {elementIDState ? 
-                        <button className="button-secondary button-danger button-icon" onClick={() => { deleteAction(); }}><i className="bi bi-trash3"></i>Usuń</button>
-                        : <></>
-                    }
-                    <div className="button-wrapper">
-                        <button className="button-secondary" onClick={() => { setModalOpened(false); setActiveTab(0); }}>Odrzuć zmiany</button>
-                        <button className="button-primary" onClick={() => { saveAction(); }}>Zapisz</button>
+                <div>
+                    <div className={modalMessage !== '' ? "modal-message" : "modal-message hidden"}>
+                        {modalMessage}
+                    </div>
+                    <div className="button-wrapper between">
+                        {elementIDState ? 
+                            <button className="button-secondary button-danger button-icon" onClick={() => { deleteAction(); }}><i className="bi bi-trash3"></i>Usuń</button>
+                            : <></>
+                        }
+                        <div className="button-wrapper">
+                            <button className="button-secondary" onClick={() => { setModalOpened(false); setActiveTab(0); }}>Odrzuć zmiany</button>
+                            <button className={props.saveDisabled === 0 ? "button-primary button-disabled" : "button-primary"} onClick={() => { saveAction(); }}>Zapisz</button>
+                        </div>
                     </div>
                 </div>
             </div>

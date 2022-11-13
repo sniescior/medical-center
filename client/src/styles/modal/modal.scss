@@ -36,6 +36,19 @@ $dimmed_font_color: #1827479b;
         box-sizing: border-box;
         overflow-y: scroll;
 
+        .modal-message {
+            padding: 16px 20px;
+            border: 1px solid #ffecb5;
+            background-color: #fff3cd;
+            color: #664d03;
+            margin: 0 20px;
+            border-radius: 8px;
+
+            &.hidden {
+                display: none;
+            }
+        }
+
         &.high {
             max-height: 90vh;
             min-height: 660px;

@@ -65,7 +65,14 @@ export default function ParticipantDetail(props) {
                 </div>
 
                 <div className="button-wrapper right">
-                    <button className={participant.consent ? "button-primary" : "button-primary button-disabled"} onClick={() => { openOrderModal({ order_id: '' }); }}><i className="bi bi-plus-lg"></i>Dodaj zlecenie</button>
+                    <button className={participant.consent ? "button-primary" : "button-primary button-disabled"} onClick={() => { 
+                        if(participant.consent) { openOrderModal({ order_id: '' }); }}}>
+                        <i className="bi bi-plus-lg"></i>
+                        Dodaj zlecenie
+                        <span className={!participant.consent ? "tooltip left" : "tooltip hidden"}>
+                            Pacjent nie wyraził zgody
+                        </span>
+                    </button>
                 </div>
 
                 <Orders 
@@ -77,7 +84,7 @@ export default function ParticipantDetail(props) {
                     setError={setError}
                     openModal={openOrderModal} />
 
-                <OrderModal 
+                <OrderModal
                     modalOpened={orderModalOpened}
                     setModalOpened={setOrderModalOpened}
                     modalData={orderModalData}
