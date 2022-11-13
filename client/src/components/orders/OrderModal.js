@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
-import { addItem, deleteItem, getArrayQuery } from "../../database/ordersQuery";
+import { addItem, deleteItem, getArrayQuery, updateItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
 import ModalForm from "../utility/ModalForm";
@@ -118,10 +118,13 @@ export default function OrderModal(props) {
 
     const saveOrderAction = () => { 
         if(modalData.order_id) {
-            console.log('Updating order', name, completionDate, selectedItems);
-            console.log(selectedItems);
+            updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: name, completionDate: completionDate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
+                .then((data) => {
+                    setToastMessage(data.message);
+                    window.location.reload();
+                });
+            
         } else {
-            console.log('Adding new order', name, completionDate, selectedItems);
             const params = { title: name, completionDate: completionDate, examinations: Array.from(selectedItems), participantID: participantID };
             addItem('/api/orders/add?', params, setToastMessage, setLoader);
             console.log(selectedItems);
@@ -133,7 +136,22 @@ export default function OrderModal(props) {
             setModalTitle('Modyfikacja zlecenia');
             setName(modalData.title);
             setModalSubtitle(modalData.title);
-            setCompletionDate(modalData.completion_date);
+
+            try {
+                if(modalData.completion_date) {
+
+                    const date = new Date(modalData.completion_date).toLocaleDateString();
+                    
+                    var [day, month, year] = date.split('.');
+                    if(month.length < 2) { month = '0' + month; }
+                    if(day.length < 2) { day = '0' + day; }
+                    
+                    setCompletionDate(`${year}-${month}-${day}`);
+                } else {
+                    setCompletionDate('');
+                }
+            } catch(err) {}
+            
         } else {
             setName('');
             setCompletionDate('');
@@ -176,6 +194,12 @@ export default function OrderModal(props) {
             title: 'Badania',
             icon: 'bi bi-activity',
             component: <ExaminationsTab modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+        },
+        {
+            id: 2,
+            title: 'Wyniki',
+            icon: 'bi bi-file-spreadsheet',
+            component: <div className="modal-content-wrapper"><h2>Wyniki</h2></div>
         },
     ];
 

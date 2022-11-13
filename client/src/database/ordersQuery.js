@@ -55,22 +55,24 @@ export const getItemsCount = (urlString, params, setCount, setError, setLoader) 
  */
 
 export const updateItem = (urlString, params, setToastMessage, setLoader) => {
-    setLoader(false);
-    fetch(urlString, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params)
-    }).then(
-        response => {
-            if(response.ok) { return response.json(); }
-            throw (response.status);
-        }
-    ).then(data => {
-        setLoader(false);
-        console.log(data);
-    }).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
-        setLoader(false);
+    setLoader(true);
+    return new Promise((resolve, reject) => {
+        fetch(urlString, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(params)
+        }).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+        ).then(data => {
+            setLoader(false);
+            resolve(data);
+        }).catch((error) => {
+            setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+            setLoader(false);
+        });
     });
 }
 

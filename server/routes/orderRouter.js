@@ -161,4 +161,28 @@ router.delete('/:orderID', async (req, res) => {
     });
 });
 
+/**
+ * 
+ * -------------------------------- PUT METHODS --------------------------------
+ * 
+ */
+
+router.put('/update-order', async (req, res) => {
+    Array.from(req.body.examinations).forEach(examinationID => {
+        const query = `INSERT INTO examinations_order VALUES (${examinationID}, ${req.body.orderID}, "")`;
+
+        database.query(query, (err, result) => {
+            try {
+                if(err) { throw new Error(`Error running query:\n ${err}`); }
+            } catch(err) {
+                console.log(err);
+                res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+                return;
+            }
+        });
+    })
+
+    res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zlecenie zostało zaktualizowane'));
+});
+
 module.exports = router;
