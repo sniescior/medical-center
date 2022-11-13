@@ -27,9 +27,15 @@ export default function ModalBody(props) {
                         );
                     })}
                 </div>
-                <div className="button-wrapper">
-                    <button className="button-secondary" onClick={() => { setModalOpened(false); setActiveTab(0); }}>Odrzuć zmiany</button>
-                    <button className="button-primary" onClick={() => { saveAction(); }}>Zapisz</button>
+                <div className="button-wrapper between">
+                    {elementIDState ? 
+                        <button className="button-secondary button-danger button-icon" onClick={() => { deleteAction(); }}><i className="bi bi-trash3"></i>Usuń</button>
+                        : <></>
+                    }
+                    <div className="button-wrapper">
+                        <button className="button-secondary" onClick={() => { setModalOpened(false); setActiveTab(0); }}>Odrzuć zmiany</button>
+                        <button className="button-primary" onClick={() => { saveAction(); }}>Zapisz</button>
+                    </div>
                 </div>
             </div>
         );
