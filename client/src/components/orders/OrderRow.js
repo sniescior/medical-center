@@ -2,11 +2,11 @@ import React from "react";
 
 export default function OrderRow(props) {
     const raw_add_date = new Date(props.element.add_date);
-    const add_date = { year: raw_add_date.getFullYear(), month: raw_add_date.getMonth(), date: raw_add_date.getDate() };
+    const add_date = { year: raw_add_date.getFullYear(), month: raw_add_date.getMonth() + 1, date: raw_add_date.getDate() };
 
     if(props.element.completion_date) {
         const raw_compl_date = new Date(props.element.completion_date);
-        const compl_date = { year: raw_compl_date.getFullYear(), month: raw_compl_date.getMonth(), date: raw_compl_date.getDate() };
+        const compl_date = { year: raw_compl_date.getFullYear(), month: raw_compl_date.getMonth() + 1, date: raw_compl_date.getDate() };
 
         return (
             <tr onClick={() => { props.openModal(props.element); }} >

@@ -168,10 +168,28 @@ router.delete('/:orderID', async (req, res) => {
  */
 
 router.put('/update-order', async (req, res) => {
-    Array.from(req.body.examinations).forEach(examinationID => {
-        const query = `INSERT INTO examinations_order VALUES (${examinationID}, ${req.body.orderID}, "")`;
+    var updateInfoQuery = ``;
+    
+    if(req.body.completionDate !== '') {
+        updateInfoQuery = `UPDATE orders SET title = '${req.body.title}', completion_date = STR_TO_DATE('${req.body.completionDate}', '%Y-%m-%d') WHERE order_id = ${req.body.orderID}`;
+    } else {
+        updateInfoQuery = `UPDATE orders SET title = '${req.body.title}' WHERE order_id = ${req.body.orderID}`;
+    }
+    
+    database.query(updateInfoQuery, (err, result) => {
+        try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+            return;
+        }
+    });
 
-        database.query(query, (err, result) => {
+    Array.from(req.body.examinations).forEach(examinationID => {
+        const examinationsQuery = `INSERT INTO examinations_order VALUES (${examinationID}, ${req.body.orderID}, "")`;
+
+        database.query(examinationsQuery, (err, result) => {
             try {
                 if(err) { throw new Error(`Error running query:\n ${err}`); }
             } catch(err) {
