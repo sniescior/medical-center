@@ -184,7 +184,7 @@ router.get('/*', async (req, res) => {
             if(!result[0]) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No patients found', { patients: [], patientsCount: 0 }));
             } else {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patients retrieved', { patients: result, patientsCount: result.length }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Patients retrieved', { items: result, patientsCount: result.length }));
             }
         } catch(err) {
             console.log(err);

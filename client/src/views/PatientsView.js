@@ -9,7 +9,7 @@ import ErrorPage from "../components/utility/ErrorPage";
 export default function PatientsView(props) {
     const { toastMessage, setToastMessage } = props;
 
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
     
     const defaultModalData = { id: '', first_name: '', last_name: '', email: '', address: '', city: '', country: '', date_of_birth: '' }
     const [modalOpened, setModalOpened] = useState(false);
@@ -22,7 +22,9 @@ export default function PatientsView(props) {
         setModalOpened(true);
     }
 
-    const refreshPatients = (searchParams, setPatients) => { fetchPatients(searchParams, setPatients, setLoader, setError); }
+    const refreshPatients = (searchParams, setPatients) => {
+        fetchPatients(searchParams, setPatients, setLoader, setError); 
+    }
     const countAction = (searchParams, setPatientsCount) => { getPatientsCount(searchParams, setPatientsCount); }
     
     if(error.statusCode) {
@@ -39,9 +41,9 @@ export default function PatientsView(props) {
                         </button>
                     </div>
                     
-                    <Patients 
-                        onClickAction={openModal} 
-                        refreshAction={refreshPatients}
+                    <Patients
+                        setError={setError}
+                        onClickAction={openModal}
                         countAction={countAction} />
 
                     <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatients} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />

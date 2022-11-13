@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPatientsCount } from "../../database/patientsQuery";
 import PatientTable from "./PatientTable";
+import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 
 export default function Patients(props) {
 
@@ -23,6 +24,8 @@ export default function Patients(props) {
     const [cityQuery, setCityQuery] = useState('');
     const [countryQuery, setCountryQuery] = useState('');
     const [date_of_birthQuery, setDate_of_birthQuery] = useState('');
+
+    const [tableLoader, setTableLoader] = useState(true);
 
     const searchParams = new URLSearchParams({
         page: pageNumber - 1,               // requested page number (handled by server)
@@ -49,7 +52,20 @@ export default function Patients(props) {
     }, [patientsCount, pageSize]);
     
     useEffect(() => {
-        props.refreshAction(searchParams, setPatients);
+        let ignore = false;
+
+        if(!ignore) { setTableLoader(true); }
+
+        getArrayQuery('/api/patients?', searchParams, props.setError, () => {})
+        .then((data) => {
+            if(!ignore) { 
+                setPatients(data);
+                setTableLoader(false);
+                console.log(data);
+            }
+        });
+
+        return () => { ignore = true; }
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
     var defaultHeaderData = [
@@ -130,6 +146,8 @@ export default function Patients(props) {
 
     return (
         <PatientTable
+            tableLoader={tableLoader}
+            
             headerData={headerData}
 
             orderByColumn={orderByColumn} 

@@ -4,6 +4,7 @@ import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSummary from "../utility/TableSummary";
 import TableSearchRow from "../utility/TableSearchRow";
 import ParticipantRow from "../participants/ParticipantRow";
+import TableLoader from "../utility/TableLoader";
 
 export default function PatientTable(props) {
     return (
@@ -14,7 +15,13 @@ export default function PatientTable(props) {
                         <TableHeaderRow noSort={props.noSort} order={props.order} setOrder={props.setOrder} orderByColumn={props.orderByColumn} setOrderByColumn={props.setOrderByColumn} headerData={props.headerData} />
                         <TableSearchRow headerData={props.headerData} />
                     </thead>
-                    <tbody>
+
+                    <TableLoader
+                        headerData={props.headerData}
+                        tableLoader={props.tableLoader} 
+                        pageSize={props.pageSize} />
+
+                    <tbody className={props.tableLoader ? "hide" : ""}>
                         {props.items.map((element, key) => {
                             if(!props.participants) {
                                 return ( <PatientRow onClickAction={props.onClickAction} element={element} key={key} /> );
@@ -25,6 +32,7 @@ export default function PatientTable(props) {
                     </tbody>
                 </table>
             </div>
+            
             <TableSummary
                 pagesCount={props.pagesCount}
                 totalCount={props.totalCount}
