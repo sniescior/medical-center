@@ -1,4 +1,5 @@
 .selectable-list {
+    position: relative;
     .input-wrapper {
         margin: 0 10px;
     }
@@ -27,6 +28,7 @@
 
             p {
                 margin: 0;
+                transition: .2s ease-in-out;
             }
 
             &:hover {
@@ -34,16 +36,67 @@
             }
             
             &.added {
-                background-color: #fff;
                 background-color: #0d6dfdcd;
                 color: #fff;
                 font-weight: 800;
                 border: 2px solid #0d6dfd57;
+                display: initial;
+                cursor: default;
+                transition: .4s ease-in-out;
+
+                &.active {
+                    .action-wrapper {
+                        opacity: 1;
+                        z-index: 1;
+                        transform: translateY(-10px);
+                    }
+                }
+
+                .header-wrapper {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    i {
+                        cursor: pointer;
+                        transition: .2s ease-in-out;
+                    }
+                }
+
+                .action-wrapper {
+                    pointer-events: none;
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 10px;
+                    left: 0;
+                    right: 0;
+                    background-color: #fff;
+                    transition: .3s ease-in-out;
+                    opacity: 0;
+
+                    p {
+                        color: #111;
+                    }
+
+                    textarea {
+                        width: 100%;
+                        resize: vertical;
+                        min-height: 120px;
+                        max-height: 200px;
+                        background-color: #fff;
+                        border-radius: 12px;
+                        border: 1px solid rgba(99, 99, 99, 0.1);
+                        outline: none;
+                        padding: 8px 10px;
+                        box-sizing: border-box;
+                        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                    }
+                }
             }
 
             &.selected {
                 background-color: #fff;
-                font-weight: 800;
                 border: 2px solid #0d6dfd;
             }
         }

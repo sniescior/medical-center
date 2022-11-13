@@ -7,7 +7,7 @@ $dimmed_font_color: #1827479b;
     position: absolute;
     top: 0;
     right: 0;
-    height: 100vh;
+    bottom: 0;
     width: 100%;
     background-color: rgba(226, 226, 226, 0.6);
     z-index: 1000;
@@ -23,6 +23,7 @@ $dimmed_font_color: #1827479b;
 
     .modal {
         min-width: 600px;
+        max-width: 800px;
         min-height: unset;
         background-color: #fff;
         z-index: 1000;

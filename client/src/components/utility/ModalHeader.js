@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export default function ModalHeader(props) {
     const { title, subtitle, loader, setModalOpened } = props;
@@ -10,7 +10,11 @@ export default function ModalHeader(props) {
             </div>
             <button 
                 className={loader ? "hidden" : ""}
-				onClick={() => { setModalOpened(false); }}>
+				onClick={() => { 
+                    setModalOpened(false);
+
+                    if(props.tabs) { props.setActiveTab(0); }
+                }}>
                     <i className="bi bi-x-lg"></i>
             </button>
             <span className={loader ? "loader spinning" : "loader none"}></span>

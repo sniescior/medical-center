@@ -16,7 +16,7 @@ export default function ModalBody(props) {
     } else {
         return (
             <div className="modal high">
-                <ModalHeader title={title} subtitle={subtitle} setModalOpened={setModalOpened} loader={loader} />
+                <ModalHeader tabs={true} setActiveTab={setActiveTab} title={title} subtitle={subtitle} setModalOpened={setModalOpened} loader={loader} />
                 <div className="modal-tabs-wrapper">
                     <TabsHeader tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                     {tabs.map((tab, key) => {

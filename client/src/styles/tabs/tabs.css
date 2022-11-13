@@ -17,6 +17,7 @@
   color: #182747;
   font-weight: 500;
   padding: 6px 10px 0 10px;
+  margin-bottom: 2px;
 }
 .tabs-header .tab-button i {
   margin-right: 10px;
@@ -47,14 +48,11 @@
   opacity: 0;
   z-index: -100;
   pointer-events: none;
-  transform: translateX(-10px);
-  transition: transform 0.5s ease-in-out;
   position: absolute;
   top: 0;
 }
 .tab-wrapper.active {
   position: relative;
-  transform: translateX(0);
   display: block;
   opacity: 1;
   z-index: 1;

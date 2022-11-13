@@ -23,12 +23,9 @@ function ExaminationsTab(props) {
 
     useEffect(() => {
         if(!modalOpened) { 
-            setSelectedItems(new Set());
-            setAddedItems([]);
             setElementID(null);
             setTitleQuery('');
         }
-
     }, [modalOpened]);
 
     useEffect(() => {
@@ -57,7 +54,7 @@ function ExaminationsTab(props) {
             setAddedListItems(convertedItems);
         }
 
-    }, [items, addedItems, titleQuery]);
+    }, [items, addedItems, titleQuery, modalOpened]);
 
     const refreshList = (setLoader, setError) => {
         if(elementIDState) {
@@ -71,6 +68,7 @@ function ExaminationsTab(props) {
     return (
         <div className="modal-content-wrapper">
             <SelectableList 
+                modalOpened={modalOpened}
                 setActiveTab={setActiveTab} 
                 selectedItems={selectedItems} 
                 setSelectedItems={setSelectedItems} 
@@ -78,6 +76,7 @@ function ExaminationsTab(props) {
                 titleQuery={titleQuery}
                 setTitleQuery={setTitleQuery}
                 addedItems={addedListItems}
+                setAddedItems={setAddedListItems}
                 items={listItems}
                 setItems={setItems} 
                 refreshList={refreshList} />

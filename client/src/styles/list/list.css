@@ -1,3 +1,6 @@
+.selectable-list {
+  position: relative;
+}
 .selectable-list .input-wrapper {
   margin: 0 10px;
 }
@@ -24,20 +27,64 @@
 }
 .selectable-list .list li p {
   margin: 0;
+  transition: 0.2s ease-in-out;
 }
 .selectable-list .list li:hover {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .selectable-list .list li.added {
-  background-color: #fff;
   background-color: rgba(13, 109, 253, 0.8039215686);
   color: #fff;
   font-weight: 800;
   border: 2px solid rgba(13, 109, 253, 0.3411764706);
+  display: initial;
+  cursor: default;
+  transition: 0.4s ease-in-out;
+}
+.selectable-list .list li.added.active .action-wrapper {
+  opacity: 1;
+  z-index: 1;
+  transform: translateY(-10px);
+}
+.selectable-list .list li.added .header-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.selectable-list .list li.added .header-wrapper i {
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.selectable-list .list li.added .action-wrapper {
+  pointer-events: none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 10px;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
+.selectable-list .list li.added .action-wrapper p {
+  color: #111;
+}
+.selectable-list .list li.added .action-wrapper textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 120px;
+  max-height: 200px;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 99, 99, 0.1);
+  outline: none;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 .selectable-list .list li.selected {
   background-color: #fff;
-  font-weight: 800;
   border: 2px solid #0d6dfd;
 }
 .selectable-list .selected-summary {

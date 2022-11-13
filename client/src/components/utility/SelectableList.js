@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import "../../styles/list/list.css";
 
 function AddedListItem(props) {
+
+    const [active, setActive] = useState(false);
+
     return (
-        <li className="added">
-            <p>{props.item.title}</p>
-            <i className="bi bi-chevron-down"></i>
+        <li className={active ? "added active" : "added"}>
+            <div className="header-wrapper">
+                <p>{props.item.title}</p>
+                <i className="bi bi-chevron-down" onClick={() => { setActive(!active); }}></i>
+            </div>
         </li>
     );
 }
@@ -35,11 +40,11 @@ function ListItem(props) {
 export default function SelectableList(props) {
     const [loader, setLoader] = useState(false);
 
-    const { refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
+    const { modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
 
     useEffect(() => {
         refreshList(setLoader, setError);
-    }, [elementIDState, titleQuery]);
+    }, [elementIDState, titleQuery, modalOpened]);
 
     const unSelectItem = (id) => {
         setSelectedItems(prev => new Set([...prev].filter(x => x !== id)));
