@@ -3,24 +3,7 @@ import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSearchRow from "../utility/TableSearchRow";
 import TableSummary from "../utility/TableSummary";
 import OrderRow from "./OrderRow";
-
-function TableLoader(props) {
-    return (
-        <tbody className={props.tableLoader ? "table-loader" : "table-loader none"}>
-            {Array.from(Array(props.pageSize).keys()).map((item, key) => {
-                return (
-                    <tr key={key}>
-                        {props.headerData.map((element, key) => {
-                            return (
-                                <td key={key}>ND</td>
-                            );
-                        })}
-                    </tr>
-                );
-            })}
-        </tbody>
-    );
-}
+import TableLoader from "../utility/TableLoader";
 
 export default function OrderTable(props) {
     return (

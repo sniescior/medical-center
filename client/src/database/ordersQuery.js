@@ -9,25 +9,22 @@ export const getArrayQuery = (urlString, params, setError, setLoader) => {
     setLoader(true);
 
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-
-            fetch(urlString + params, {
-                method: 'GET'
-            }).then(
-                response => {
-                    if(response.ok) { return response.json(); }
-                    throw (response.status);
-                }
-                ).then(data => {
-                    setLoader(false);
-                    resolve(data.data.items);
-                }).catch((error) => {
-                    setError({
-                        statusCode: error
-                    });
-                    resolve(true);
+        fetch(urlString + params, {
+            method: 'GET'
+        }).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+            ).then(data => {
+                setLoader(false);
+                resolve(data.data.items);
+            }).catch((error) => {
+                setError({
+                    statusCode: error
                 });
-            }, 0);
+                reject(error);
+            });
         }
     )
 }
