@@ -1,3 +1,6 @@
+$dimmed_font_color: #1827479b;
+$font_color: #182747;
+
 .selectable-list {
     position: relative;
     .input-wrapper {
@@ -44,11 +47,47 @@
                 cursor: default;
                 transition: .4s ease-in-out;
 
+                .expand-wrapper {
+                    transition: .3s ease-in-out;
+                    height: 0;
+
+                    button {
+                        margin-top: 15px;
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: .2s ease-in-out;
+                        background-color: rgb(242, 242, 242);
+                        padding: 8px 12px;
+                        margin-left: 8px;
+                        border-radius: 8px;
+                        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+                        cursor: pointer;
+                        color: #be0000;
+
+                        &:hover {
+                            background-color: #fff;
+                        }
+                    }
+                }
+                
                 &.active {
-                    .action-wrapper {
-                        opacity: 1;
-                        z-index: 1;
-                        transform: translateY(-10px);
+                    .header-wrapper {
+                        i {
+                            transform: rotate(180deg);
+                        }
+                    }
+
+                    .expand-wrapper {
+                        height: 40px;
+
+                        button {
+                            opacity: 1;
+                            pointer-events: all;
+
+                            &:hover {
+
+                            }
+                        }
                     }
                 }
 
@@ -60,37 +99,6 @@
                     i {
                         cursor: pointer;
                         transition: .2s ease-in-out;
-                    }
-                }
-
-                .action-wrapper {
-                    pointer-events: none;
-                    position: absolute;
-                    height: 100%;
-                    width: 100%;
-                    top: 10px;
-                    left: 0;
-                    right: 0;
-                    background-color: #fff;
-                    transition: .3s ease-in-out;
-                    opacity: 0;
-
-                    p {
-                        color: #111;
-                    }
-
-                    textarea {
-                        width: 100%;
-                        resize: vertical;
-                        min-height: 120px;
-                        max-height: 200px;
-                        background-color: #fff;
-                        border-radius: 12px;
-                        border: 1px solid rgba(99, 99, 99, 0.1);
-                        outline: none;
-                        padding: 8px 10px;
-                        box-sizing: border-box;
-                        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
                     }
                 }
             }

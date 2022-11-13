@@ -27,7 +27,7 @@ function ResultsTab(props) {
 }
 
 function ExaminationsTab(props) {
-    const { modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+    const { setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
     const [titleQuery, setTitleQuery] = useState('');
 
@@ -97,9 +97,21 @@ function ExaminationsTab(props) {
         }
     }
 
+    const [refreshState, setRefreshState] = useState(true);
+
+    const deleteExaminationFromOrder = (examination) => {
+        deleteItem('/api/orders/delete-exam-ord', { examinationID: examination.id, orderID: elementIDState }, setToastMessage, () => {})
+        .then((data) => {
+            setToastMessage(data.message);
+            setRefreshState(!refreshState);
+        })
+    }
+
     return (
         <div className="modal-content-wrapper">
             <SelectableList 
+                refreshState={refreshState}
+                deleteItemAction={deleteExaminationFromOrder}
                 modalOpened={modalOpened}
                 setActiveTab={setActiveTab} 
                 selectedItems={selectedItems} 
@@ -212,7 +224,7 @@ export default function OrderModal(props) {
             id: 1,
             title: 'Badania',
             icon: 'bi bi-activity',
-            component: <ExaminationsTab modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+            component: <ExaminationsTab setToastMessage={setToastMessage} modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
         },
         {
             id: 2,

@@ -11,6 +11,9 @@ function AddedListItem(props) {
                 <p>{props.item.title}</p>
                 <i className="bi bi-chevron-down" onClick={() => { setActive(!active); }}></i>
             </div>
+            <div className="expand-wrapper">
+                <button onClick={() => { props.deleteItemAction(props.item); }}><i className="bi bi-trash3"></i>Usuń</button>
+            </div>
         </li>
     );
 }
@@ -40,11 +43,11 @@ function ListItem(props) {
 export default function SelectableList(props) {
     const [loader, setLoader] = useState(false);
 
-    const { modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
+    const { refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
 
     useEffect(() => {
         refreshList(setLoader, setError);
-    }, [elementIDState, titleQuery, modalOpened]);
+    }, [elementIDState, titleQuery, modalOpened, refreshState]);
 
     const unSelectItem = (id) => {
         setSelectedItems(prev => new Set([...prev].filter(x => x !== id)));
@@ -62,7 +65,7 @@ export default function SelectableList(props) {
             </div>
             <ul className="list">
                 {addedItems.map((element, key) => {
-                    return <AddedListItem key={key} item={element} />
+                    return <AddedListItem deleteItemAction={deleteItemAction} key={key} item={element} />
                 })}
                 {items.map((element, key) => {
                     return <ListItem selectedItems={selectedItems} key={key} item={element} selectItem={selectItem} unSelectItem={unSelectItem} />
