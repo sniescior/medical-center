@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { fetchProjects } from "../database/projectsQuery";
 import LoaderPage from "../components/utility/LoaderPage";
 import ProjectModal from "../components/projects/ProjectModal";
 import Projects from "../components/projects/Projects";
@@ -14,10 +13,6 @@ export default function ProjectsView(props) {
     const [modalData, setModalData] = useState( defaultModalData );
 
     const [error, setError] = useState({});
-    
-    const refreshProjects = (searchParams, setProjects) => {  
-        fetchProjects(searchParams, setProjects, setLoader, setError);
-    }
 
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
@@ -39,8 +34,7 @@ export default function ProjectsView(props) {
                     </div>
                     
                     <Projects 
-                        onClickAction={() => {}} 
-                        refreshAction={refreshProjects} 
+                        onClickAction={() => {}}
                         setLoader={setLoader} 
                         setError={setError} />
                     

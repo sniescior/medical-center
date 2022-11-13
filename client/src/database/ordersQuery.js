@@ -8,6 +8,8 @@
 export const getArrayQuery = (urlString, params, setError, setLoader) => {
     setLoader(true);
 
+    console.log(urlString, params);
+
     return new Promise((resolve, reject) => {
         fetch(urlString + params, {
             method: 'GET'
@@ -18,12 +20,12 @@ export const getArrayQuery = (urlString, params, setError, setLoader) => {
             }
             ).then(data => {
                 setLoader(false);
+                console.log(data);
                 resolve(data.data.items);
             }).catch((error) => {
                 setError({
                     statusCode: error
                 });
-                reject(error);
             });
         }
     )

@@ -27,8 +27,8 @@ export default function OrderTable(props) {
                             );
                         })}
                     </tbody>
-
                 </table>
+
                 <TableSummary
                     tableLoader={props.tableLoader}
                     pagesCount={props.pagesCount}

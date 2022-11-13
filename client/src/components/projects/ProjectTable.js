@@ -4,6 +4,7 @@ import TableHeaderRow from "../utility/TableHeaderRow";
 import TableSearchRow from "../utility/TableSearchRow";
 import '../../styles/table/table.css';
 import TableSummary from "../utility/TableSummary";
+import TableLoader from "../utility/TableLoader";
 
 export default function ProjectTable(props) {
     return (
@@ -15,14 +16,18 @@ export default function ProjectTable(props) {
                         <TableSearchRow headerData={props.headerData} />
                     </thead>
 
-                    <tbody>
+                    <TableLoader
+                        headerData={props.headerData}
+                        tableLoader={props.tableLoader} 
+                        pageSize={props.pageSize} />
+
+                    <tbody className={props.tableLoader ? "hide" : ""}>
                         {props.items.map(element => {
                             return (
                                 <ProjectRow key={element.id} element={element} setModalOpened={props.setModalOpened} setProjectID={props.setProjectID} setModalData={props.setModalData} />
                             );
                         })}
                     </tbody>
-                    <tfoot></tfoot>
                 </table>
             </div>
             <TableSummary

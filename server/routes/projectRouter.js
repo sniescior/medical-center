@@ -426,7 +426,7 @@ router.get('/*', async (req, res) => {
             if(!result) {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No projects found'));
             } else {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projects retrieved', { projects: result }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projects retrieved', { items: result }));
             }
         } catch(err) {
             console.log(err);

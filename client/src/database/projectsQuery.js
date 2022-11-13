@@ -41,26 +41,26 @@ export const getProjectDetails = (projectID, setProject, setLoader, setError) =>
     });
 }
 
-export const fetchProjects = (searchParams, setProjects, setLoader, setError) => {
-    setLoader(true);
-    fetch('/api/projects?' + searchParams).then(
-        (response) => {
-            if(response.ok) {
-                return response.json();
-            }
-            throw (response.status);
-        }
-    ).then(
-        data => {
-            setProjects(data.data.projects);
-            setLoader(false);
-        }
-    ).catch((error) => {
-        setError({
-            statusCode: error
-        });
-    });
-}
+// export const fetchProjects = (searchParams, setProjects, setLoader, setError) => {
+//     setLoader(true);
+//     fetch('/api/projects?' + searchParams).then(
+//         (response) => {
+//             if(response.ok) {
+//                 return response.json();
+//             }
+//             throw (response.status);
+//         }
+//     ).then(
+//         data => {
+//             setProjects(data.data.projects);
+//             setLoader(false);
+//         }
+//     ).catch((error) => {
+//         setError({
+//             statusCode: error
+//         });
+//     });
+// }
 
 export const getProjectsCount = (searchParams, setProjectsCount, setLoader, setError) => {
     setLoader(true);

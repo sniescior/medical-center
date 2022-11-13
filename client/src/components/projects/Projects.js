@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProjectsCount } from "../../database/projectsQuery";
 import ProjectTable from "./ProjectTable";
+import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 
 export default function Projects(props) {
 
@@ -18,6 +19,8 @@ export default function Projects(props) {
     const [idQuery, setIdQuery] = useState('');
     const [nameQuery, setNameQuery] = useState('');
     const [participantsCountQuery, setParticipantsCountQuery] = useState('');
+
+    const [tableLoader, setTableLoader] = useState(true);
 
     const searchParams = new URLSearchParams({
         page: pageNumber - 1,
@@ -39,8 +42,19 @@ export default function Projects(props) {
     }, [projectsCount, pageSize]);
 
     useEffect(() => {
-        props.refreshAction(searchParams, setProjects);
+        let ignore = false;
 
+        if(!ignore) { setTableLoader(true); }
+
+        getArrayQuery('/api/projects?', searchParams, props.setError, () => {})
+        .then((data) => {
+            if(!ignore) { 
+                setProjects(data);
+                setTableLoader(false);
+            }
+        });
+
+        return () => { ignore = true; }
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, nameQuery, participantsCountQuery]);
 
     useEffect(() => { setPageNumber(1); }, [pageSize]);
@@ -71,6 +85,7 @@ export default function Projects(props) {
 
     return (
         <ProjectTable
+            tableLoader={tableLoader}
             headerData={headerData}
             
             items={projects}
