@@ -1,5 +1,6 @@
 import React from "react";
 import TableHeaderRow from "../utility/TableHeaderRow";
+import TableLoader from "../utility/TableLoader";
 import TableSearchRow from "../utility/TableSearchRow";
 import TableSummary from "../utility/TableSummary";
 import ExaminationRow from "./ExaminationRow";
@@ -14,7 +15,12 @@ export default function ExaminationTable(props) {
                         <TableSearchRow headerData={props.headerData} />
                     </thead>
 
-                    <tbody>
+                    <TableLoader
+                        headerData={props.headerData}
+                        tableLoader={props.tableLoader} 
+                        pageSize={props.pageSize} />
+
+                    <tbody className={props.tableLoader ? "hide" : ""}>
                         {props.items.map((element, key) => {
                             return (
                                 <ExaminationRow onClickAction={props.onClickAction} key={key} element={element} />
@@ -25,6 +31,7 @@ export default function ExaminationTable(props) {
                 </table>
             </div>
             <TableSummary
+                tableLoader={props.tableLoader}
                 pagesCount={props.pagesCount}
                 totalCount={props.totalCount}
                 setPageNumber={props.setPageNumber}

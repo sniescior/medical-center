@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ExaminationTable from "./ExaminationTable";
 import { getExaminations, getExaminationsCount } from "../../database/examinationsQuery";
+import { getArrayQuery } from "../../database/ordersQuery";
 
 export default function Examinations(props) {
     const [pagesCount, setPagesCount] = useState(0);
@@ -16,6 +17,8 @@ export default function Examinations(props) {
     // additional queries parameters
     const [idQuery, setIdQuery] = useState('');
     const [titleQuery, setTitleQuery] = useState('');
+
+    const [tableLoader, setTableLoader] = useState(true);
 
     const searchParams = new URLSearchParams({
         page: pageNumber - 1,
@@ -36,7 +39,19 @@ export default function Examinations(props) {
     }, [examinationsCount, pageSize]);
 
     useEffect(() => {
-        props.refreshAction(searchParams, setExaminations);
+        let ignore = false;
+        
+        if(!ignore) { setTableLoader(true); }
+
+        getArrayQuery('/api/examinations/get-examinations?', searchParams, props.setError, () => {})
+        .then((data) => {
+            if(!ignore) { 
+                setExaminations(data);
+                setTableLoader(false);
+            }
+        });
+
+        return () => { ignore = true; }
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, titleQuery]);
 
     const headerData = [
@@ -58,6 +73,7 @@ export default function Examinations(props) {
 
     return (
         <ExaminationTable
+            tableLoader={tableLoader}
             headerData={headerData}
 
             orderByColumn={orderByColumn}

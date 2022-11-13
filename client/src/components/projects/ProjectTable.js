@@ -31,6 +31,7 @@ export default function ProjectTable(props) {
                 </table>
             </div>
             <TableSummary
+                tableLoader={props.tableLoader}
                 pagesCount={props.pagesCount}
                 totalCount={props.totalCount}
                 setPageNumber={props.setPageNumber}
