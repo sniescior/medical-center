@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import TabsHeader from "../utility/TabsHeader";
 import Patients from "../patients/Patients";
 import AlertModal from "../utility/AlertModal";
+import { getArrayQuery } from "../../database/ordersQuery";
 
 const tabs = [
     {
@@ -18,12 +19,7 @@ const tabs = [
         id: 1,
         title: 'Dodawanie pacjenów',
         icon: 'bi bi-person-plus',
-    },
-    {
-        id: 2,
-        title: 'Zlecenia i badania',
-        icon: 'bi bi-activity',
-    },
+    }
 ];
 
 function ParticipantsTab(props) {
@@ -38,10 +34,17 @@ function ParticipantsTab(props) {
     
     const { projectID, active, setLoader, setError } = props;
 
-    const fetchParticipants = (searchParams, setPatients) => {
-        searchParams.append('projectID', projectID);
-        getParticipants(searchParams, setPatients, setLoader, setError);
-        searchParams.delete('projectID');
+    const [tableLoader, setTableLoader] = useState(true);
+
+    const fetchParticipants = (searchParams) => {
+        return new Promise((resolve, reject) => {
+            searchParams.append('projectID', projectID);
+            getArrayQuery('/api/projects/get-participants?', searchParams, setError, setTableLoader)
+            .then((data) => {
+                searchParams.delete('projectID');
+                resolve(data);
+            });
+        });
     }
     
     const countAction = (searchParams, setParticipantsCount) => {
@@ -56,6 +59,7 @@ function ParticipantsTab(props) {
         <div className={active === 0 ? "tab-wrapper active" : "tab-wrapper"}>
             <h2>Pacjenci zarejestrowani do udziału w projekcie</h2>
             <Patients 
+                tableLoader={tableLoader}
                 headerData={headerData}
                 refreshAction={fetchParticipants}
                 countAction={countAction}
@@ -70,10 +74,18 @@ function ParticipantsTab(props) {
 function PatientsTab(props) {
     const { projectID, active, setLoader, setModalOpened, setModalData, setError } = props;
 
+    const [tableLoader, setTableLoader] = useState(true);
+
     const fetchParticipants = (searchParams, setPatients) => {
-        searchParams.append('projectID', projectID);
-        getNotParticipants(searchParams, setPatients, setLoader, setError);
-        searchParams.delete('projectID');
+
+        return new Promise((resolve, reject) => {
+            searchParams.append('projectID', projectID);
+            getArrayQuery('/api/projects/get-not-participants?', searchParams, setError, setTableLoader)
+            .then((data) => {
+                searchParams.delete('projectID');
+                resolve(data);
+            });
+        });
     }
     
     const countAction = (searchParams, setParticipantsCount) => {
@@ -96,15 +108,6 @@ function PatientsTab(props) {
 
                 onClickAction={openModal}
             />
-        </div>
-    );
-}
-
-function TestsTab(props) {
-    const { active } = props;
-    return (
-        <div className={active === 2 ? "tab-wrapper active" : "tab-wrapper"}>
-            <h2>Testy</h2>
         </div>
     );
 }
@@ -182,8 +185,6 @@ export default function ProjectDetail(props) {
                     setModalData={setCandidateModalData}
                     setModalOpened={setCandidateModalOpened}
                     setModalLodader={setCandidateModalLoader} />
-
-                <TestsTab active={activeTab} />
 
                 <ProjectModal
                     modalOpened={modalOpened}

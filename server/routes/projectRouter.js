@@ -286,7 +286,7 @@ router.get('/get-participants', async (req, res) => {
                     resultArray.push(Object.assign({}, element));
                 });
             } catch(err) {}
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { items: resultArray }));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
@@ -333,7 +333,7 @@ router.get('/get-not-participants', async (req, res) => {
                 result.forEach(element => {
                     resultArray.push(Object.assign({}, element));
                 });
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patients: resultArray }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { items: resultArray }));
             }
         } catch(err) {
             console.log(err);

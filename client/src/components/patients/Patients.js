@@ -56,14 +56,13 @@ export default function Patients(props) {
 
         if(!ignore) { setTableLoader(true); }
 
-        getArrayQuery('/api/patients?', searchParams, props.setError, () => {})
+        props.refreshAction(searchParams)
         .then((data) => {
-            if(!ignore) { 
+            if(!ignore) {
                 setPatients(data);
                 setTableLoader(false);
-                console.log(data);
             }
-        });
+        })
 
         return () => { ignore = true; }
     }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);

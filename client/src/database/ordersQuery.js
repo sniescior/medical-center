@@ -18,6 +18,7 @@ export const getArrayQuery = (urlString, params, setError, setLoader) => {
             }
             ).then(data => {
                 setLoader(false);
+                if(!data.data.items) { resolve([]); }
                 resolve(data.data.items);
             }).catch((error) => {
                 setError({

@@ -5,6 +5,7 @@ import Patients from "../components/patients/Patients";
 import PatientModal from "../components/patients/PatientModal";
 import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
 import ErrorPage from "../components/utility/ErrorPage";
+import { getArrayQuery } from "../database/ordersQuery";
 
 export default function PatientsView(props) {
     const { toastMessage, setToastMessage } = props;
@@ -22,9 +23,15 @@ export default function PatientsView(props) {
         setModalOpened(true);
     }
 
-    const refreshPatients = (searchParams, setPatients) => {
-        fetchPatients(searchParams, setPatients, setLoader, setError); 
+    const refreshPatients = (searchParams) => {
+        return new Promise((resolve, reject) => {
+            getArrayQuery('/api/patients?', searchParams, props.setError, () => {})
+            .then((data) => {
+                resolve(data)
+            });
+        });
     }
+
     const countAction = (searchParams, setPatientsCount) => { getPatientsCount(searchParams, setPatientsCount); }
     
     if(error.statusCode) {
@@ -42,6 +49,7 @@ export default function PatientsView(props) {
                     </div>
                     
                     <Patients
+                        refreshAction={refreshPatients}
                         setError={setError}
                         onClickAction={openModal}
                         countAction={countAction} />
