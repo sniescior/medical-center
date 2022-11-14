@@ -124,15 +124,22 @@ $dimmed_font_color: #1827479b;
                 color: $dimmed_font_color;
                 font-size: 1.2em;
 
+                &.active {
+                    .nav-link {
+                        color: $font_color;
+                    }
+                }
+
                 .nav-link {
                     width: 100%;
                     padding: 8px 14px;
                     box-sizing: border-box;
                     cursor: pointer;
                     transition: .2s ease-in-out;
-                    
-                    &.active {
-                        color: $font_color;
+
+                    i {
+                        width: 20px;
+                        margin-right: 8px;
                     }
                     
                     &:hover {

@@ -1,30 +1,30 @@
 import React from "react";
 import '../../styles/navbar/navbar.css';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function SideMenu(props) {
     const links = [
         {
             name: 'dashboard',
-            icon: 'bi bi-speedometer2',
+            icon: 'bi bi-house-door-fill',
             title: 'Podsumowanie',
             href: '/',
         }, 
         {
             name: 'projects',
-            icon: 'bi bi-clipboard-data',
+            icon: 'bi bi-file-ruled-fill',
             title: 'Projekty',
             href: '/projects',
         }, 
         {
             name: 'patients',
-            icon: 'bi bi-person',
+            icon: 'bi bi-people-fill',
             title: 'Pacjenci',
             href: '/patients',
         },
         {
             name: 'examinations',
-            icon: 'bi bi-eyeglasses',
+            icon: 'bi bi-heart-pulse-fill',
             title: 'Badania',
             href: '/examinations',
         }
@@ -43,12 +43,13 @@ export default function SideMenu(props) {
                 <ul className="navbar-nav toggled">
                     {links.map(link => {
                         return (
-                            <Link key={link.name} to={link.href}>
+                            <NavLink key={link.name} to={link.href}>
                                 <li 
                                     className={props.currentPage == link.name ? "nav-link active" : "nav-link"} >
+                                        <i className={link.icon}></i>
                                         {link.title}
                                 </li>
-                            </Link>
+                            </NavLink>
                         );
                     })}
                 </ul>

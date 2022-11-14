@@ -105,6 +105,9 @@
   color: rgba(24, 39, 71, 0.6078431373);
   font-size: 1.2em;
 }
+.navbar .navbar-container .navbar-nav a.active .nav-link {
+  color: #182747;
+}
 .navbar .navbar-container .navbar-nav a .nav-link {
   width: 100%;
   padding: 8px 14px;
@@ -112,8 +115,9 @@
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
-.navbar .navbar-container .navbar-nav a .nav-link.active {
-  color: #182747;
+.navbar .navbar-container .navbar-nav a .nav-link i {
+  width: 20px;
+  margin-right: 8px;
 }
 .navbar .navbar-container .navbar-nav a .nav-link:hover {
   color: #182747;
