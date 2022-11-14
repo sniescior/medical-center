@@ -88,6 +88,10 @@ function ExaminationsTab(props) {
     useEffect(() => {
         let ignore = false;
 
+        console.log('Refreshing list');
+        console.log(addedItems);
+        console.log(items);
+
         setItems([]);
         setAddedItems([]);
 
@@ -192,7 +196,7 @@ export default function OrderModal(props) {
             deleteItem(`/api/orders/${modalData.order_id}`, { orderID: modalData.order_id }, setToastMessage, setLoader)
             .then((data) => { 
                 setToastMessage("Usunięto zlecenie");
-                window.location.reload();
+                setTableRefresh(!tableRefresh);
             });
         }
     }
@@ -205,12 +209,19 @@ export default function OrderModal(props) {
                     setToastMessage(data.message);
                     setRefreshState(!refreshState);
                     setTableRefresh(!tableRefresh);
+                    setModalOpened(false);
                 });
             }
             
         } else {
             const params = { title: name, completionDate: completionDate, examinations: Array.from(selectedItems), participantID: participantID };
-            addItem('/api/orders/add?', params, setToastMessage, setLoader);
+            addItem('/api/orders/add?', params, setToastMessage, setLoader)
+            .then((data) => {
+                setToastMessage(data.message);
+                setRefreshState(!refreshState);
+                setTableRefresh(!tableRefresh);
+                setModalOpened(false);
+            });
         }
     }
 

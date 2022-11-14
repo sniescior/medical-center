@@ -159,13 +159,13 @@ export default function ProjectDetail(props) {
     }, [refreshState]);
 
     const addPatient = () => {
+        setCandidateModalOpened(false);
         addItem('/api/projects/add-participant', candidateModalData, props.setToastMessage, setLoader)
         .then((data) => {
             props.setToastMessage(data.message);
-            setTableRefresh(!tableRefresh);
             setActiveTab(0);
-            setCandidateModalOpened(false);
             setLoader(false);
+            setTableRefresh(!tableRefresh);
         })
         
         setActiveTab(0);

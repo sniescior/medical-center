@@ -148,6 +148,7 @@ export const addItem = (urlString, params, setToastMessage, setLoader) => {
                 throw (response.status);
             }
         ).then(data => {
+            setLoader(false);
             resolve(data);
         }).catch((error) => {
             setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
