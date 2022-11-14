@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { INPUT_TYPES, INPUT_ELEMENTS } from "../../constants/inputs";
 import ModalButtons from "./ModalButtons";
 
-function switchRender(input) {
+function Input(props) {
+    return (
+        <input type="text" />
+    );
+}
+
+function SwitchRender(props) {
+    const { input, register, errors, control } = props;
+    const title = input.title;
+
     switch (input.inputElement) {
         case INPUT_ELEMENTS.INPUT:
             switch (input.type) {
+                
                 case INPUT_TYPES.CHECKBOX:
                     return (
                         <input type="checkbox" checked={input.state} onChange={(e) => input.setState(!input.state)} />
@@ -13,7 +24,11 @@ function switchRender(input) {
             
                 default:
                     return (
-                        <input placeholder={input.placeholder} type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
+                        <input 
+                            className={errors.title ? "error" : "no-error"} {...register(title, { required: input.required, pattern: input.pattern })} 
+                            placeholder={input.placeholder} type={input.type} value={input.state? input.state : ''} 
+                            onChange={(e) => { input.setState(e.target.value)} }
+                            aria-invalid={errors.title ? "true" : "false"} />
                     );
             }
 
@@ -28,12 +43,12 @@ function switchRender(input) {
 }
 
 function InputWrapper(props) {
-    const { input } = props;
+    const { input, register, errors, control } = props;
 
     return (
         <div className="input-wrapper">
             <label>{input.label}</label>
-            {switchRender(input)}
+            <SwitchRender control={control} errors={errors} register={register} input={input} />
         </div>
     );
 }
@@ -41,20 +56,21 @@ function InputWrapper(props) {
 export default function ModalForm(props) {
     const { tabs, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
 
+    const { control, register, handleSubmit, watch, formState: { errors } } = useForm();
+    const onSubmit = (data) => { saveAction(); }
+
     return (
-        <>
-        <form onSubmit={(e) => { e.preventDefault(); }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div className={!loader ? "modal-content-wrapper" : "modal-content-wrapper disabled"}>
                 {inputs.map((input, key) => {
                     return (
-                        <InputWrapper key={key} input={input} />
+                        <InputWrapper control={control} errors={errors} register={register} key={key} input={input} />
                         );
                     })}
             </div>
-        </form>
             {tabs? <></> :
                 <ModalButtons saveAction={saveAction} deleteAction={deleteAction} elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
             }
-        </>
+        </form>
     )
 }

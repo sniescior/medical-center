@@ -15,12 +15,7 @@ export default function ModalButtons(props) {
 
             <div className="button-wrapper between">
                 <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { setModalOpened(false); }}>Odrzuć zmiany</button>
-                <button 
-                    type="button" 
-                    className={!loader ? "button-primary" : "button-primary button-disabled"}
-                    onClick={(e) => saveAction()}>
-                        Zapisz
-                </button>
+                <button type="submit" className={!loader ? "button-primary" : "button-primary button-disabled"}>Zapisz</button>
             </div>
         </div>
     );

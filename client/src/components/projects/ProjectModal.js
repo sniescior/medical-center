@@ -30,12 +30,14 @@ export default function ProjectModal(props) {
 
     const inputs = [
         {
+            title: 'projectname',
             label: 'Nazwa',
             state: name,
             setState: setName,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT,
-            placeholder: 'Nazwa'
+            placeholder: 'Nazwa',
+            required: true
         }
     ];
 

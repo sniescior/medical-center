@@ -23,20 +23,24 @@ export default function ExaminationModal(props) {
 
   	const inputs = [
     	{
+			title: 'examinationname',
 			label: 'Nazwa',
 			state: examinationTitle,
 			setState: setExaminationTitle,
 			placeholder: 'Nazwa badania',
 			inputElement: INPUT_ELEMENTS.INPUT,
-			type: INPUT_TYPES.TEXT
+			type: INPUT_TYPES.TEXT,
+			required: true
     	},
 		{
+			title: 'examinationdescription',
 			label: 'Opis',
 			state: examinationDescription,
 			setState: setExaminationDescription,
 			placeholder: 'Opis badania',
 			inputElement: INPUT_ELEMENTS.TEXTAREA,
-			type: INPUT_TYPES.NONE
+			type: INPUT_TYPES.NONE,
+			required: false
 		}
   	];
 

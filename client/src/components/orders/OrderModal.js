@@ -88,10 +88,6 @@ function ExaminationsTab(props) {
     useEffect(() => {
         let ignore = false;
 
-        console.log('Refreshing list');
-        console.log(addedItems);
-        console.log(items);
-
         setItems([]);
         setAddedItems([]);
 
@@ -271,20 +267,24 @@ export default function OrderModal(props) {
 
     const inputs = [
         {
+            title: 'ordername',
             label: 'Nazwa zlecenia',
             state: name,
             placeholder: 'Nazwa zlecenia',
             setState: setName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'completiondate',
             label: 'Data realizacji',
             state: completionDate,
             placeholder: 'Nazwa zlecenia',
             setState: setCompletionDate,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.DATE
+            type: INPUT_TYPES.DATE,
+            required: false
         }
     ];
 

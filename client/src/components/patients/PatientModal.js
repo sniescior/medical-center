@@ -48,62 +48,76 @@ export default function PatientModal(props) {
 
     const inputs = [
         {
+            title: 'name',
             label: 'Imię',
             state: firstName,
             placeholder: 'Imię',
             setState: setFirstName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'lastname',
             label: 'Nazwisko',
             state: lastName,
             placeholder: 'Nazwisko',
             setState: setLastName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'email',
             label: 'E-mail',
             state: email,
             placeholder: 'E-mail',
             setState: setEmail,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.EMAIL
+            type: INPUT_TYPES.EMAIL,
+            required: true
         },
         {
+            title: 'address',
             label: 'Adres',
             state: address,
             placeholder: 'Adres',
             setState: setAddress,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true,
         },
         {
+            title: 'city',
             label: 'Miasto',
             state: city,
             placeholder: 'Miasto',
             setState: setCity,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'country',
             label: 'Państwo',
             state: country,
             placeholder: 'Państwo',
             setState: setCountry,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'birthdate',
             label: 'Data urodzenia',
             state: dateOfBirth,
             placeholder: 'Data urodzenia',
             setState: setDateOfBirth,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.DATE
+            type: INPUT_TYPES.DATE,
+            required: true
         },
-    ]
+    ];
 
     const deletePatientAction = () => {
         deleteItem(`/api/patients/${props.modalData.id}`, {}, setToastMessage, setLoader)
