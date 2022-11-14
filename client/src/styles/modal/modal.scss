@@ -76,6 +76,10 @@ $dimmed_font_color: #1827479b;
             padding: 18px 22px;
             gap: 20px;
 
+            h2 {
+                margin-left: 0;
+            }
+
             .header-text {
                 h2 {
                     font-weight: 500;
@@ -280,6 +284,7 @@ $dimmed_font_color: #1827479b;
                     display: grid;
                     gap: 3px;
                     margin-left: 0;
+
 
                     span {
                         color: $dimmed_font_color;

@@ -1,14 +1,12 @@
 .summary-wrapper {
   margin-top: 30px;
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: 1fr 1fr;
-  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
-@media (max-width: 620px) {
-  .summary-wrapper {
-    grid-template-columns: 1fr;
-  }
+.summary-wrapper .card {
+  flex: 1;
+  min-width: 330px;
 }
 .summary-wrapper .card.tile {
   background-color: #fff;

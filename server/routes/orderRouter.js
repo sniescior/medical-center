@@ -63,6 +63,21 @@ router.post('/add', async (req, res) => {
  * 
  */
 
+router.get('/count', async (req, res) => {
+    const query = 'SELECT COUNT(*) AS ordersCount FROM orders';
+
+    database.query(query, (err, result) => {
+        try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+            const normalResult = normalizeResult(result);
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Orders retrieved', { count: normalResult.ordersCount }));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        }
+    });
+});
+
 router.get('/examinations/:orderID', async (req, res) => {
     var query = ``;
     
