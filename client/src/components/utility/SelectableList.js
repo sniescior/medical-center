@@ -5,10 +5,10 @@ function AddedListItem(props) {
     const { loader, item, detailAction } = props;
 
     return (
-        <li className={loader ? "added disabled" : "added"}>
+        <li className={loader ? "added disabled" : "added"} onClick={() => { detailAction(item); }}>
             <div className="header-wrapper">
                 <p>{item.title}</p>
-                <i className="bi bi-chevron-down" onClick={() => { detailAction(item); }}></i>
+                <i className="bi bi-chevron-right"></i>
             </div>
         </li>
     );

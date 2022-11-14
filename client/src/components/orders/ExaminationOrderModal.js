@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
-import { deleteItem } from "../../database/ordersQuery";
+import { deleteItem, updateItem } from "../../database/ordersQuery";
 import ModalBody from "../utility/ModalBody";
 
 export default function ExaminationOrderModal(props) {
@@ -12,8 +12,8 @@ export default function ExaminationOrderModal(props) {
     const [result, setResult] = useState("");
 
     useEffect(() => {
-        console.log('Opened examination order modal ', modalData);
         setModalSubtitle(modalData.title);
+        setResult(modalData.result);
     }, [modalData]);
 
     const inputs = [
@@ -37,9 +37,19 @@ export default function ExaminationOrderModal(props) {
         });
     }
 
+    const updateExaminationOrder = () => {
+        updateItem('/api/orders/update-exam-order', { examinationID: modalData.examination_id, orderID: modalData.order_id, result: result }, setToastMessage, setLoader)
+        .then((data) => {
+            setToastMessage(data.message);
+            setRefreshState(!refreshState);
+            setModalOpened(false);
+            setLoader(false);
+        })
+    }
+
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody loader={loader} deleteAction={deleteExaminationFromOrder} saveAction={() => {}} elementIDState={true} title={modalTitle} subtitle={modalSubtitle} inputs={inputs} setModalOpened={setModalOpened} />
+            <ModalBody loader={loader} deleteAction={deleteExaminationFromOrder} saveAction={updateExaminationOrder} elementIDState={true} title={modalTitle} subtitle={modalSubtitle} inputs={inputs} setModalOpened={setModalOpened} />
         </div>
     );
 }

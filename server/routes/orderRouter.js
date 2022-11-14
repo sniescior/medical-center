@@ -147,6 +147,7 @@ router.get('/:projectID/:patientID', async (req, res) => {
  * 
  */
 
+// delete examination order
  router.delete('/delete-exam-ord', async (req, res) => {
     const query = `DELETE FROM examinations_order WHERE examination_id = ${req.body.examinationID} AND order_id = ${req.body.orderID}`;
 
@@ -182,6 +183,23 @@ router.delete('/:orderID', async (req, res) => {
  * 
  */
 
+// update examination order
+router.put('/update-exam-order', async (req, res) => {
+    const query = `UPDATE examinations_order SET result = '${req.body.result}' WHERE examination_id = ${req.body.examinationID} AND order_id = ${req.body.orderID}`
+
+    database.query(query, (err, result) => {
+        try {
+            if(err) { throw new Error(`Error running query:\n ${err}`); }
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zlecenie zostało zaktualizowane'));
+        } catch(err) {
+            console.log(err);
+            res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+            return;
+        }
+    });
+
+});
+
 router.put('/update-order', async (req, res) => {
     var updateInfoQuery = ``;
     
@@ -201,19 +219,19 @@ router.put('/update-order', async (req, res) => {
         }
     });
 
-    Array.from(req.body.examinations).forEach(examinationID => {
-        const examinationsQuery = `INSERT INTO examinations_order VALUES (${examinationID}, ${req.body.orderID}, "")`;
+    try {
+        Array.from(req.body.examinations).forEach(examinationID => {
+            const examinationsQuery = `INSERT INTO examinations_order VALUES (${examinationID}, ${req.body.orderID}, "")`;
 
-        database.query(examinationsQuery, (err, result) => {
-            try {
+            database.query(examinationsQuery, (err, result) => {
                 if(err) { throw new Error(`Error running query:\n ${err}`); }
-            } catch(err) {
-                console.log(err);
-                res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
-                return;
-            }
+            });
         });
-    });
+    } catch(err) {
+        console.log(err);
+        res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
+        return;
+    }
 
     res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zlecenie zostało zaktualizowane'));
 });

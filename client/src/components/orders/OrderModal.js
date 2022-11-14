@@ -50,7 +50,8 @@ function ExaminationsTab(props) {
             convertedItems = addedItems.map(item => {
                 return {
                     id: item.examination_id,
-                    title: item.title
+                    title: item.title,
+                    result: item.result
                 }
             });
 
@@ -170,7 +171,7 @@ export default function OrderModal(props) {
     const [examinationOrderModalOpened, setExaminationOrderModalOpened] = useState(false);
 
     const openExaminationDetailsModal = (element) => {
-        setExaminationOrderModalData({ order_id: modalData.order_id, examination_id: element.id, title: element.title})
+        setExaminationOrderModalData({ order_id: modalData.order_id, examination_id: element.id, title: element.title, result: element.result })
         setExaminationOrderModalOpened(true);
     }
 
