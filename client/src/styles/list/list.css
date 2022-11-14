@@ -1,8 +1,34 @@
 .selectable-list {
   position: relative;
 }
+.selectable-list .no-data-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  pointer-events: none;
+  text-align: center;
+}
+.selectable-list .no-data-wrapper.none {
+  opacity: 0;
+}
+.selectable-list .no-data-wrapper .no-data-img {
+  transition: 0.3s ease-in-out;
+  width: 220px;
+  height: 220px;
+}
+.selectable-list .loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .selectable-list .input-wrapper {
   margin: 0 10px;
+}
+.selectable-list .input-wrapper.disabled {
+  pointer-events: none;
 }
 .selectable-list .list {
   padding: 8px 10px;
@@ -22,6 +48,10 @@
   display: flex;
   justify-content: space-between;
 }
+.selectable-list .list li.disabled {
+  pointer-events: none;
+  color: rgba(24, 39, 71, 0.6078431373);
+}
 .selectable-list .list li i {
   margin-right: 10px;
 }
@@ -40,6 +70,9 @@
   display: initial;
   cursor: default;
   transition: 0.4s ease-in-out;
+}
+.selectable-list .list li.added.disabled {
+  background-color: rgba(13, 109, 253, 0.5294117647);
 }
 .selectable-list .list li.added .expand-wrapper {
   transition: 0.3s ease-in-out;
@@ -83,6 +116,9 @@
 .selectable-list .list li.selected {
   background-color: #fff;
   border: 2px solid #0d6dfd;
+}
+.selectable-list .list li.selected.disabled {
+  border: 2px solid rgba(13, 109, 253, 0.737254902);
 }
 .selectable-list.view-only .list li {
   color: rgba(24, 39, 71, 0.6078431373);

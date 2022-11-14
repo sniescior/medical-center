@@ -41,6 +41,8 @@ body {
         display: inline-block;
         width: 30px;
         height: 30px;
+        opacity: 1;
+        transition: opacity .3s ease-in-out;
 
         &.big {
             width: 80px;
@@ -63,6 +65,10 @@ body {
             border: 2px solid rgb(177, 49, 49);
             border-color: $font_color transparent $font_color transparent;
             animation: spinner-animation .9s linear infinite;
+        }
+
+        &.hidden {
+            opacity: 0;
         }
         
         &.none {

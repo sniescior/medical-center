@@ -213,7 +213,7 @@ router.put('/update-order', async (req, res) => {
                 return;
             }
         });
-    })
+    });
 
     res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zlecenie zostało zaktualizowane'));
 });

@@ -2,24 +2,20 @@ import React, { useState, useEffect } from "react";
 import "../../styles/list/list.css";
 
 function AddedListItem(props) {
-
-    const [active, setActive] = useState(false);
+    const { loader, item, detailAction } = props;
 
     return (
-        <li className={active ? "added active" : "added"}>
+        <li className={loader ? "added disabled" : "added"}>
             <div className="header-wrapper">
-                <p>{props.item.title}</p>
-                <i className="bi bi-chevron-down" onClick={() => { setActive(!active); }}></i>
-            </div>
-            <div className="expand-wrapper">
-                <button onClick={() => { props.deleteItemAction(props.item); }}><i className="bi bi-trash3"></i>Usuń</button>
+                <p>{item.title}</p>
+                <i className="bi bi-chevron-down" onClick={() => { detailAction(item); }}></i>
             </div>
         </li>
     );
 }
 
 function ListItem(props) {
-    const { editable, item, selectedItems, selectItem, unSelectItem } = props;
+    const { loader, editable, item, selectedItems, selectItem, unSelectItem } = props;
 
     const ifSelected = (id) => {
         if(selectedItems.has(id)) { return true; }
@@ -27,7 +23,7 @@ function ListItem(props) {
     }
 
     return (
-        <li className={ifSelected(item.id) ? "selected" : ""} onClick={() => {
+        <li className={ifSelected(item.id) && loader ? "selected disabled" : loader ? "disabled" : ifSelected(item.id) ? "selected" : ""} onClick={() => {
             if(editable) {
                 if(ifSelected(item.id)) {
                     unSelectItem(item.id);
@@ -43,38 +39,39 @@ function ListItem(props) {
 }
 
 export default function SelectableList(props) {
-    const [loader, setLoader] = useState(false);
-
-    const { editable, refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
-
-    useEffect(() => {
-        console.log('Editable: ', editable);
-    })
+    const [noData, setNoData] = useState(false);
+    const { listLoader, modalLoader, detailAction, editable, refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
 
     useEffect(() => {
-        refreshList(setLoader, setError);
-    }, [elementIDState, titleQuery, modalOpened, refreshState]);
+        setNoData(items.length < 1 && addedItems.length < 1);
+    }, [items.length, addedItems.length]);
 
     const unSelectItem = (id) => {
         setSelectedItems(prev => new Set([...prev].filter(x => x !== id)));
     }
 
-    const selectItem = (id) => {    
+    const selectItem = (id) => {
         setSelectedItems(previousState => new Set([...previousState, id]));
     }
 
     return (
         <div className={editable === 1 ? "selectable-list" : "selectable-list view-only"}>
-            <div className="input-wrapper icon">
+            <span className={listLoader ? "loader big" : "loader big hidden"}></span>
+            <div className={(noData && !listLoader) ? "no-data-wrapper" : "no-data-wrapper none"}>
+                <img className="no-data-img" src="search.svg" />
+                <h4>Brak wyników</h4>
+            </div>
+
+            <div className={modalLoader ? "input-wrapper icon disabled" : "input-wrapper icon"}>
                 <i className="bi bi-search"></i>
                 <input type="text" placeholder="Wyszukaj" value={titleQuery} onChange={(e) => setTitleQuery(e.target.value) } />
             </div>
             <ul className="list">
                 {addedItems.map((element, key) => {
-                    return <AddedListItem editable={editable} deleteItemAction={deleteItemAction} key={key} item={element} />
+                    return <AddedListItem loader={modalLoader} detailAction={detailAction} editable={editable} deleteItemAction={deleteItemAction} key={key} item={element} />
                 })}
                 {items.map((element, key) => {
-                    return <ListItem editable={editable} selectedItems={selectedItems} key={key} item={element} selectItem={selectItem} unSelectItem={unSelectItem} />
+                    return <ListItem loader={modalLoader} editable={editable} selectedItems={selectedItems} key={key} item={element} selectItem={selectItem} unSelectItem={unSelectItem} />
                 })}
             </ul>
             <div className="selected-summary">

@@ -5,28 +5,10 @@ import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
 import ModalForm from "../utility/ModalForm";
 import SelectableList from "../utility/SelectableList";
-
-function ResultsTab(props) {
-    const { elementIDState } = props;
-
-    if(elementIDState === '') {
-        return (
-            <div className="modal-content-wrapper center">
-                <img className="modal-image" src="submit.svg"></img>
-                <p>Zatwierdź zlecenie aby zarejestrować wyniki badań</p>
-            </div>
-        );
-    } else {
-        return (
-            <div className="modal-content-wrapper">
-                <p>Wprowadź resultat poszczególnych badań w ramach zlecenia</p>
-            </div>
-        );
-    }
-}
+import ExaminationOrderModal from "./ExaminationOrderModal";
 
 function ExaminationsTab(props) {
-    const { consent, setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+    const { refreshState, loader, detailAction, consent, setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
     const [titleQuery, setTitleQuery] = useState('');
 
@@ -38,6 +20,8 @@ function ExaminationsTab(props) {
     // For displaying converted data in selectable list
     const [listItems, setListItems] = useState([]);
     const [addedListItems, setAddedListItems] = useState([]);
+
+    const [listLoader, setListLoader] = useState(false);
 
     useEffect(() => {
         if(!modalOpened) { 
@@ -76,42 +60,77 @@ function ExaminationsTab(props) {
     }, [items, addedItems, titleQuery, modalOpened]);
 
     const refreshList = (setLoader, setError) => {
-        if(elementIDState) {
-            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), setError, setLoader)
+        return new Promise((resolve, reject) => {
+            if(elementIDState) {
+                getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), setError, setLoader)
                 .then((data) => {
                     setAddedItems(data);
+                    
+                    getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), setError, setLoader)
+                    .then((data) => {
+                        setItems(data);
+                        resolve(true);
+                    });
                 });
-
-            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), setError, setLoader)
+            } else {
+                getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setError, setLoader)
                 .then((data) => {
                     setItems(data);
+                    resolve(true);
                 });
-        } else {
-            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), setError, setLoader)
-                .then((data) => {
-                    setItems(data);
-                });
-
-            setAddedListItems([]);
-        }
-    }
-
-    const [refreshState, setRefreshState] = useState(true);
-
-    const deleteExaminationFromOrder = (examination) => {
-        deleteItem('/api/orders/delete-exam-ord', { examinationID: examination.id, orderID: elementIDState }, setToastMessage, () => {})
-        .then((data) => {
-            setToastMessage(data.message);
-            setRefreshState(!refreshState);
+                
+                setAddedListItems([]);
+            }
         });
     }
+
+    useEffect(() => {
+        let ignore = false;
+
+        setItems([]);
+        setAddedItems([]);
+
+        setListLoader(true);
+        
+        if(elementIDState) {
+            getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 1 }), () => {}, () => {})
+            .then((data) => {
+                if(!ignore) {
+                    setAddedItems(data);
+                }
+                
+                getArrayQuery(`/api/orders/examinations/${elementIDState}?`, new URLSearchParams({ titleQuery: titleQuery, assigned: 0 }), () => {}, () => {})
+                .then((data) => {
+                    if(!ignore) {
+                        setItems(data);
+                        setListLoader(false);
+                    }
+                });
+            });
+        } else {
+            getArrayQuery('/api/examinations/get-examinations?', new URLSearchParams({ titleQuery: titleQuery }), () => {}, () => {})
+            .then((data) => {
+                if(!ignore) {
+                    setItems(data);
+                    setListLoader(false);
+                }
+            });
+            
+            setAddedListItems([]);
+        }
+
+        return () => { ignore = true; }
+
+    }, [elementIDState, titleQuery, modalOpened, refreshState]);
 
     return (
         <div className="modal-content-wrapper">
             <SelectableList 
+                listLoader={listLoader}
+                modalLoader={loader}
+                detailAction={detailAction}
                 editable={consent}
                 refreshState={refreshState}
-                deleteItemAction={deleteExaminationFromOrder}
                 modalOpened={modalOpened}
                 setActiveTab={setActiveTab} 
                 selectedItems={selectedItems} 
@@ -130,6 +149,8 @@ function ExaminationsTab(props) {
 
 export default function OrderModal(props) {
     const { modalOpened, modalData, setModalOpened, setToastMessage, participantID } = props;
+
+    const [refreshState, setRefreshState] = useState(true);
     
     const [name, setName] = useState(false);
     const [completionDate, setCompletionDate] = useState('');
@@ -144,6 +165,14 @@ export default function OrderModal(props) {
 
     const [modalMessage, setModalMessage] = useState("");
     const deleteTooltip = "Nie można usunąć. Zlecenie zostało wykonane";
+
+    const [examinationOrderModalData, setExaminationOrderModalData] = useState({ examination_id: '', order_id: '' });
+    const [examinationOrderModalOpened, setExaminationOrderModalOpened] = useState(false);
+
+    const openExaminationDetailsModal = (element) => {
+        setExaminationOrderModalData({ order_id: modalData.order_id, examination_id: element.id, title: element.title})
+        setExaminationOrderModalOpened(true);
+    }
 
     const orderCompleted = (date) => {
         // date <- order's completion date
@@ -173,7 +202,7 @@ export default function OrderModal(props) {
                 updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: name, completionDate: completionDate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
                 .then((data) => {
                     setToastMessage(data.message);
-                    window.location.reload();
+                    setRefreshState(!refreshState);
                 });
             }
             
@@ -184,7 +213,6 @@ export default function OrderModal(props) {
     }
 
     useEffect(() => {
-        console.log(modalData);
         if(modalData.order_id !== '') {
             setModalTitle('Modyfikacja zlecenia');
             setName(modalData.title);
@@ -258,36 +286,40 @@ export default function OrderModal(props) {
             id: 1,
             title: 'Badania',
             icon: 'bi bi-activity',
-            component: <ExaminationsTab consent={consent} completed={completed} setToastMessage={setToastMessage} modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
-        },
-        {
-            id: 2,
-            title: 'Wyniki',
-            icon: 'bi bi-file-spreadsheet',
-            component: <ResultsTab modalOpened={modalOpened} setActiveTab={setActiveTab} elementIDState={modalData.order_id} />
-        },
+            component: <ExaminationsTab loader={loader} refreshState={refreshState} setRefreshState={setRefreshState} detailAction={openExaminationDetailsModal} consent={consent} completed={completed} setToastMessage={setToastMessage} modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+        }
     ];
 
     return (
-        <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody
-                deleteDisabled={completed}
-                deleteTooltip={completed ? deleteTooltip : ""}
-                modalMessage={modalMessage}
-                saveDisabled={modalData.consent}
-                saveTooltip={"Nie można zapisać"}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                tabs={tabs} activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                title={modalTitle}
-                subtitle={modalSubtitle}
-                saveAction={saveOrderAction}
-                deleteAction={deleteOrderAction}
-                setModalOpened={setModalOpened}
-                elementIDState={modalData.order_id}
-                inputs={inputs}
-                loader={loader} />
-        </div>
+        <>
+            <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
+                <ModalBody
+                    deleteDisabled={completed}
+                    deleteTooltip={completed ? deleteTooltip : ""}
+                    modalMessage={modalMessage}
+                    saveDisabled={modalData.consent}
+                    saveTooltip={"Nie można zapisać"}
+                    selectedItems={selectedItems}
+                    setSelectedItems={setSelectedItems}
+                    tabs={tabs} activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    title={modalTitle}
+                    subtitle={modalSubtitle}
+                    saveAction={saveOrderAction}
+                    deleteAction={deleteOrderAction}
+                    setModalOpened={setModalOpened}
+                    elementIDState={modalData.order_id}
+                    inputs={inputs}
+                    loader={loader} />
+            </div>
+
+            <ExaminationOrderModal
+                setToastMessage={setToastMessage}
+                refreshState={refreshState}
+                setRefreshState={setRefreshState}
+                modalOpened={examinationOrderModalOpened}
+                modalData={examinationOrderModalData} 
+                setModalOpened={setExaminationOrderModalOpened} />
+        </>
     );
 };

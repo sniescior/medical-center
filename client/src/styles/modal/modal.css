@@ -39,6 +39,7 @@
   color: #664d03;
   margin: 0 20px;
   border-radius: 8px;
+  margin-top: 12px;
 }
 .overlay .modal .modal-message.hidden {
   display: none;

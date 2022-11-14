@@ -30,6 +30,8 @@ body .loader {
   display: inline-block;
   width: 30px;
   height: 30px;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 body .loader.big {
   width: 80px;
@@ -51,6 +53,9 @@ body .loader::after {
   border-color: #182747 transparent #182747 transparent;
   -webkit-animation: spinner-animation 0.9s linear infinite;
           animation: spinner-animation 0.9s linear infinite;
+}
+body .loader.hidden {
+  opacity: 0;
 }
 body .loader.none {
   display: none;
