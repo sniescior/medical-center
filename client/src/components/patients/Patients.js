@@ -5,6 +5,8 @@ import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 
 export default function Patients(props) {
 
+    const { tableRefresh, setTableRefresh } = props;
+
     const [pagesCount, setPagesCount] = useState(0);
     const [patients, setPatients] = useState([]);
     const [patientsCount, setPatientsCount] = useState(5); 
@@ -44,7 +46,7 @@ export default function Patients(props) {
 
     useEffect(() => {
         props.countAction(searchParams, setPatientsCount);
-    }, []);
+    }, [tableRefresh]);
     
     useEffect(() => {
         setPagesCount(Math.ceil(patientsCount / pageSize));
@@ -65,7 +67,7 @@ export default function Patients(props) {
         })
 
         return () => { ignore = true; }
-    }, [pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
+    }, [tableRefresh, pageSize, pageNumber, orderByColumn, order, idQuery, first_nameQuery, last_nameQuery, emailQuery, addressQuery, cityQuery, countryQuery, date_of_birthQuery]);
 
     var defaultHeaderData = [
         {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
-import { deletePatient, addPatient, editPatient } from "../../database/patientsQuery";
 import ModalBody from "../utility/ModalBody";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
+import { addItem, deleteItem, updateItem } from "../../database/ordersQuery";
 
 export default function PatientModal(props) {
 
-    const { modalData, modalOpened, setModalOpened, setToastMessage } = props;
+    const { modalData, modalOpened, setModalOpened, setToastMessage, tableRefresh, setTableRefresh } = props;
 
     const [patientID, setPatientID] = useState(null);
     const [firstName, setFirstName] = useState('');
@@ -106,15 +106,33 @@ export default function PatientModal(props) {
     ]
 
     const deletePatientAction = () => {
-        deletePatient(props.modalData.id, setLoader, props.setToastMessage);
+        deleteItem(`/api/patients/${props.modalData.id}`, {}, setToastMessage, setLoader)
+        .then((data) => {
+            setTableRefresh(!tableRefresh);
+            setToastMessage(data.message);
+            setLoader(false);
+            setModalOpened(false);
+        });
     }
     
     const savePatientAction = () => {
         const params = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, dateOfBirth: dateOfBirth };
         if(patientID) {
-            editPatient(patientID, params, setLoader, setToastMessage);
+            updateItem(`/api/patients/${patientID}`, params, setToastMessage, setLoader)
+            .then((data) => {
+                setTableRefresh(!tableRefresh);
+                setToastMessage(data.message);
+                setLoader(false);
+                setModalOpened(false);
+            })
         } else {
-            addPatient(params, setLoader, setToastMessage);
+            addItem('/api/patients', params, setToastMessage, setLoader)
+            .then((data) => {
+                setTableRefresh(!tableRefresh);
+                setToastMessage(data.message);
+                setLoader(false);
+                setModalOpened(false);
+            });
         }
     }
 

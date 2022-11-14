@@ -10,7 +10,7 @@ export default function DashboardView(props) {
         fetch('/api/patients/count-patients').then(
             response => response.json()
         ).then(
-            data => { setPatientsCount(data.data.patientsCount); }
+            data => { setPatientsCount(data.data.count); }
         );
 
         fetch('/api/projects/count-projects').then(

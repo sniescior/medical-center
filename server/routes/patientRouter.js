@@ -7,7 +7,7 @@ const router = express.Router();
 
 const queries = {
     SELECT_PATIENT: 'SELECT * FROM patients WHERE id = ?',
-    CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, STR_TO_DATE(\'?-?-?\', \'%Y-%m-%d\'))',
+    CREATE_PATIENT: 'INSERT INTO patients (first_name, last_name, email, address, city, country, date_of_birth) VALUES (?, ?, ?, ?, ?, ?, STR_TO_DATE(?, \'%Y-%m-%d\'))',
     UPDATE_PATIENT: 'UPDATE patients SET first_name = ?, last_name = ?, email = ?, address = ?, city = ?, country = ?, date_of_birth = STR_TO_DATE(?, \'%Y-%m-%d\') WHERE id = ?',
     DELETE_PATIENT: 'DELETE FROM patients WHERE id = ?',
     DELETE_ALL_PATIENTS: 'DELETE * FROM patients'
@@ -24,6 +24,7 @@ const normalizeResult = (result) => {
  */
 
 router.post('/', async (req, res) => {
+    console.log(req.body);
     database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }
@@ -127,7 +128,7 @@ router.get('/count-patients', async (req, res) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }
             const normalResult = normalizeResult(result);
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { count: normalResult.patientsCount }));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));

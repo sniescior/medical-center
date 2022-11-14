@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import Toast from "../components/utility/Toast";
 import LoaderPage from "../components/utility/LoaderPage";
 import Patients from "../components/patients/Patients";
 import PatientModal from "../components/patients/PatientModal";
-import { fetchPatients, getPatientsCount } from "../database/patientsQuery";
+import { getPatientsCount } from "../database/patientsQuery";
 import ErrorPage from "../components/utility/ErrorPage";
-import { getArrayQuery } from "../database/ordersQuery";
+import { getArrayQuery, getItemsCount } from "../database/ordersQuery";
 
 export default function PatientsView(props) {
     const { toastMessage, setToastMessage } = props;
 
     const [loader, setLoader] = useState(false);
+
+    const [tableRefresh, setTableRefresh] = useState(false);
     
     const defaultModalData = { id: '', first_name: '', last_name: '', email: '', address: '', city: '', country: '', date_of_birth: '' }
     const [modalOpened, setModalOpened] = useState(false);
@@ -32,7 +33,9 @@ export default function PatientsView(props) {
         });
     }
 
-    const countAction = (searchParams, setPatientsCount) => { getPatientsCount(searchParams, setPatientsCount); }
+    const countAction = (searchParams, setPatientsCount) => { 
+        getItemsCount('/api/patients/count-patients?', searchParams, setPatientsCount, setError, setLoader);
+    }
     
     if(error.statusCode) {
         return <ErrorPage error={error} />
@@ -49,12 +52,22 @@ export default function PatientsView(props) {
                     </div>
                     
                     <Patients
+                        tableRefresh={tableRefresh}
+                        setTableRefresh={setTableRefresh}
                         refreshAction={refreshPatients}
                         setError={setError}
                         onClickAction={openModal}
                         countAction={countAction} />
 
-                    <PatientModal setToastMessage={setToastMessage} refreshPatientsList={refreshPatients} modalData={modalData} setModalData={setModalData} modalOpened={modalOpened} setModalOpened={setModalOpened} />
+                    <PatientModal 
+                        tableRefresh={tableRefresh}
+                        setTableRefresh={setTableRefresh}
+                        setToastMessage={setToastMessage}
+                        refreshPatientsList={refreshPatients}
+                        modalData={modalData}
+                        setModalData={setModalData}
+                        modalOpened={modalOpened}
+                        setModalOpened={setModalOpened} />
                 </div>
             </div>
         );

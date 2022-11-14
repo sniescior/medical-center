@@ -93,7 +93,7 @@ CREATE TABLE `orders` (                                                     -- Z
     `completion_date`       TIMESTAMP DEFAULT NULL,
 
     PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`participant_id`) REFERENCES `participants`(`participant_id`)
+    FOREIGN KEY (`participant_id`) REFERENCES `participants`(`participant_id`) ON DELETE CASCADE
 );
 
 

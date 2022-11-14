@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import TabsHeader from "../utility/TabsHeader";
 import Patients from "../patients/Patients";
 import AlertModal from "../utility/AlertModal";
-import { getArrayQuery } from "../../database/ordersQuery";
+import { addItem, getArrayQuery } from "../../database/ordersQuery";
 
 const tabs = [
     {
@@ -154,7 +154,14 @@ export default function ProjectDetail(props) {
     }, [refreshState]);
 
     const addPatient = () => {
-        addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
+        addItem('/api/projects/add-participant', candidateModalData, props.setToastMessage, setLoader)
+        .then((data) => {
+            props.setToastMessage(data.message);
+            setActiveTab(0);
+            setCandidateModalOpened(false);
+            setLoader(false);
+        })
+        // addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
         setActiveTab(0);
         setCandidateModalOpened(false);
     }
