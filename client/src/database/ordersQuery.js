@@ -112,21 +112,21 @@ export const deleteItem = (urlString, params, setToastMessage, setLoader) => {
 
 export const addItem = (urlString, params, setToastMessage, setLoader) => {
     setLoader(true);
-    fetch(urlString, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params)
-    }).then(
-        response => {
-            if(response.ok) { return response.json(); }
-            throw (response.status);
-        }
-    ).then(data => {
-        console.log(data);
-        setToastMessage(data.message);
-        window.location.reload();
-    }).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
-        setLoader(false);
+    return new Promise((resolve, reject) => {
+        fetch(urlString, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(params)
+        }).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+        ).then(data => {
+            resolve(data);
+        }).catch((error) => {
+            setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
+            setLoader(false);
+        });
     });
 }

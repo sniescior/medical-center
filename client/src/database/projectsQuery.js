@@ -1,25 +1,3 @@
-export const deleteProject = (projectID, setLoader, setToastMessage) => {
-    setLoader(true);
-    fetch(`/api/projects/${projectID}`, {
-        method: 'DELETE'
-    }).then(
-        (response) => {
-            if(response.ok) {
-                return response.json();
-            }
-            throw (response.status);
-        }
-    ).then(
-        data => {
-            setToastMessage(data.message);
-            window.location.href = '/projects';
-        }
-    ).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`);
-        setLoader(false);
-    });
-}
-
 export const getProjectDetails = (projectID, setProject, setLoader, setError) => {
     setLoader(true);
     fetch(`/api/projects/${projectID}`).then(
@@ -41,27 +19,6 @@ export const getProjectDetails = (projectID, setProject, setLoader, setError) =>
     });
 }
 
-// export const fetchProjects = (searchParams, setProjects, setLoader, setError) => {
-//     setLoader(true);
-//     fetch('/api/projects?' + searchParams).then(
-//         (response) => {
-//             if(response.ok) {
-//                 return response.json();
-//             }
-//             throw (response.status);
-//         }
-//     ).then(
-//         data => {
-//             setProjects(data.data.projects);
-//             setLoader(false);
-//         }
-//     ).catch((error) => {
-//         setError({
-//             statusCode: error
-//         });
-//     });
-// }
-
 export const getProjectsCount = (searchParams, setProjectsCount, setLoader, setError) => {
     setLoader(true);
     fetch('/api/projects/count-projects?' + searchParams, {
@@ -82,54 +39,6 @@ export const getProjectsCount = (searchParams, setProjectsCount, setLoader, setE
         setError({
             statusCode: error
         });
-    });
-}
-
-export const addProject = (postParams, setLoader, setToastMessage) => {
-    setLoader(true);
-    fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postParams)
-    }).then(
-        (response) => {
-            if(response.ok) {
-                return response.json();
-            }
-            throw (response.status);
-        }
-    ).then(
-        data => {
-            setToastMessage(data.message);
-            window.location.href = `/projects/${data.data.project.id}`
-        }
-    ).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
-        setLoader(false);
-    });
-}
-
-export const editProject = (projectID, putParams, setLoader, setToastMessage) => {
-    setLoader(true);
-    fetch(`/api/projects/${projectID}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(putParams)
-    }).then(
-        (response) => {
-            if(response.ok) {
-                return response.json();
-            }
-            throw (response.status);
-        }
-    ).then(
-        data => {
-            setToastMessage(data.message);
-            window.location.reload();
-        }
-    ).catch((error) => {
-        setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
-        setLoader(false);
     });
 }
 

@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
                 res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
                 const project = { id: result.insertId, name: req.body.name };
-                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { project: project }));
+                res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { itemID: result.insertId }));
             }
         } catch(err) {
             console.log(err);

@@ -134,6 +134,8 @@ export default function ProjectDetail(props) {
     const [order, setOrder] = useState('ASC');
     const [orderByColumn, setOrderByColumn] = useState('id');
 
+    const [refreshState, setRefreshState] = useState(false);
+
     const queryParams = new URLSearchParams({
         id: params.projectID,
     });
@@ -144,9 +146,12 @@ export default function ProjectDetail(props) {
     };
     
     useEffect(() => {
-        getProjectDetails(params.projectID, setProject, setLoader, setError);
         setModalData({ id: params.projectID, name: project.name });
-    }, []);
+    }, [refreshState]);
+
+    useEffect(() => {
+        getProjectDetails(params.projectID, setProject, setLoader, setError);
+    }, [refreshState]);
 
     const addPatient = () => {
         addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
@@ -187,6 +192,8 @@ export default function ProjectDetail(props) {
                     setModalLodader={setCandidateModalLoader} />
 
                 <ProjectModal
+                    refreshState={refreshState}
+                    setRefreshState={setRefreshState}
                     modalOpened={modalOpened}
                     setModalOpened={setModalOpened}
                     modalData={modalData}

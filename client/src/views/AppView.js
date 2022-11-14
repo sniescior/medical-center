@@ -18,7 +18,7 @@ export default function AppView() {
   const [toastMessage, setToastMessage] = useState('');
 
   const setToast = (message) => {
-    localStorage.setItem('message', message);
+    setToastMessage(message);
   }
 
   const routes = [
@@ -63,7 +63,7 @@ export default function AppView() {
   useEffect(() => {
     const message = localStorage.getItem('message');
     if(message) { setToastMessage(message); }
-  });
+  }, [toastMessage]);
 
   const [menuOpen, setMenuOpen] = useState(
     localStorage.getItem('side-menu-open') === 'true'

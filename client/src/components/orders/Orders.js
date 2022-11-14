@@ -3,6 +3,9 @@ import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 import OrderTable from "./OrderTable";
 
 export default function Orders(props) {
+
+    const { tableRefresh } = props;
+
     const [pagesCount, setPagesCount] = useState(0);
     const [orders, setOrders] = useState([]);
     const [ordersCount, setOrdersCount] = useState(5);
@@ -69,7 +72,16 @@ export default function Orders(props) {
     const [headerData, setHeaderData] = useState(defaultHeaderData);
 
     useEffect(() => {
+        setTableLoader(true);
         getItemsCount(`/api/orders/count/${props.projectID}/${props.patientID}?`, searchParams, setOrdersCount, props.setError, setPaginationLoader);
+        getArrayQuery(`/api/orders/${props.projectID}/${props.patientID}?`, searchParams, props.setError, () => {})
+        .then((data) => {
+            setOrders(data);
+            setTableLoader(false);
+        });
+    }, [tableRefresh]);
+
+    useEffect(() => {
     }, []);
     
     useEffect(() => {
@@ -84,7 +96,7 @@ export default function Orders(props) {
 
         getArrayQuery(`/api/orders/${props.projectID}/${props.patientID}?`, searchParams, props.setError, () => {})
         .then((data) => {
-            if(!ignore) { 
+            if(!ignore) {
                 setOrders(data);
                 setTableLoader(false);
             }

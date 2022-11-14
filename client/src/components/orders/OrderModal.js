@@ -149,7 +149,7 @@ function ExaminationsTab(props) {
 }
 
 export default function OrderModal(props) {
-    const { modalOpened, modalData, setModalOpened, setToastMessage, participantID } = props;
+    const { tableRefresh, setTableRefresh, modalOpened, modalData, setModalOpened, setToastMessage, participantID } = props;
 
     const [refreshState, setRefreshState] = useState(true);
     
@@ -204,6 +204,7 @@ export default function OrderModal(props) {
                 .then((data) => {
                     setToastMessage(data.message);
                     setRefreshState(!refreshState);
+                    setTableRefresh(!tableRefresh);
                 });
             }
             

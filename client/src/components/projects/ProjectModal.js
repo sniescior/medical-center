@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/modal/modal.css';
-import { addProject, deleteProject, editProject } from "../../database/projectsQuery";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ModalBody from "../utility/ModalBody";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
+import { addItem, deleteItem, updateItem } from "../../database/ordersQuery";
 
 export default function ProjectModal(props) {
     const params = useParams()
-    const { modalData, modalOpened, setModalOpened, setModalData, setToastMessage } = props;
+    const navigate = useNavigate();
+    const { modalData, modalOpened, setModalOpened, setModalData, setToastMessage, setRefreshState, refreshState } = props;
 
     const [projectID, setProjectID] = useState(null);
     const [name, setName] = useState('');
@@ -38,13 +39,29 @@ export default function ProjectModal(props) {
         }
     ];
 
-    const deleteProjectAction = () => { deleteProject(modalData.id, setLoader, setToastMessage); }
+    const deleteProjectAction = () => { 
+        deleteItem(`/api/projects/${modalData.id}`, {}, setToastMessage, setLoader)
+        .then((data) => {
+            setToastMessage(data.message);
+            navigate('/projects')
+        });
+    }
 
     const saveProjectAction = () => {
         if(projectID) {
-            editProject(projectID, { name: name }, setLoader, setToastMessage);
+            updateItem(`/api/projects/${projectID}`, { name: name }, setToastMessage, setLoader)
+            .then((data) => {
+                setModalOpened(false);
+                setToastMessage(data.message);
+                setRefreshState(!refreshState);
+            })
         } else {
-            addProject({ name: name }, setLoader, setToastMessage);
+            addItem('/api/projects', { name: name }, setLoader, setToastMessage)
+            .then((data) => {
+                setLoader(false);
+                setToastMessage(data.message)
+                navigate(`/projects/${data.data.itemID}`)
+            })
         }
     }
 

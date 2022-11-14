@@ -42,6 +42,8 @@ export default function ParticipantDetail(props) {
         setOrderModalOpened(true);
     }
 
+    const [tableRefresh, setTableRefresh] = useState(false);
+
     if(error.statusCode) {
         return ( <ErrorPage error={error} /> );
     } else {
@@ -76,6 +78,7 @@ export default function ParticipantDetail(props) {
                 </div>
 
                 <Orders 
+                    tableRefresh={tableRefresh}
                     orders={orders}
                     setLoader={setLoader}
                     patientID={params.patientID}
@@ -85,6 +88,8 @@ export default function ParticipantDetail(props) {
                     openModal={openOrderModal} />
 
                 <OrderModal
+                    tableRefresh={tableRefresh}
+                    setTableRefresh={setTableRefresh}
                     modalOpened={orderModalOpened}
                     setModalOpened={setOrderModalOpened}
                     modalData={orderModalData}

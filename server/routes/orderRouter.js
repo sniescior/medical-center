@@ -154,7 +154,7 @@ router.get('/:projectID/:patientID', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zaktualizowano zlecenie'));
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Zlecenie zostało zaktualizowane'));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
