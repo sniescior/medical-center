@@ -52,7 +52,7 @@ export default function Examinations(props) {
         });
 
         return () => { ignore = true; }
-    }, [pageSize, pageNumber, orderByColumn, order, idQuery, titleQuery]);
+    }, [pageSize, pageNumber, orderByColumn, order, idQuery, titleQuery, props.tableRefresh]);
 
     const headerData = [
         {

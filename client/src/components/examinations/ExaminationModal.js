@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
-import { addExamination, editExamination, deleteExamination } from "../../database/examinationsQuery";
+import { addItem, deleteItem, updateItem } from "../../database/ordersQuery";
 import ModalBody from "../utility/ModalBody";
 
 export default function ExaminationModal(props) {
@@ -44,13 +44,33 @@ export default function ExaminationModal(props) {
 		}
   	];
 
-	const deleteExaminationAction = () => { deleteExamination({ examinationID: examinationID }, setLoader, setToastMessage); }
+	const deleteExaminationAction = () => { 
+		deleteItem('api/examinations/delete-examination', { examinationID: examinationID }, setToastMessage, setLoader)
+			.then((data) => {
+				setToastMessage(data.data);
+				setLoader(false);
+				setModalOpened(false);
+				props.setTableRefresh(!props.tableRefresh);
+			});
+	}
 	
 	const saveExaminationAction = () => {
 		if(examinationID) {
-			editExamination({ examinationID: examinationID, examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
+			updateItem('/api/examinations/edit-examination', { examinationID: examinationID, examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage)
+				.then((data) => {
+					setToastMessage(data.data);
+					setLoader(false);
+					setModalOpened(false);
+					props.setTableRefresh(!props.tableRefresh);
+				});
 		} else {
-			addExamination({ examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setLoader, setToastMessage);
+			addItem('/api/examinations/add-examination', { examinationTitle: examinationTitle, examinationDescription: examinationDescription }, setToastMessage, setLoader)
+				.then((data) => {
+					setToastMessage(data.data);
+					setLoader(false);
+					setModalOpened(false);
+					props.setTableRefresh(!props.tableRefresh);
+				});
 		}
 	}
 

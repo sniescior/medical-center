@@ -21,7 +21,7 @@ export default function DashboardView(props) {
         fetch('/api/projects/count-projects').then(
             response => response.json()
         ).then(
-            data => { setProjectsCount(data.data.projectsCount); }
+            data => { setProjectsCount(data.data.count); }
         );
         
         fetch('/api/orders/count').then(
@@ -33,7 +33,7 @@ export default function DashboardView(props) {
         fetch('/api/examinations/count-examinations').then(
             response => response.json()
         ).then(
-            data => { setExaminationsCount(data.data.examinationsCount); }
+            data => { setExaminationsCount(data.data.count); }
         );
 
     }, []);

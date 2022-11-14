@@ -32,7 +32,7 @@ export const getProjectsCount = (searchParams, setProjectsCount, setLoader, setE
         }
     ).then(
         data => {
-            setProjectsCount(data.data.projectsCount);
+            setProjectsCount(data.data.count);
             setLoader(false);
         }
     ).catch((error) => {

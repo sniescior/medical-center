@@ -30,7 +30,7 @@ router.get('/count-examinations', async (req, res) => {
                 res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
                 const normalResult = normalizeResult(result);
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, '', { examinationsCount: normalResult.examinations_count }));
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, '', { count: normalResult.examinations_count }));
             }
         } catch(err) {
             console.log(err);
@@ -101,7 +101,7 @@ router.post('/add-examination', async (req, res) => {
     database.query(query, [examinationTitle, examinationDescription], (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { examination: { title: examinationTitle, description: examinationDescription } }));
+            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', "Dodano badanie"));
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
