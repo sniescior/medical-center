@@ -32,7 +32,7 @@ function ParticipantsTab(props) {
         sort: false
     }];
     
-    const { projectID, active, setLoader, setError } = props;
+    const { projectID, active, setLoader, setError, tableRefresh, setTableRefresh } = props;
 
     const [tableLoader, setTableLoader] = useState(true);
 
@@ -59,6 +59,7 @@ function ParticipantsTab(props) {
         <div className={active === 0 ? "tab-wrapper active" : "tab-wrapper"}>
             <h2>Pacjenci zarejestrowani do udziału w projekcie</h2>
             <Patients 
+                tableRefresh={tableRefresh}
                 tableLoader={tableLoader}
                 headerData={headerData}
                 refreshAction={fetchParticipants}
@@ -76,8 +77,9 @@ function PatientsTab(props) {
 
     const [tableLoader, setTableLoader] = useState(true);
 
-    const fetchParticipants = (searchParams, setPatients) => {
+    const { tableRefresh, setTableRefresh } = props;
 
+    const fetchParticipants = (searchParams, setPatients) => {
         return new Promise((resolve, reject) => {
             searchParams.append('projectID', projectID);
             getArrayQuery('/api/projects/get-not-participants?', searchParams, setError, setTableLoader)
@@ -103,6 +105,7 @@ function PatientsTab(props) {
         <div className={active === 1 ? "tab-wrapper active" : "tab-wrapper"}>
             <h2>Dodawanie pacjentów do projektu</h2>
             <Patients
+                tableRefresh={tableRefresh}
                 refreshAction={fetchParticipants}
                 countAction={countAction}
 
@@ -119,6 +122,8 @@ export default function ProjectDetail(props) {
 
     const [loader, setLoader] = useState(true);
     const [error, setError] = useState({});
+
+    const [tableRefresh, setTableRefresh] = useState(false);
 
     const [modalOpened, setModalOpened] = useState(false);
     const defaultModalData = { id: '', name: '' }
@@ -157,13 +162,13 @@ export default function ProjectDetail(props) {
         addItem('/api/projects/add-participant', candidateModalData, props.setToastMessage, setLoader)
         .then((data) => {
             props.setToastMessage(data.message);
+            setTableRefresh(!tableRefresh);
             setActiveTab(0);
             setCandidateModalOpened(false);
             setLoader(false);
         })
-        // addPatientToProject(candidateModalData, setCandidateModalLoader, props.setToastMessage);
+        
         setActiveTab(0);
-        setCandidateModalOpened(false);
     }
 
     if(error.statusCode) {
@@ -184,12 +189,16 @@ export default function ProjectDetail(props) {
                 <TabsHeader tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 
                 <ParticipantsTab 
+                    tableRefresh={tableRefresh}
+                    setTableRefresh={setTableRefresh}
                     projectID={params.projectID}
                     active={activeTab}
                     setLoader={setLoader}
                     setError={setError} />
 
                 <PatientsTab
+                    tableRefresh={tableRefresh}
+                    setTableRefresh={setTableRefresh}
                     projectID={params.projectID}
                     active={activeTab}
                     setLoader={setLoader}

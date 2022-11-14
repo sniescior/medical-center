@@ -5,6 +5,26 @@
  * 
  */
 
+ export const getItem = (urlString, params, setItem, setError, setLoader) => {
+    setLoader(true);
+    
+    return new Promise((resolve, reject) => {
+        fetch(urlString + params).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+        ).then(data => {
+            setLoader(false);
+            setItem(data.data.item);
+        }).catch((error) => {
+            setError({
+                statusCode: error
+            });
+        });
+    });
+}
+
 export const getArrayQuery = (urlString, params, setError, setLoader) => {
     setLoader(true);
 
@@ -31,19 +51,22 @@ export const getArrayQuery = (urlString, params, setError, setLoader) => {
 
 export const getItemsCount = (urlString, params, setCount, setError, setLoader) => {
     setLoader(false);
-    fetch(urlString + params, {
-        method: 'GET'
-    }).then(
-        response => {
-            if(response.ok) { return response.json(); }
-            throw (response.status);
-        }
-    ).then(data => {
-        setLoader(false);
-        setCount(data.data.count);
-    }).catch((error) => {
-        setError({
-            statusCode: error
+
+    return new Promise((resolve, reject) => {
+        fetch(urlString + params, {
+            method: 'GET'
+        }).then(
+            response => {
+                if(response.ok) { return response.json(); }
+                throw (response.status);
+            }
+        ).then(data => {
+            setLoader(false);
+            setCount(data.data.count);
+        }).catch((error) => {
+            setError({
+                statusCode: error
+            });
         });
     });
 }
@@ -56,6 +79,7 @@ export const getItemsCount = (urlString, params, setCount, setError, setLoader) 
 
 export const updateItem = (urlString, params, setToastMessage, setLoader) => {
     setLoader(true);
+
     return new Promise((resolve, reject) => {
         fetch(urlString, {
             method: 'PUT',
@@ -112,6 +136,7 @@ export const deleteItem = (urlString, params, setToastMessage, setLoader) => {
 
 export const addItem = (urlString, params, setToastMessage, setLoader) => {
     setLoader(true);
+
     return new Promise((resolve, reject) => {
         fetch(urlString, {
             method: 'POST',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getItemQuery } from "../../database/participantQuery";
+import { getItem } from "../../database/ordersQuery";
 import { getProjectDetails } from "../../database/projectsQuery";
 import OrderModal from "../orders/OrderModal";
 import Orders from "../orders/Orders";
@@ -29,7 +29,8 @@ export default function ParticipantDetail(props) {
 
     useEffect(() => {
         getProjectDetails(params.projectID, setProject, setLoader, setError);
-        getItemQuery(`/api/projects/${params.projectID}/get-participant/${params.patientID}`, new URLSearchParams({}), setParticipant, setError, setLoader);
+        getItem(`/api/projects/${params.projectID}/get-participant/${params.patientID}`, new URLSearchParams({}), setParticipant, setError, setLoader);
+        
     }, []);
     
     const openModal = () => {

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LoaderPage from "../components/utility/LoaderPage";
 import Patients from "../components/patients/Patients";
 import PatientModal from "../components/patients/PatientModal";
-import { getPatientsCount } from "../database/patientsQuery";
 import ErrorPage from "../components/utility/ErrorPage";
 import { getArrayQuery, getItemsCount } from "../database/ordersQuery";
 

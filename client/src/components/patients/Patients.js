@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getPatientsCount } from "../../database/patientsQuery";
 import PatientTable from "./PatientTable";
 import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 
