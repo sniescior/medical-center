@@ -110,11 +110,24 @@ body button .tooltip.left {
   transform: translate(-100%, -50%);
 }
 body button .tooltip.left::after {
-  right: -8px;
+  right: -7.5px;
   top: 50%;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-left: 8px solid rgba(17, 17, 17, 0.75);
+}
+body button .tooltip.top {
+  top: -14px;
+  left: -12px;
+  transform: translateY(-100%);
+}
+body button .tooltip.top::after {
+  left: 40px;
+  bottom: 0;
+  transform: translate(50%, 100%);
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-top: 8px solid rgba(17, 17, 17, 0.75);
 }
 body button:hover .tooltip {
   opacity: 1;
@@ -206,6 +219,9 @@ body button.button-danger {
 }
 body button.button-secondary:hover {
   text-decoration: underline;
+}
+body button.button-secondary.button-disabled {
+  text-decoration: none;
 }
 body button.button-primary {
   padding: 8px 12px;

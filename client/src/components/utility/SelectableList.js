@@ -19,7 +19,7 @@ function AddedListItem(props) {
 }
 
 function ListItem(props) {
-    const { item, selectedItems, selectItem, unSelectItem } = props;
+    const { editable, item, selectedItems, selectItem, unSelectItem } = props;
 
     const ifSelected = (id) => {
         if(selectedItems.has(id)) { return true; }
@@ -27,11 +27,13 @@ function ListItem(props) {
     }
 
     return (
-        <li className={ifSelected(item.id) ? "selected" : ""} onClick={() => { 
-            if(ifSelected(item.id)) {
-                unSelectItem(item.id);
-            } else {
-                selectItem(item.id);
+        <li className={ifSelected(item.id) ? "selected" : ""} onClick={() => {
+            if(editable) {
+                if(ifSelected(item.id)) {
+                    unSelectItem(item.id);
+                } else {
+                    selectItem(item.id);
+                }
             }
         }}>
             <p>{item.title}</p>
@@ -43,7 +45,11 @@ function ListItem(props) {
 export default function SelectableList(props) {
     const [loader, setLoader] = useState(false);
 
-    const { refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
+    const { editable, refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
+
+    useEffect(() => {
+        console.log('Editable: ', editable);
+    })
 
     useEffect(() => {
         refreshList(setLoader, setError);
@@ -58,17 +64,17 @@ export default function SelectableList(props) {
     }
 
     return (
-        <div className="selectable-list">
+        <div className={editable === 1 ? "selectable-list" : "selectable-list view-only"}>
             <div className="input-wrapper icon">
                 <i className="bi bi-search"></i>
                 <input type="text" placeholder="Wyszukaj" value={titleQuery} onChange={(e) => setTitleQuery(e.target.value) } />
             </div>
             <ul className="list">
                 {addedItems.map((element, key) => {
-                    return <AddedListItem deleteItemAction={deleteItemAction} key={key} item={element} />
+                    return <AddedListItem editable={editable} deleteItemAction={deleteItemAction} key={key} item={element} />
                 })}
                 {items.map((element, key) => {
-                    return <ListItem selectedItems={selectedItems} key={key} item={element} selectItem={selectItem} unSelectItem={unSelectItem} />
+                    return <ListItem editable={editable} selectedItems={selectedItems} key={key} item={element} selectItem={selectItem} unSelectItem={unSelectItem} />
                 })}
             </ul>
             <div className="selected-summary">

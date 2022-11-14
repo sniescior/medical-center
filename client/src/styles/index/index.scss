@@ -115,18 +115,32 @@ body {
                 height: 0;
             }
 
-
             &.left {
                 top: 50%;
                 left: -12px;
                 transform: translate(-100%, -50%);
 
                 &::after {
-                    right: -8px;
+                    right: -7.5px;
                     top: 50%;
                     border-top: 8px solid transparent;
                     border-bottom: 8px solid transparent;
                     border-left: 8px solid rgba(17, 17, 17, 0.75);
+                }
+            }
+
+            &.top {
+                top: -14px;
+                left: -12px;
+                transform: translateY(-100%);
+
+                &::after {
+                    left: 40px;
+                    bottom: 0;
+                    transform: translate(50%, 100%);
+                    border-right: 8px solid transparent;
+                    border-left: 8px solid transparent;
+                    border-top: 8px solid rgba(17, 17, 17, 0.75);
                 }
             }
         }
@@ -239,6 +253,10 @@ body {
         &.button-secondary {
             &:hover {
                 text-decoration: underline;
+            }
+
+            &.button-disabled {
+                text-decoration: none;
             }
         }
 

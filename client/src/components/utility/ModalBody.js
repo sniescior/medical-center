@@ -4,7 +4,7 @@ import ModalHeader from "./ModalHeader";
 import TabsHeader from "./TabsHeader";
 
 export default function ModalBody(props) {
-    const { modalMessage, title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
+    const { deleteDisabled, saveDisabled, modalMessage, title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
 
     if(!tabs) {
         return (
@@ -33,12 +33,20 @@ export default function ModalBody(props) {
                     </div>
                     <div className="button-wrapper between">
                         {elementIDState ? 
-                            <button className="button-secondary button-danger button-icon" onClick={() => { deleteAction(); }}><i className="bi bi-trash3"></i>Usuń</button>
+                            <button 
+                                className={deleteDisabled === false ? "button-secondary button-danger button-icon" : "button-secondary button-icon button-disabled"} 
+                                onClick={() => { deleteAction(); }}>
+                                    <i className="bi bi-trash3"></i>
+                                    Usuń
+                                    <span className={deleteDisabled === false ? "tooltip hidden" : "tooltip top"}>
+                                        {props.deleteTooltip}
+                                    </span>
+                            </button>
                             : <></>
                         }
                         <div className="button-wrapper">
                             <button className="button-secondary" onClick={() => { setModalOpened(false); setActiveTab(0); }}>Odrzuć zmiany</button>
-                            <button className={props.saveDisabled === 0 ? "button-primary button-disabled" : "button-primary"} onClick={() => { saveAction(); }}>Zapisz</button>
+                            <button className={saveDisabled === 0 ? "button-primary button-disabled" : "button-primary"} onClick={() => { saveAction(); }}>Zapisz</button>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 import { addItem, deleteItem, getArrayQuery, updateItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
@@ -27,7 +26,7 @@ function ResultsTab(props) {
 }
 
 function ExaminationsTab(props) {
-    const { setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+    const { consent, setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
     const [titleQuery, setTitleQuery] = useState('');
 
@@ -110,6 +109,7 @@ function ExaminationsTab(props) {
     return (
         <div className="modal-content-wrapper">
             <SelectableList 
+                editable={consent}
                 refreshState={refreshState}
                 deleteItemAction={deleteExaminationFromOrder}
                 modalOpened={modalOpened}
@@ -129,11 +129,8 @@ function ExaminationsTab(props) {
 }
 
 export default function OrderModal(props) {
-    const params = useParams();
-    const navigate = useNavigate();
     const { modalOpened, modalData, setModalOpened, setToastMessage, participantID } = props;
     
-    const [projectID, setProjectID] = useState(params.projectID);
     const [name, setName] = useState(false);
     const [completionDate, setCompletionDate] = useState('');
     const [consent, setConsent] = useState(1);
@@ -143,32 +140,55 @@ export default function OrderModal(props) {
     
     const [loader, setLoader] = useState(false);
 
-    const deleteOrderAction = () => { 
-        deleteItem(`/api/orders/${modalData.order_id}`, { orderID: modalData.order_id }, setToastMessage, setLoader);
-        setToastMessage("Deleting");
+    const [completed, setCompleted] = useState(true);
+
+    const [modalMessage, setModalMessage] = useState("");
+    const deleteTooltip = "Nie można usunąć. Zlecenie zostało wykonane";
+
+    const orderCompleted = (date) => {
+        // date <- order's completion date
+        const today = new Date();
+        const raw_compl_date = new Date(date);
+
+        if(today.getTime() > raw_compl_date.getTime()) {
+            return true;    // Order is already completed
+        }
+        
+        return false;
+    }
+
+    const deleteOrderAction = () => {
+        if(!orderCompleted(modalData.completion_date)) {
+            deleteItem(`/api/orders/${modalData.order_id}`, { orderID: modalData.order_id }, setToastMessage, setLoader)
+            .then((data) => { 
+                setToastMessage("Usunięto zlecenie");
+                window.location.reload();
+            });
+        }
     }
 
     const saveOrderAction = () => { 
         if(modalData.order_id) {
-            updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: name, completionDate: completionDate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
+            if(modalData.consent !== 0) {
+                updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: name, completionDate: completionDate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
                 .then((data) => {
                     setToastMessage(data.message);
                     window.location.reload();
                 });
+            }
             
         } else {
             const params = { title: name, completionDate: completionDate, examinations: Array.from(selectedItems), participantID: participantID };
             addItem('/api/orders/add?', params, setToastMessage, setLoader);
-            console.log(selectedItems);
         }
     }
 
     useEffect(() => {
+        console.log(modalData);
         if(modalData.order_id !== '') {
             setModalTitle('Modyfikacja zlecenia');
             setName(modalData.title);
             setModalSubtitle(modalData.title);
-            setConsent(modalData.consent === 1 ? true : false);
 
             try {
                 if(modalData.completion_date) {
@@ -180,11 +200,16 @@ export default function OrderModal(props) {
                     if(day.length < 2) { day = '0' + day; }
                     
                     setCompletionDate(`${year}-${month}-${day}`);
+                    
+                    // If an order has been completed set deleteState as false 
+                    // to disable delete buttons
+                    setCompleted(orderCompleted(modalData.completion_date));
                 } else {
                     setCompletionDate('');
+                    setCompleted(false);
                 }
             } catch(err) {}
-            
+
         } else {
             setName('');
             setCompletionDate('');
@@ -192,6 +217,13 @@ export default function OrderModal(props) {
             setModalSubtitle('');
         }
     }, [modalData]);
+
+    useEffect(() => {
+        if(modalData.consent === 0) {
+            setModalMessage("Nie można zapisać zmian. Brak zgody pacjenta.");
+            setConsent(0);
+        } else { setModalMessage(""); }
+    }, [modalOpened]);
 
     const [activeTab, setActiveTab] = useState(0);
     const [selectedItems, setSelectedItems] = useState(new Set());
@@ -226,7 +258,7 @@ export default function OrderModal(props) {
             id: 1,
             title: 'Badania',
             icon: 'bi bi-activity',
-            component: <ExaminationsTab setToastMessage={setToastMessage} modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
+            component: <ExaminationsTab consent={consent} completed={completed} setToastMessage={setToastMessage} modalOpened={modalOpened} setActiveTab={setActiveTab} selectedItems={selectedItems} setSelectedItems={setSelectedItems} elementIDState={modalData.order_id} />
         },
         {
             id: 2,
@@ -238,8 +270,10 @@ export default function OrderModal(props) {
 
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody 
-                modalMessage={modalData.consent === 0 ? "Nie można wprowadzić zmian. Pacjent nie wyraził zgody." : ""}
+            <ModalBody
+                deleteDisabled={completed}
+                deleteTooltip={completed ? deleteTooltip : ""}
+                modalMessage={modalMessage}
                 saveDisabled={modalData.consent}
                 saveTooltip={"Nie można zapisać"}
                 selectedItems={selectedItems}

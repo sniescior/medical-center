@@ -84,6 +84,16 @@
   background-color: #fff;
   border: 2px solid #0d6dfd;
 }
+.selectable-list.view-only .list li {
+  color: rgba(24, 39, 71, 0.6078431373);
+  cursor: default;
+}
+.selectable-list.view-only .list li.added {
+  color: #fff;
+}
+.selectable-list.view-only .list li:hover {
+  box-shadow: none;
+}
 .selectable-list .selected-summary {
   padding: 0 10px;
 }

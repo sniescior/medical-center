@@ -3,6 +3,7 @@ $font_color: #182747;
 
 .selectable-list {
     position: relative;
+    
     .input-wrapper {
         margin: 0 10px;
     }
@@ -106,6 +107,24 @@ $font_color: #182747;
             &.selected {
                 background-color: #fff;
                 border: 2px solid #0d6dfd;
+            }
+        }
+    }
+
+    &.view-only {
+        
+        .list {
+            li {
+                color: $dimmed_font_color;
+                cursor: default;
+                
+                &.added {
+                    color: #fff;
+                }
+
+                &:hover {
+                    box-shadow: none;
+                }
             }
         }
     }
