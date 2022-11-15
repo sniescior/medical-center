@@ -64,6 +64,7 @@ export const getItemsCount = (urlString, params, setCount, setError, setLoader) 
         ).then(data => {
             setLoader(false);
             setCount(data.data.count);
+            resolve(data);
         }).catch((error) => {
             setError({
                 statusCode: error

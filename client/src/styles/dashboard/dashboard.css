@@ -3,48 +3,53 @@
 }
 .content.dashboard .summary-wrapper {
   margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: 20px;
-  max-width: 800px;
+  max-width: 1200px;
 }
-.content.dashboard .summary-wrapper .card {
-  outline: none;
-  border: none;
-  flex: 1;
-  min-width: 330px;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  border-radius: 12px;
-  padding: 8px 12px;
-  text-decoration: none;
-  color: #182747;
-  transition: 0.3s ease-in-out;
+.content.dashboard .summary-wrapper .card-header {
+  padding-bottom: 20px;
 }
-.content.dashboard .summary-wrapper .card:hover {
-  background-color: rgba(246, 245, 245, 0.2);
+.content.dashboard .summary-wrapper .card-header .action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.content.dashboard .summary-wrapper .card h3 {
-  font-weight: 400;
+.content.dashboard .summary-wrapper .card-header .action-header h4 {
+  font-weight: 500;
+  font-size: 1.2em;
+  margin: 0;
+  margin-top: 8px;
+}
+.content.dashboard .summary-wrapper .card-header h2 {
   margin: 0;
 }
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0.2;
-  }
+.content.dashboard .summary-wrapper .card-header p {
+  color: #182747;
+  font-size: 1.1em;
 }
-@keyframes fadeIn {
-  from {
-    opacity: 0.2;
-  }
+.content.dashboard .summary-wrapper .summary-card {
+  background-color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.content.dashboard .summary-wrapper .card.loading {
-  opacity: 0.6;
-  -webkit-animation: fadeIn 2s infinite alternate;
-          animation: fadeIn 2s infinite alternate;
+.content.dashboard .summary-wrapper .summary-card h3 {
+  font-size: 2em;
+  font-weight: 500;
+  margin: 0;
 }
-.content.dashboard .summary-wrapper .card.loading .divider, .content.dashboard .summary-wrapper .card.loading .details, .content.dashboard .summary-wrapper .card.loading .header {
-  opacity: 0;
+.content.dashboard .summary-wrapper .chart-card#patientsChart {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 4;
 }
 .content.dashboard .summary-wrapper .chart-card .chart-wrapper {
   box-sizing: border-box;
@@ -53,21 +58,6 @@
   padding: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 8px;
-}
-.content.dashboard .summary-wrapper .chart-card .chart-wrapper .card-header {
-  padding-bottom: 20px;
-}
-.content.dashboard .summary-wrapper .chart-card .chart-wrapper .card-header .action-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.content.dashboard .summary-wrapper .chart-card .chart-wrapper .card-header h2 {
-  margin: 0;
-}
-.content.dashboard .summary-wrapper .chart-card .chart-wrapper .card-header p {
-  color: #182747;
-  font-size: 1.1em;
 }
 .content.dashboard .summary-wrapper .chart-card .chart-wrapper .custom-legend {
   display: flex;
@@ -103,4 +93,11 @@
 }
 .content.dashboard .summary-wrapper .chart-card .chart-wrapper .additional-summary h3 {
   font-weight: 500;
+}
+@media (max-width: 990px) {
+  .content.dashboard .summary-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+  }
 }/*# sourceMappingURL=dashboard.css.map */

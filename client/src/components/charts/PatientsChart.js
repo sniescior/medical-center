@@ -70,7 +70,7 @@ export default function PatientsChart(props) {
 
     return (
         <>
-        <div className="chart-card">
+        <div className="chart-card" id="patientsChart">
             <div className="chart-wrapper">
                 <div className="card-header">
                     <div className="action-header">
