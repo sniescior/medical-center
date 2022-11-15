@@ -17,6 +17,7 @@
         ).then(data => {
             setLoader(false);
             setItem(data.data.item);
+            resolve(data);
         }).catch((error) => {
             setError({
                 statusCode: error

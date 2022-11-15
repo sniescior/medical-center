@@ -97,6 +97,13 @@ body {
         background-color: transparent;
         position: relative;
 
+        &.button-action-right {
+            transition: .2s ease-in-out;
+            &:hover {
+                transform: translateX(4px);
+            }
+        }
+
         .tooltip {
             position: absolute;
             background-color: rgba(17, 17, 17, 0.75);

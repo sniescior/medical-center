@@ -87,6 +87,12 @@ body button {
   background-color: transparent;
   position: relative;
 }
+body button.button-action-right {
+  transition: 0.2s ease-in-out;
+}
+body button.button-action-right:hover {
+  transform: translateX(4px);
+}
 body button .tooltip {
   position: absolute;
   background-color: rgba(17, 17, 17, 0.75);
