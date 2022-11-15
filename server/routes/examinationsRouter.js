@@ -41,9 +41,14 @@ router.get('/count-examinations', async (req, res) => {
 
 router.get('/get-examinations', async (req, res) => {
     const count = parseInt(req.query.count) || '';
-    const page = parseInt(req.query.page) || '';
     const orderByColumn = req.query.orderByColumn || '';
     const order = req.query.order || '';
+
+    var page = req.query.page;
+
+    if(page === '0') {
+        page = 0;
+    } else { page = ''; }
 
     const idQuery = req.query.idQuery || '';
     const titleQuery = req.query.titleQuery || '';
@@ -54,7 +59,7 @@ router.get('/get-examinations', async (req, res) => {
          AND title LIKE '%${titleQuery}%'
          ORDER BY ${orderByColumn} ${order} LIMIT ${count*page}, ${count}`;
 
-    if(count && page && orderByColumn && order) {
+    if(count !== '' && page !== '' && orderByColumn !== '' && order != '') {
         query = 
         `SELECT * FROM examinations
          WHERE examination_id LIKE '%${idQuery}%'
