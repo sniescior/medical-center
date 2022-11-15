@@ -12,17 +12,21 @@
   min-height: -webkit-fit-content;
   min-height: -moz-fit-content;
   min-height: fit-content;
+  border-radius: 12px;
+  margin-top: 20px;
+  padding: 0;
+  border: 2px solid rgba(17, 17, 17, 0.05);
+  background-color: rgba(221, 221, 221, 0.3607843137);
 }
 .table-wrapper table {
   overflow-y: hidden;
-  margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 12px;
   position: relative;
 }
 .table-wrapper table thead tr {
-  background-color: rgba(255, 212, 132, 0.8156862745);
+  background-color: rgba(221, 221, 221, 0.3607843137);
   color: #ffffff;
   text-align: left;
   color: #182747;
@@ -31,7 +35,7 @@
   white-space: nowrap;
 }
 .table-wrapper table thead tr.search-row {
-  background-color: transparent;
+  background-color: rgba(221, 221, 221, 0.3607843137);
   border-bottom: 1px solid #dddddd;
   color: rgba(24, 39, 71, 0.6078431373);
 }
@@ -48,16 +52,19 @@
 .table-wrapper table thead tr.search-row input {
   width: 100%;
   padding: 8px 12px;
-  background-color: rgba(221, 221, 221, 0.6509803922);
+  background-color: rgba(255, 255, 255, 0.5);
   border: none;
   border-radius: 6px;
   transition: 0.3s ease-in-out;
   min-width: 80px;
-}
-.table-wrapper table thead tr.search-row input:focus, .table-wrapper table thead tr.search-row input:hover {
-  background-color: #fff;
-  box-shadow: 0 0 0 2pt rgba(255, 212, 132, 0.8156862745);
   outline: none;
+}
+.table-wrapper table thead tr.search-row input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 0 2pt #0d6efd;
+}
+.table-wrapper table thead tr.search-row input:hover {
+  box-shadow: 0 0 0 2pt rgba(13, 109, 253, 0.6156862745);
 }
 .table-wrapper table thead tr th {
   padding: 12px 15px;
@@ -81,7 +88,7 @@
   width: 80px;
 }
 .table-wrapper table thead tr th:hover {
-  background-color: rgba(255, 198, 92, 0.4901960784);
+  background-color: #ddd;
 }
 .table-wrapper table thead tr th.table-checkbox {
   cursor: default;
@@ -99,7 +106,7 @@
   padding: 4px 8px;
 }
 .table-wrapper table thead tr th .control-icons .bi-caret-up-fill {
-  color: #829460;
+  color: #198754;
   padding: 4px 8px;
 }
 .table-wrapper table thead tr th .hidden {
@@ -158,9 +165,7 @@
   cursor: default;
 }
 .table-wrapper table tbody.table-loader.none {
-  position: absolute;
   display: none;
-  z-index: -100;
 }
 .table-wrapper table tbody.table-loader.none tr {
   background-color: transparent;
@@ -176,24 +181,24 @@
 }
 @-webkit-keyframes table-loader-animation-even {
   0% {
-    background-color: transparent;
+    background-color: #f3f3f3;
   }
   50% {
-    background-color: rgba(238, 238, 238, 0.65);
+    background-color: #ddd;
   }
   100% {
-    background-color: transparent;
+    background-color: #f3f3f3;
   }
 }
 @keyframes table-loader-animation-even {
   0% {
-    background-color: transparent;
+    background-color: #f3f3f3;
   }
   50% {
-    background-color: rgba(238, 238, 238, 0.65);
+    background-color: #ddd;
   }
   100% {
-    background-color: transparent;
+    background-color: #f3f3f3;
   }
 }
 .table-wrapper table tbody.table-loader tr {
@@ -210,11 +215,17 @@
   opacity: 1;
   transition: 0.2s ease-in-out;
 }
+.table-wrapper table tbody tr:nth-of-type(odd) {
+  background-color: #fff;
+}
+.table-wrapper table tbody tr:nth-of-type(odd):hover {
+  background-color: rgba(221, 221, 221, 0.5529411765);
+}
 .table-wrapper table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
-.table-wrapper table tbody tr:hover {
-  background-color: #dddddd;
+.table-wrapper table tbody tr:nth-of-type(even):hover {
+  background-color: rgba(221, 221, 221, 0.5529411765);
 }
 
 .table-summary {

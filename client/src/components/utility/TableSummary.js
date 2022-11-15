@@ -1,7 +1,6 @@
 import React from "react";
 import Dropdown from "./Dropdown";
 import Pagination from "./Pagination";
-import EmptyTable from "./EmptyTable";
 
 export default function TableSummary(props) {
     const { items } = props;
@@ -28,10 +27,6 @@ export default function TableSummary(props) {
                     pageSize={props.pageSize}
                 />
             </>
-        );
-    } else {
-        return (
-            <EmptyTable tableLoader={props.tableLoader} message={"Nie znaleziono wyników spełniających podane kryteria"} />
         );
     }
 }
