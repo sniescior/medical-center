@@ -35,6 +35,7 @@ $dimmed_font_color: #1827479b;
         position: relative;
         box-sizing: border-box;
         overflow-y: scroll;
+        padding-bottom: 20px;
 
         .modal-message {
             padding: 16px 20px;
@@ -152,6 +153,20 @@ $dimmed_font_color: #1827479b;
                 padding: 10px 20px;
                 align-items: center;
 
+                .input-error-wrapper {
+                    display: grid;
+
+                    span {
+                        color: #be0000;
+                        margin-top: 6px;
+                        text-align: center;
+
+                        &.no-error {
+                            display: none;
+                        }
+                    }
+                }
+
                 label {
                     text-align: right;
                 }
@@ -160,10 +175,18 @@ $dimmed_font_color: #1827479b;
                 input {
                     padding: 8px 12px;
                     background-color: #dddddd71;
-                    border: none;
+                    border: 2px solid transparent;
                     border-radius: 6px;
                     transition: .3s ease-in-out;
                     min-width: 1px;
+
+                    &.error {
+                        border: 2px solid #be0000;
+
+                        &:focus, &:hover {
+                            box-shadow: 0 0 0 2pt #fff;
+                        }
+                    }
 
                     &.day {
                         &::placeholder {

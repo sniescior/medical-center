@@ -129,8 +129,8 @@ export default function PatientModal(props) {
         });
     }
     
-    const savePatientAction = () => {
-        const params = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, dateOfBirth: dateOfBirth };
+    const savePatientAction = (data) => {
+        const params = { firstName: data.name, lastName: data.lastname, email: data.email, address: data.address, city: data.city, country: data.country, dateOfBirth: data.birthdate };
         if(patientID) {
             updateItem(`/api/patients/${patientID}`, params, setToastMessage, setLoader)
             .then((data) => {
@@ -158,10 +158,9 @@ export default function PatientModal(props) {
 		}
 	}, [patientID]);
 
-
     return (
         <div className={modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody title={modalTitle} saveAction={savePatientAction} deleteAction={deletePatientAction} setModalOpened={setModalOpened} elementIDState={patientID} inputs={inputs} loader={loader} />
+            <ModalBody modalOpened={modalOpened} title={modalTitle} saveAction={savePatientAction} deleteAction={deletePatientAction} setModalOpened={setModalOpened} elementIDState={patientID} inputs={inputs} loader={loader} />
         </div>
     );
 };

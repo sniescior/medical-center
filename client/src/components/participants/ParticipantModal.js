@@ -31,7 +31,7 @@ function ParticipantForm(props) {
 export default function ParticipantModal(props) {
     const params = useParams();
     const navigate = useNavigate();
-    const { modalData, setModalOpened, setToastMessage } = props;
+    const { modalOpened, modalData, setModalOpened, setToastMessage } = props;
     
     const [projectID, setProjectID] = useState(params.projectID);
     const [consent, setConsent] = useState(false);
@@ -69,9 +69,8 @@ export default function ParticipantModal(props) {
     }
 
     return (
-        <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
-            {/* <ModalBody form={form} title={modalTitle} subtitle={modalSubtitle} saveAction={saveParticipantAction} deleteAction={deleteParticipantAction} setModalOpened={setModalOpened} elementIDState={projectID} loader={loader} /> */}
-            <ModalBody title={modalTitle} subtitle={modalSubtitle} saveAction={saveParticipantAction} deleteAction={deleteParticipantAction} setModalOpened={setModalOpened} elementIDState={projectID} loader={loader} inputs={inputs} />
+        <div className={modalOpened ? "overlay" : "overlay hidden"}>
+            <ModalBody modalOpened={modalOpened} title={modalTitle} subtitle={modalSubtitle} saveAction={saveParticipantAction} deleteAction={deleteParticipantAction} setModalOpened={setModalOpened} elementIDState={projectID} loader={loader} inputs={inputs} />
         </div>
     );
 };

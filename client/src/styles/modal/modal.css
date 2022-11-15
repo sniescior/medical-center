@@ -31,6 +31,7 @@
   position: relative;
   box-sizing: border-box;
   overflow-y: scroll;
+  padding-bottom: 20px;
 }
 .overlay .modal .modal-message {
   padding: 16px 20px;
@@ -129,6 +130,17 @@
   padding: 10px 20px;
   align-items: center;
 }
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper {
+  display: grid;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper span {
+  color: #be0000;
+  margin-top: 6px;
+  text-align: center;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper span.no-error {
+  display: none;
+}
 .overlay .modal .modal-content-wrapper .input-wrapper label {
   text-align: right;
 }
@@ -136,10 +148,19 @@
 .overlay .modal .modal-content-wrapper .input-wrapper input {
   padding: 8px 12px;
   background-color: rgba(221, 221, 221, 0.4431372549);
-  border: none;
+  border: 2px solid transparent;
   border-radius: 6px;
   transition: 0.3s ease-in-out;
   min-width: 1px;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper textarea.error,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error {
+  border: 2px solid #be0000;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper textarea.error:focus, .overlay .modal .modal-content-wrapper .input-wrapper textarea.error:hover,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error:focus,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error:hover {
+  box-shadow: 0 0 0 2pt #fff;
 }
 .overlay .modal .modal-content-wrapper .input-wrapper textarea.day::-moz-placeholder, .overlay .modal .modal-content-wrapper .input-wrapper input.day::-moz-placeholder {
   color: #182747;

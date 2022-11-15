@@ -69,7 +69,7 @@ export default function ProjectModal(props) {
 
     return (
         <div className={modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody title={modalTitle} saveAction={saveProjectAction} deleteAction={deleteProjectAction} setModalOpened={setModalOpened} elementIDState={projectID} inputs={inputs} loader={loader}  />
+            <ModalBody modalOpened={modalOpened} title={modalTitle} saveAction={saveProjectAction} deleteAction={deleteProjectAction} setModalOpened={setModalOpened} elementIDState={projectID} inputs={inputs} loader={loader}  />
         </div>
     );
 };
