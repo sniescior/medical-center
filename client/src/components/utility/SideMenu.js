@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import '../../styles/navbar/navbar.css';
 import { NavLink } from "react-router-dom";
 
@@ -30,10 +30,16 @@ export default function SideMenu(props) {
         }
     ];
 
+    // Changes when user hovers over hide menu button (#hide-nav-button)
+    const [hover, setHover] = useState(false);
+
     return (
-        <nav className={props.menuOpen ? "navbar" : "navbar hidden"}>
+        <nav className={props.menuOpen ? (hover ? "navbar slide" : "navbar") : "navbar hidden"}>
             <div className="navbar-container">
-                <button id="hide-nav-button" onClick={() => { props.closeMenu(); }}>
+                <button id="hide-nav-button"
+                    onMouseEnter={() => { setHover(true); }}
+                    onMouseLeave={() => { setHover(false); }}
+                    onClick={() => { props.closeMenu(); }}>
                     <i className="bi bi-arrow-left"></i>
                 </button>
                 <div className="nav-image">

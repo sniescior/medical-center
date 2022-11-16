@@ -49,6 +49,12 @@
 .navbar.hidden {
   transform: translateX(-250px);
 }
+.navbar.slide {
+  transform: translateX(-15px);
+}
+.navbar.slide #hide-nav-button {
+  transform: translateX(10px);
+}
 .navbar .navbar-container {
   width: 100%;
   display: flex;
@@ -59,24 +65,25 @@
   position: relative;
 }
 .navbar .navbar-container #hide-nav-button {
-  color: rgba(24, 39, 71, 0.6078431373);
+  color: #eee;
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
+  padding: 14px;
   border: none;
   font-size: 1.2em;
   display: flex;
   justify-content: center;
   align-items: center;
   top: 15px;
-  right: 10px;
-  background-color: transparent;
+  right: -20px;
+  background-color: #0d6efd;
+  border-radius: 50%;
   cursor: pointer;
-  transition: 0.2s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 .navbar .navbar-container #hide-nav-button:hover {
-  color: #182747;
-  transform: translateX(-4px);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .navbar .navbar-container .nav-image {
   text-align: center;
