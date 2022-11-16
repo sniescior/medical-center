@@ -33,7 +33,7 @@ export default function PatientTable(props) {
                     </tbody>
                 </table>
 
-                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono badań"} />}
+                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono pacjentów"} />}
 
             </div>
             

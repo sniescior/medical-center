@@ -4,6 +4,7 @@ import TableSearchRow from "../utility/TableSearchRow";
 import TableSummary from "../utility/TableSummary";
 import OrderRow from "./OrderRow";
 import TableLoader from "../utility/TableLoader";
+import EmptyTable from "../utility/EmptyTable";
 
 export default function OrderTable(props) {
     return (
@@ -29,18 +30,21 @@ export default function OrderTable(props) {
                     </tbody>
                 </table>
 
-                <TableSummary
-                    tableLoader={props.tableLoader}
-                    pagesCount={props.pagesCount}
-                    totalCount={props.totalCount}
-                    setPageNumber={props.setPageNumber}
-                    currentPage={props.currentPage}
-                    pageSize={props.pageSize}
+                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono zleceń"} />}
 
-                    items={props.items}
-                    setPageSize={props.setPageSize}
-                    defaultValue={props.pageSize} />
             </div>
+
+            <TableSummary
+                tableLoader={props.tableLoader}
+                pagesCount={props.pagesCount}
+                totalCount={props.totalCount}
+                setPageNumber={props.setPageNumber}
+                currentPage={props.currentPage}
+                pageSize={props.pageSize}
+
+                items={props.items}
+                setPageSize={props.setPageSize}
+                defaultValue={props.pageSize} />
         </>
     );
 }

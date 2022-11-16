@@ -12,7 +12,7 @@ export default function SideMenu(props) {
         }, 
         {
             name: 'projects',
-            icon: 'bi bi-file-ruled-fill',
+            icon: 'bi bi-diagram-3-fill',
             title: 'Projekty',
             href: '/projects',
         }, 
