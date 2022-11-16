@@ -412,6 +412,7 @@ body .container .content .content-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 12px;
 }
 body .container .content .content-header .header-text h4 {
   font-size: 1.2em;

@@ -42,7 +42,9 @@ export default function DashboardView(props) {
 
     return (
         <div className='content dashboard'>
-            <h2>Podsumowanie</h2>
+            <div className='content-header'>
+                <h2>Podsumowanie</h2>
+            </div>
             <div className='summary-wrapper'>
                 <PatientsChart />
                 <SummaryCard title={"Badania"} count={examinationsCount} link={'/examinations'} />
