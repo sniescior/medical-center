@@ -333,6 +333,7 @@ body {
         display: flex;
         align-items: center;
         gap: 10px;
+        padding: 0;
 
         &.right {
             margin-top: 10px;
@@ -390,6 +391,7 @@ body {
                 cursor: pointer;
                 color: $font_color;
                 transition: .2s ease-in-out;
+                border-radius: 8px;
 
                 i {
                     font-size: 0.5em;

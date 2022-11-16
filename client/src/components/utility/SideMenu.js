@@ -40,7 +40,7 @@ export default function SideMenu(props) {
                     onMouseEnter={() => { setHover(true); }}
                     onMouseLeave={() => { setHover(false); }}
                     onClick={() => { props.closeMenu(); }}>
-                    <i className="bi bi-arrow-left"></i>
+                    <i className="bi bi-chevron-left"></i>
                 </button>
                 <div className="nav-image">
                     <img src="/mc-icon.png" alt="navbar-image" />
