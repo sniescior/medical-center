@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
 import ModalForm from "./ModalForm";
 import ModalHeader from "./ModalHeader";
 import TabsHeader from "./TabsHeader";
 
 export default function ModalBody(props) {
-    const { modalOpened, deleteDisabled, saveDisabled, modalMessage, title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
+    const { modalOpened, title, loader, subtitle, setModalOpened, saveAction, deleteAction, elementIDState, inputs, tabs, activeTab, setActiveTab } = props;
 
     if(!tabs) {
         return (

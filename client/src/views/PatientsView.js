@@ -6,7 +6,7 @@ import ErrorPage from "../components/utility/ErrorPage";
 import { getArrayQuery, getItemsCount } from "../database/ordersQuery";
 
 export default function PatientsView(props) {
-    const { toastMessage, setToastMessage } = props;
+    const { setToastMessage } = props;
 
     const [loader, setLoader] = useState(false);
 

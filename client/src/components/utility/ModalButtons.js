@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ModalButtons(props) {
-    const { elementIDState, reset, setModalOpened, loader, deleteAction, saveAction } = props;
+    const { elementIDState, reset, setModalOpened, loader, deleteAction } = props;
 
     return (
         <div className="button-wrapper">

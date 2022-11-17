@@ -16,7 +16,7 @@ Aplikacja była testowana na systemie Linux Ubuntu oraz MacOS.
  - Docker (najłatwiejszy sposób uruchomienia programu)
 
 ## Konfiguracja
-Na potrzeby zadania w repozytorium zawarto przykładowy plik .env (znajdujący się w katalogu [server](https://github.com/sniescior/medical-center/blob/main/server/.env)).
+Na potrzeby zadania w repozytorium zawarto przykładowy plik .env (znajdujący się w katalogu [server/.env](https://github.com/sniescior/medical-center/blob/main/server/.env)).
 
 
 Zmienne środowiskowe DB_NAME oraz SERVER_PORT __NIE POWINNY BYĆ ZMIENIANE__ (może to skutkować niepoprawnym działaniem systemu)
@@ -42,10 +42,16 @@ Docker compose powinien utworzyć instancję bazy danych, serwer oraz klienta ap
 
 I tyle...
 
-Po zakończeniu instalacji ostatnich pakietów wymaganych do poprawnego działania aplikacji klienta, można otworzyć w witrynę http://localhost:3000
+Jeżeli w terminalu wyświetlił się komunikat:
+```
+You can now view medical-center in the browser.
+    Local:            http://localhost:3000
+    On Your Network:  http://10.5.0.7:3000
+```
+Oznacza to, że instalacja przebiegła pomyślnie i można otworzyć w witrynę http://localhost:3000
 
 ## Baza danych
-Docker zadba o inicjalizację bazy danych wraz z przykładowymi daynmi. Pliki konfiguracyjne bazy danych znajdują się w katalogu [/server/database](https://github.com/sniescior/medical-center/tree/main/server/database).
+Docker zadba o inicjalizację bazy danych wraz z przykładowymi danymi. Pliki konfiguracyjne bazy danych znajdują się w katalogu [server/database](https://github.com/sniescior/medical-center/tree/main/server/database).
 
 
 ## Rozwiązywanie błędów

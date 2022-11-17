@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ExaminationTable from "./ExaminationTable";
-import { getExaminations, getExaminationsCount } from "../../database/examinationsQuery";
 import { getArrayQuery } from "../../database/ordersQuery";
 
 export default function Examinations(props) {

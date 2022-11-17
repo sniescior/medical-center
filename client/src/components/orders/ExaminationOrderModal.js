@@ -4,7 +4,7 @@ import { deleteItem, updateItem } from "../../database/ordersQuery";
 import ModalBody from "../utility/ModalBody";
 
 export default function ExaminationOrderModal(props) {
-    const { modalData, modalOpened, setModalOpened, elementIDState, refreshState, setRefreshState, setToastMessage } = props;
+    const { modalData, setModalOpened, refreshState, setRefreshState, setToastMessage } = props;
     const [loader, setLoader] = useState(false);
     const modalTitle = "Wyniki badania";
     const [modalSubtitle, setModalSubtitle] = useState("");

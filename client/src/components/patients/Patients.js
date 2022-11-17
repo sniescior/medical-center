@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PatientTable from "./PatientTable";
-import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
 
 export default function Patients(props) {
 
-    const { tableRefresh, setTableRefresh } = props;
+    const { tableRefresh } = props;
 
     const [pagesCount, setPagesCount] = useState(0);
     const [patients, setPatients] = useState([]);

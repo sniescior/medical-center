@@ -4,18 +4,18 @@ const Response = require('../domain/response');
 const HttpStatus = require('../controller/httpStatus');
 const router = express.Router();
 
-router.get('/patients', async (req, res) => {
+router.get('/participants', async (req, res) => {
     var query = ``;
 
     if(parseInt(req.query.byYear) === 1) {
         query = 
-        `SELECT COUNT(part.patient_id), YEAR(pat.join_date) FROM patients pat, participants part 
+        `SELECT COUNT(part.patient_id) as value, YEAR(pat.join_date) as label FROM patients pat, participants part 
          WHERE pat.id IN (SELECT patient_id FROM participants)
          AND pat.id = part.patient_id
          GROUP BY YEAR(pat.join_date)`
     } else {
         query = 
-        `SELECT COUNT(part.patient_id), MONTH(pat.join_date) FROM patients pat, participants part 
+        `SELECT COUNT(part.patient_id) as value, MONTH(pat.join_date) as label FROM patients pat, participants part 
          WHERE pat.id IN (SELECT patient_id FROM participants)
          AND pat.id = part.patient_id
          GROUP BY MONTH(pat.join_date)`
@@ -35,19 +35,17 @@ router.get('/patients', async (req, res) => {
     });
 });
 
-router.get('/participants', async (req, res) => {
+router.get('/patients', async (req, res) => {
     var query = ``;
 
     if(parseInt(req.query.byYear) === 1) {
         query = 
         `SELECT YEAR(pat.join_date) as label, COUNT(pat.id) as value FROM patients pat
-        GROUP BY YEAR(pat.join_date), pat.id
-        HAVING pat.id IN (SELECT part.patient_id FROM participants part)`
+        GROUP BY YEAR(pat.join_date)`
     } else {
         query = 
         `SELECT MONTH(pat.join_date) as label, COUNT(pat.id) as value FROM patients pat
-        GROUP BY MONTH(pat.join_date), pat.id
-        HAVING pat.id IN (SELECT part.patient_id FROM participants part)`
+        GROUP BY MONTH(pat.join_date)`
     }
     
     database.query(query, (err, result) => {

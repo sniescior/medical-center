@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function AlertModal(props) {
 
-    const { modalData, action, modalOpened, setModalOpened, loader } = props;
+    const { modalData, loader } = props;
     return (
         <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
             <div className="modal alert">

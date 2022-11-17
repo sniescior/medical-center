@@ -3,7 +3,6 @@ import ErrorPage from "../components/utility/ErrorPage";
 import LoaderPage from "../components/utility/LoaderPage";
 import ExaminationModal from "../components/examinations/ExaminationModal";
 import Examinations from "../components/examinations/Examinations";
-import { getExaminations, getExaminationsCount } from "../database/examinationsQuery";
 import { getArrayQuery, getItemsCount } from "../database/ordersQuery";
 
 export default function ExaminationsView(props) {

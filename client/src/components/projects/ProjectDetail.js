@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getParticipants, getProjectDetails, getParticipantsCount, addPatientToProject, getNotParticipants, getNotParticipantsCount } from "../../database/projectsQuery";
+import { getProjectDetails, getParticipantsCount, getNotParticipantsCount } from "../../database/projectsQuery";
 import ErrorPage from "../utility/ErrorPage";
 import LoaderPage from "../utility/LoaderPage";
 import ProjectModal from "./ProjectModal";
@@ -32,7 +32,7 @@ function ParticipantsTab(props) {
         sort: false
     }];
     
-    const { projectID, active, setLoader, setError, tableRefresh, setTableRefresh } = props;
+    const { projectID, active, setError, tableRefresh } = props;
 
     const [tableLoader, setTableLoader] = useState(true);
 
@@ -73,7 +73,7 @@ function ParticipantsTab(props) {
 }
 
 function PatientsTab(props) {
-    const { projectID, active, setLoader, setModalOpened, setModalData, setError } = props;
+    const { projectID, active, setModalOpened, setModalData, setError } = props;
 
     const [tableLoader, setTableLoader] = useState(true);
 

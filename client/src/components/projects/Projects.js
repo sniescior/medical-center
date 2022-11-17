@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProjectsCount } from "../../database/projectsQuery";
 import ProjectTable from "./ProjectTable";
-import { getArrayQuery, getItemsCount } from "../../database/ordersQuery";
+import { getArrayQuery } from "../../database/ordersQuery";
 
 export default function Projects(props) {
 

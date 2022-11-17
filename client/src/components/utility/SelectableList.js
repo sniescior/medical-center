@@ -40,7 +40,7 @@ function ListItem(props) {
 
 export default function SelectableList(props) {
     const [noData, setNoData] = useState(false);
-    const { listLoader, modalLoader, detailAction, editable, refreshState, deleteItemAction, modalOpened, refreshList, elementIDState, setError, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, setAddedItems, items, setItems } = props;
+    const { listLoader, modalLoader, detailAction, editable, deleteItemAction, selectedItems, setSelectedItems, titleQuery, setTitleQuery, addedItems, items } = props;
 
     useEffect(() => {
         setNoData(items.length < 1 && addedItems.length < 1);
@@ -58,7 +58,7 @@ export default function SelectableList(props) {
         <div className={editable === 1 ? "selectable-list" : "selectable-list view-only"}>
             <span className={listLoader ? "loader big" : "loader big hidden"}></span>
             <div className={(noData && !listLoader) ? "no-data-wrapper" : "no-data-wrapper none"}>
-                <img className="no-data-img" src="search.svg" />
+                <img className="no-data-img" src="search.svg" alt="empty queryset" />
                 <h4>Brak wyników</h4>
             </div>
 

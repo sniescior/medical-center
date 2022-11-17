@@ -24,7 +24,6 @@ const normalizeResult = (result) => {
  */
 
 router.post('/', async (req, res) => {
-    console.log(req.body);
     database.query(queries.CREATE_PATIENT, Object.values(req.body), (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }

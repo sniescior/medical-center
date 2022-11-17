@@ -3,13 +3,12 @@ import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 import { addItem, deleteItem, getArrayQuery, updateItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
-import ModalButtons from "../utility/ModalButtons";
 import ModalForm from "../utility/ModalForm";
 import SelectableList from "../utility/SelectableList";
 import ExaminationOrderModal from "./ExaminationOrderModal";
 
 function ExaminationsTab(props) {
-    const { refreshState, loader, detailAction, consent, setToastMessage, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
+    const { refreshState, loader, detailAction, consent, modalOpened, elementIDState, selectedItems, setSelectedItems, setActiveTab } = props;
 
     const [titleQuery, setTitleQuery] = useState('');
 

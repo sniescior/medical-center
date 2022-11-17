@@ -9,7 +9,7 @@ export default function MiniNavBar(props) {
                 </button>
                 <div className="wrapper vertical">
                     <div className="nav-image">
-                        <img src="/mc-icon.png" alt="navbar-image" />
+                        <img src="/mc-icon.png" alt="logo" />
                     </div>
                     <div className="version-info">
                         <p>v 1.0.0</p>

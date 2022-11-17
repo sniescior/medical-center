@@ -43,7 +43,7 @@ export default function SideMenu(props) {
                     <i className="bi bi-chevron-left"></i>
                 </button>
                 <div className="nav-image">
-                    <img src="/mc-icon.png" alt="navbar-image" />
+                    <img src="/mc-icon.png" alt="logo" />
                     <h2 className="title">Medical Center</h2>
                 </div>
                 <ul className="navbar-nav toggled">
@@ -51,7 +51,7 @@ export default function SideMenu(props) {
                         return (
                             <NavLink key={link.name} to={link.href}>
                                 <li 
-                                    className={props.currentPage == link.name ? "nav-link active" : "nav-link"} >
+                                    className={props.currentPage === link.name ? "nav-link active" : "nav-link"} >
                                         <i className={link.icon}></i>
                                         {link.title}
                                 </li>

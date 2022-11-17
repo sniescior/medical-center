@@ -93,7 +93,7 @@ export default function PatientsChart(props) {
 
                 <div className="additional-summary">
                     <h3>
-                        Łącznie pacjentów: {patientsCount}
+                        Łącznie pacjentów: {patientsCount} + xd
                     </h3>
                 </div>
             </div>

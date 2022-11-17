@@ -41,7 +41,7 @@ function SwitchRender(props) {
 }
 
 function InputWrapper(props) {
-    const { input, register, errors, control } = props;
+    const { input, register, errors } = props;
 
     return (
         <div className="input-wrapper">
@@ -52,7 +52,7 @@ function InputWrapper(props) {
 }
 
 export default function ModalForm(props) {
-    const { tabs, modalOpened, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
+    const { modalOpened, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const onSubmit = (data) => { saveAction(data); }

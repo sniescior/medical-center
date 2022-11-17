@@ -8,7 +8,7 @@ import { addItem, deleteItem, updateItem } from "../../database/ordersQuery";
 export default function ProjectModal(props) {
     const params = useParams()
     const navigate = useNavigate();
-    const { modalData, modalOpened, setModalOpened, setModalData, setToastMessage, setRefreshState, refreshState } = props;
+    const { modalData, modalOpened, setModalOpened, setToastMessage, setRefreshState, refreshState } = props;
 
     const [projectID, setProjectID] = useState(null);
     const [name, setName] = useState('');
