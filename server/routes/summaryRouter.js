@@ -9,12 +9,16 @@ router.get('/patients', async (req, res) => {
 
     if(parseInt(req.query.byYear) === 1) {
         query = 
-        `SELECT YEAR(join_date) as label, COUNT(id) as value FROM patients
-         GROUP BY YEAR(join_date)`
+        `SELECT COUNT(part.patient_id), YEAR(pat.join_date) FROM patients pat, participants part 
+         WHERE pat.id IN (SELECT patient_id FROM participants)
+         AND pat.id = part.patient_id
+         GROUP BY YEAR(pat.join_date)`
     } else {
         query = 
-        `SELECT MONTH(join_date) as label, COUNT(id) value FROM patients
-         GROUP BY MONTH(join_date)`
+        `SELECT COUNT(part.patient_id), MONTH(pat.join_date) FROM patients pat, participants part 
+         WHERE pat.id IN (SELECT patient_id FROM participants)
+         AND pat.id = part.patient_id
+         GROUP BY MONTH(pat.join_date)`
     }
     
     database.query(query, (err, result) => {
