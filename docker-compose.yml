@@ -19,7 +19,8 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql_db
     networks:
-      - internalnet
+      internalnet:
+        ipv4_address: 10.5.0.5
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 8s
@@ -27,7 +28,7 @@ services:
 
   node_server:
     container_name: nodeservercontainer
-    build: .
+    build: ./server
     image: nodeserver:v1
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
@@ -46,8 +47,28 @@ services:
       mysql_db:
         condition: service_healthy
     networks:
-      - internalnet
+      internalnet:
+        ipv4_address: 10.5.0.6
+
+  client:
+    container_name: reactappcontainer
+    build: ./client
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src
+    depends_on:
+      - node_server
+    networks:
+      internalnet:
+        ipv4_address: 10.5.0.7
 
 networks:
   internalnet:
     driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
