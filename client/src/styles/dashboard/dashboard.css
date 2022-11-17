@@ -67,6 +67,10 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
+}
+.content.dashboard .summary-wrapper .chart-card .chart-wrapper .custom-legend .legend-item:hover {
+  text-decoration: underline;
 }
 .content.dashboard .summary-wrapper .chart-card .chart-wrapper .custom-legend .legend-item p {
   margin: 0;

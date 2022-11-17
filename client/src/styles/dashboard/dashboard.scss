@@ -84,6 +84,11 @@ $legendary_green: #00BFA6;
                         justify-content: center;
                         align-items: center;
                         gap: 8px;
+                        cursor: pointer;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
 
                         p {
                             margin: 0;

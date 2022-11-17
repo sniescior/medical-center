@@ -27,19 +27,22 @@ export default function PatientsChart(props) {
             });
     }, []);
 
+    // #0d6efd
+    const [selectedChart, setSelectedChart] = useState(0);
+
     var data = {
         labels: patientsChart?.map(_ => _.label),
         datasets: [{
             label: 'Wszyscy',
             data: patientsChart?.map(_ => _.value),
-            backgroundColor: [ '#0d6efd' ],
-            borderColor: [ '#0d6efd' ],
+            backgroundColor: [ selectedChart !== 0 ? '#0d6efd' : '#0d6dfd00' ],
+            borderColor: [ selectedChart !== 0 ? '#0d6efd' : '#0d6dfd00' ],
             borderWidth: 3
         }, {
             label: 'Zarejestrowani',
             data: participantsChart?.map(_ => _.value),
-            backgroundColor: [ '#00BFA6' ],
-            borderColor: [ '#00BFA6' ],
+            backgroundColor: [  selectedChart !== 1 ? '#00BFA6' : '#00bfa600' ],
+            borderColor: [ selectedChart !== 1 ? '#00BFA6' : '#00bfa600' ],
             borderWidth: 3
         }]
     };
@@ -79,11 +82,11 @@ export default function PatientsChart(props) {
                     </div>
                     <p>Jak zmieniało się zainteresowanie programem na przełomie czasu?</p>
                     <div className="custom-legend">
-                        <div className="legend-item">
+                        <div className="legend-item" onMouseOver={() => { setSelectedChart(1) }} onMouseLeave={() => { setSelectedChart(2) }}>
                             <span className="color-blue"></span>
                             <p>Wszyscy pacjenci</p>
                         </div>
-                        <div className="legend-item">
+                        <div className="legend-item" onMouseOver={() => { setSelectedChart(0) }} onMouseLeave={() => { setSelectedChart(2) }}>
                             <span className="color-green"></span>
                             <p>Zarejestrowani</p>
                         </div>
@@ -93,7 +96,7 @@ export default function PatientsChart(props) {
 
                 <div className="additional-summary">
                     <h3>
-                        Łącznie pacjentów: {patientsCount} + xd
+                        Łącznie pacjentów: {patientsCount}
                     </h3>
                 </div>
             </div>
