@@ -10,7 +10,7 @@ Aplikacja była testowana na systemie Linux Ubuntu oraz MacOS.
  - MySQL
 
 ## Demo
-
+![Medical Center Dashboard Screenshot](medical-center-mockup.png)
 
 ## Wymagania
  - Docker (najłatwiejszy sposób uruchomienia programu)
