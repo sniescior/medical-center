@@ -1,5 +1,5 @@
 # Ośrodek Medyczny
-Aplikacja webowa ułatwiająca prowadzenie badań nad różnymi chorobami.
+Aplikacja webowa ułatwiająca zarządzanie ośrodkiem badawczym.
 
 ### Testy
 Aplikacja była testowana na systemie Linux Ubuntu oraz MacOS.
@@ -19,7 +19,7 @@ Aplikacja była testowana na systemie Linux Ubuntu oraz MacOS.
 Na potrzeby zadania w repozytorium zawarto przykładowy plik .env (znajdujący się w katalogu [server/.env](https://github.com/sniescior/medical-center/blob/main/server/.env)).
 
 
-Zmienne środowiskowe DB_NAME oraz SERVER_PORT __NIE POWINNY BYĆ ZMIENIANE__ (może to skutkować niepoprawnym działaniem systemu)
+Zmienne środowiskowe DB_NAME oraz SERVER_PORT __NIE POWINNY BYĆ ZMIENIANE__ (będzie to skutkować niepoprawnym działaniem systemu)
 
 ## Instalacja
 Po pierwsze należy sklonować repozytorium (branch main)
@@ -32,7 +32,7 @@ Następnie, otwierając nowy terminal w folderze głównym projektu wywołać po
 docker-compose --env-file ./server/.env up
 ```
 
-O ile plik .env nie został przeniesiony do innego miejsca, w takim przypadku w miejscu ./server/.env należy podać ścieżkę do tego pliku.
+W przypadku, jeżeli plik .env został przeniesiony do innego miejsca - zamiast *./server/.env* należy podać ścieżkę do tego pliku.
 
 Docker compose powinien utworzyć instancję bazy danych, serwer oraz klienta aplikacji.
 Łącznie 3 kontenery w ramach jednej sieci:
