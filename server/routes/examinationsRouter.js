@@ -48,7 +48,7 @@ router.get('/get-examinations', async (req, res) => {
 
     if(page === '0') {
         page = 0;
-    } else { page = ''; }
+    } else { page = page; }
 
     const idQuery = req.query.idQuery || '';
     const titleQuery = req.query.titleQuery || '';
