@@ -16,7 +16,7 @@ INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `ci
 VALUES (5, 'Miquel', 'Lang', 'miquel.lang@email.com', '46630 Aufderhar Ports', 'North Herbert', 'United States', STR_TO_DATE('1976-09-10', '%Y-%m-%d'), STR_TO_DATE('2007-3-15', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
-VALUES (6, 'Gary', 'Gorczany', 'gary.gorczany@email.com', '56602 Hilario Cliffs', 'Lake Ginny', 'United States', STR_TO_DATE('1990-12-01', '%Y-%m-%d'), STR_TO_DATE('2019-1-2', '%Y-%m-%d'));
+VALUES (6, 'Gary', 'Gorczany', 'gary.gorczany@email.com', '56602 Hilario Cliffs', 'Lake Ginny', 'United States', STR_TO_DATE('1990-12-01', '%Y-%m-%d'), STR_TO_DATE('2018-1-2', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
 VALUES (7, 'Andre', 'Quitzon', 'andre.quitzon@email.com', '226 Greenfelder Meadow', 'West Dannieview', 'United States', STR_TO_DATE('1981-02-27', '%Y-%m-%d'), STR_TO_DATE('2020-6-14', '%Y-%m-%d'));
@@ -31,7 +31,7 @@ INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `ci
 VALUES (10, 'Trey', 'Wisozk', 'trey.wisozk@email.com', '59856 Schamberger Islands', 'New Toby', 'United States', STR_TO_DATE('1978-07-19', '%Y-%m-%d'), STR_TO_DATE('2009-9-27', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
-VALUES (11, 'Winifred', 'Orn', 'winifred.orn@email.com', '20215 Ahmed Harbors', 'Faheyberg', 'United States', STR_TO_DATE('1987-11-09', '%Y-%m-%d'), STR_TO_DATE('2019-2-5', '%Y-%m-%d'));
+VALUES (11, 'Winifred', 'Orn', 'winifred.orn@email.com', '20215 Ahmed Harbors', 'Faheyberg', 'United States', STR_TO_DATE('1987-11-09', '%Y-%m-%d'), STR_TO_DATE('2018-2-5', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
 VALUES (12, 'Sebastian', 'Stamm', 'sebastian.stamm@email.com', '5058 Mayer Flats', 'Lake Jesusitaberg', 'United States', STR_TO_DATE('1970-12-24', '%Y-%m-%d'), STR_TO_DATE('2020-5-4', '%Y-%m-%d'));
@@ -55,7 +55,7 @@ INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `ci
 VALUES (18, 'Halley', 'Witting', 'halley.witting@email.com', '73551 Marquardt Mountains', 'Gaylaborough', 'United States', STR_TO_DATE('2001-08-21', '%Y-%m-%d'), STR_TO_DATE('2003-5-10', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
-VALUES (19, 'Lyndsey', 'Deckow', 'lyndsey.deckow@email.com', '634 Francisco Junctions', 'East Kyle', 'United States', STR_TO_DATE('1985-03-30', '%Y-%m-%d'), STR_TO_DATE('2019-6-13', '%Y-%m-%d'));
+VALUES (19, 'Lyndsey', 'Deckow', 'lyndsey.deckow@email.com', '634 Francisco Junctions', 'East Kyle', 'United States', STR_TO_DATE('1985-03-30', '%Y-%m-%d'), STR_TO_DATE('2018-6-13', '%Y-%m-%d'));
 
 INSERT INTO `patients` (`id`, `first_name`, `last_name`, `email`, `address`, `city`, `country`, `date_of_birth`, `join_date`) 
 VALUES (20, 'Horacio', 'Tremblay', 'horacio.tremblay@email.com', '6539 Kiehn Terrace', 'Lake Lawerencehaven', 'United States', STR_TO_DATE('1977-10-28', '%Y-%m-%d'), STR_TO_DATE('2005-7-26', '%Y-%m-%d'));

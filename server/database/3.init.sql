@@ -19,16 +19,16 @@ VALUES (5, 'Project 5');
 -- Populate participants table with random data
 
 INSERT INTO `participants`
-VALUES (1, 1, 1, FALSE);
+VALUES (1, 1, 1, TRUE);
 
 INSERT INTO `participants`
-VALUES (2, 1, 2, FALSE);
+VALUES (2, 1, 2, TRUE);
 
 INSERT INTO `participants`
 VALUES (3, 1, 3, TRUE);
 
 INSERT INTO `participants`
-VALUES (4, 2, 3, TRUE);
+VALUES (4, 2, 3, FALSE);
 
 INSERT INTO `participants`
 VALUES (5, 2, 4, TRUE);
@@ -41,6 +41,9 @@ VALUES (7, 3, 3, TRUE);
 
 INSERT INTO `participants`
 VALUES (8, 3, 4, FALSE);
+
+INSERT INTO `participants`
+VALUES (9, 5, 18, FALSE);
 
 INSERT INTO `participants`
 VALUES (10, 4, 10, TRUE);
