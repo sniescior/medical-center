@@ -91,6 +91,8 @@ router.delete('/:id', async (req, res) => {
  router.get('/all', async (req, res) => {
     const query = `SELECT * FROM patients`;
 
+    console.log('Oh hello');
+
     database.query(query, (err, result) => {
         try {
             if(err) { throw new Error(`Error running query:\n ${err}`); }

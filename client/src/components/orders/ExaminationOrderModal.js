@@ -18,12 +18,14 @@ export default function ExaminationOrderModal(props) {
 
     const inputs = [
         {
+            title: 'examinationresult',
             label: 'Wynik badania',
             state: result,
             placeholder: 'Wynik badania',
             setState: setResult,
             inputElement: INPUT_ELEMENTS.TEXTAREA,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: false
         }
     ];
 

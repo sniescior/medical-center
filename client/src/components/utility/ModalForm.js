@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { INPUT_TYPES, INPUT_ELEMENTS } from "../../constants/inputs";
 import ModalButtons from "./ModalButtons";
 
-function switchRender(input) {
+function SwitchRender(props) {
+    const { input, register, errors } = props;
+    const title = input.title;
+
     switch (input.inputElement) {
         case INPUT_ELEMENTS.INPUT:
             switch (input.type) {
+                
                 case INPUT_TYPES.CHECKBOX:
                     return (
                         <input type="checkbox" checked={input.state} onChange={(e) => input.setState(!input.state)} />
@@ -13,7 +18,15 @@ function switchRender(input) {
             
                 default:
                     return (
-                        <input placeholder={input.placeholder} type={input.type} value={input.state? input.state : ''} onChange={(e) => input.setState(e.target.value)} />
+                        <div className="input-error-wrapper">
+                            <input 
+                                defaultValue={input.state}
+                                className={errors[title] ? "error" : "no-error"} 
+                                {...register(title, { required: input.required, pattern: input.pattern })} 
+                                placeholder={input.placeholder} 
+                                type={input.type} />
+                            <span className={errors[title] ? "error" : "no-error"}>To pole jest wymagane</span>
+                        </div>
                     );
             }
 
@@ -28,33 +41,36 @@ function switchRender(input) {
 }
 
 function InputWrapper(props) {
-    const { input } = props;
+    const { input, register, errors, control } = props;
 
     return (
         <div className="input-wrapper">
             <label>{input.label}</label>
-            {switchRender(input)}
+            <SwitchRender errors={errors} register={register} input={input} />
         </div>
     );
 }
 
 export default function ModalForm(props) {
-    const { tabs, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
+    const { tabs, modalOpened, setModalOpened, elementIDState, inputs, loader, saveAction, deleteAction } = props;
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const onSubmit = (data) => { saveAction(data); }
+
+    useEffect(() => {
+        reset();
+    }, [modalOpened]);
 
     return (
-        <>
-        <form onSubmit={(e) => { e.preventDefault(); }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div className={!loader ? "modal-content-wrapper" : "modal-content-wrapper disabled"}>
                 {inputs.map((input, key) => {
                     return (
-                        <InputWrapper key={key} input={input} />
+                        <InputWrapper errors={errors} register={register} key={key} input={input} />
                         );
                     })}
             </div>
+            <ModalButtons reset={reset} saveAction={saveAction} deleteAction={deleteAction} elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
         </form>
-            {tabs? <></> :
-                <ModalButtons saveAction={saveAction} deleteAction={deleteAction} elementIDState={elementIDState} setModalOpened={setModalOpened} loader={loader} />
-            }
-        </>
     )
 }

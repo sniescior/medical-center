@@ -17,9 +17,13 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       SERVICE_TAGS: dev
-      SERVICE_NAME: mysqldb
+      SERVICE_NAME: mysql_db
     networks:
       - internalnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 8s
+      retries: 5
 
   node_server:
     container_name: nodeservercontainer
@@ -30,7 +34,7 @@ services:
     expose:
       - ${SERVER_PORT}
     environment:
-      DB_HOST: mysqldb
+      DB_HOST: mysql_db
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
@@ -39,7 +43,8 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: nodeserverservice
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
     networks:
       - internalnet
 

@@ -1,5 +1,7 @@
 $font_color: #182747;
 $dimmed_font_color: #1827479b;
+$primary_blue: #0d6efd;
+$primary_blue_hover: #0d6dfd9d;
 
 .navbar {
     width: 250px;
@@ -62,6 +64,15 @@ $dimmed_font_color: #1827479b;
     &.hidden {
         transform: translateX(-250px);
     }
+
+    
+    &.slide {
+        transform: translateX(-15px);
+
+        #hide-nav-button {
+            transform: translateX(10px);
+        }
+    }
     
     .navbar-container {
         width: 100%;
@@ -73,24 +84,26 @@ $dimmed_font_color: #1827479b;
         position: relative;
 
         #hide-nav-button {
-            color: $dimmed_font_color;
+            color: #eee;
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 45px;
+            height: 45px;
+            padding: 14px;
             border: none;
             font-size: 1.2em;
             display: flex;
             justify-content: center;
             align-items: center;
             top: 15px;
-            right: 10px;
-            background-color: transparent;
+            right: -20px;
+            background-color: $primary_blue;
+            border-radius: 50%;
             cursor: pointer;
-            transition: .2s ease-in-out;
+            transition: .3s ease-in-out;
+
 
             &:hover {
-                color: $font_color;
-                transform: translateX(-4px);
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             }
         }
 

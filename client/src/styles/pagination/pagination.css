@@ -36,4 +36,24 @@
 .pagination-wrapper .pagination .pagination-item.active {
   background-color: rgba(255, 212, 132, 0.8156862745);
   font-weight: 600;
+}
+@media (max-width: 500px) {
+  .pagination-wrapper .pagination {
+    margin: 0 10px;
+  }
+  .pagination-wrapper .pagination .pagination-item {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 400px) {
+  .pagination-wrapper .pagination {
+    margin: 0 5px;
+  }
+  .pagination-wrapper .pagination .pagination-item {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7em;
+  }
 }/*# sourceMappingURL=pagination.css.map */

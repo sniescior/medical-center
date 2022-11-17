@@ -2,6 +2,8 @@ $font_color: #182747;
 $dimmed_font_color: #1827479b;
 $table_primary: #ffd484d0;
 $table_primary_hover: #ffc65c7d;
+$primary_blue: #0d6efd;
+$primary_blue_hover: #0d6dfd9d;
 
 .table-info {
     margin-left: 10px;
@@ -15,10 +17,14 @@ $table_primary_hover: #ffc65c7d;
     justify-content: space-between;
     margin-bottom: 10px;
     min-height: fit-content;
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 0;
+    border: 2px solid rgba(17, 17, 17, 0.05);
+    background-color: #dddddd5c;
     
     table {
         overflow-y: hidden;
-        margin-top: 20px;
         border-collapse: collapse;
         width: 100%;
         margin-bottom: 12px;
@@ -26,7 +32,7 @@ $table_primary_hover: #ffc65c7d;
         
         thead {
             tr {
-                background-color: $table_primary;
+                background-color: #dddddd5c;
                 color: #ffffff;
                 text-align: left;
                 color: $font_color;
@@ -35,7 +41,7 @@ $table_primary_hover: #ffc65c7d;
                 white-space: nowrap;
                 
                 &.search-row {
-                    background-color: transparent;
+                    background-color: #dddddd5c;
                     border-bottom: 1px solid #dddddd;
                     color: $dimmed_font_color;
                     
@@ -55,16 +61,20 @@ $table_primary_hover: #ffc65c7d;
                     input {
                         width: 100%;
                         padding: 8px 12px;
-                        background-color: #dddddda6;
+                        background-color: rgba(255, 255, 255, 0.5);
                         border: none;
                         border-radius: 6px;
                         transition: .3s ease-in-out;
                         min-width: 80px;
+                        outline: none;
                         
-                        &:focus, &:hover {
+                        &:focus {
                             background-color: #fff;
-                            box-shadow: 0 0 0 2pt $table_primary;
-                            outline: none;
+                            box-shadow: 0 0 0 2pt $primary_blue;
+                        }
+                        
+                        &:hover {
+                            box-shadow: 0 0 0 2pt $primary_blue_hover;
                         }
                     }
                 }
@@ -93,7 +103,7 @@ $table_primary_hover: #ffc65c7d;
                     }
 
                     &:hover {
-                        background-color: $table_primary_hover;
+                        background-color: #ddd;
                     }
                     
                     &.table-checkbox {
@@ -115,7 +125,7 @@ $table_primary_hover: #ffc65c7d;
                         }
         
                         .bi-caret-up-fill {
-                            color: #829460;
+                            color: #198754;
                             padding: 4px 8px;
                         }
                     }
@@ -128,7 +138,6 @@ $table_primary_hover: #ffc65c7d;
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
-
 
                         .expand-button {
                             background-color: transparent;
@@ -189,9 +198,7 @@ $table_primary_hover: #ffc65c7d;
                 cursor: default;
 
                 &.none {
-                    position: absolute;
                     display: none;
-                    z-index: -100;
 
                     tr {
                         background-color: transparent;
@@ -208,9 +215,9 @@ $table_primary_hover: #ffc65c7d;
                 }
 
                 @keyframes table-loader-animation-even {
-                    0% { background-color: transparent }
-                    50% { background-color: rgba(238, 238, 238, 0.65) }
-                    100% { background-color: transparent }
+                    0% { background-color: #f3f3f3 }
+                    50% { background-color: #ddd }
+                    100% { background-color: #f3f3f3 }
                 }
 
                 tr {
@@ -229,13 +236,20 @@ $table_primary_hover: #ffc65c7d;
                 opacity: 1;
                 transition: .2s ease-in-out;
                 
+                &:nth-of-type(odd) {
+                    background-color: #fff;
+                    &:hover {
+                        background-color: #dddddd8d;
+                    }
+                }
+                
                 &:nth-of-type(even) {
                     background-color: #f3f3f3;
+                    &:hover {
+                        background-color: #dddddd8d;
+                    }
                 }
 
-                &:hover {
-                    background-color: #dddddd;
-                }
             }
         }
     }

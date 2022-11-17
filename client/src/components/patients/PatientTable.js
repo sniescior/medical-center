@@ -5,6 +5,7 @@ import TableSummary from "../utility/TableSummary";
 import TableSearchRow from "../utility/TableSearchRow";
 import ParticipantRow from "../participants/ParticipantRow";
 import TableLoader from "../utility/TableLoader";
+import EmptyTable from "../utility/EmptyTable";
 
 export default function PatientTable(props) {
     return (
@@ -31,6 +32,9 @@ export default function PatientTable(props) {
                         })}
                     </tbody>
                 </table>
+
+                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono pacjentów"} />}
+
             </div>
             
             <TableSummary

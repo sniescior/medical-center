@@ -44,4 +44,28 @@ $table_primary: #ffd484d0;
             }
         }
     }
+
+    @media (max-width: 500px) {
+        .pagination {
+            margin: 0 10px;
+            
+            .pagination-item {
+                width: 28px;
+                height: 28px;
+                font-size: .9em;
+            }
+        }
+    }
+
+    @media (max-width: 400px) {
+        .pagination {
+            margin: 0 5px;
+            
+            .pagination-item {
+                width: 20px;
+                height: 20px;
+                font-size: .7em;
+            }
+        }
+    }
 }

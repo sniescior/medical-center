@@ -5,6 +5,7 @@ import TableSearchRow from "../utility/TableSearchRow";
 import '../../styles/table/table.css';
 import TableSummary from "../utility/TableSummary";
 import TableLoader from "../utility/TableLoader";
+import EmptyTable from "../utility/EmptyTable";
 
 export default function ProjectTable(props) {
     return (
@@ -29,6 +30,9 @@ export default function ProjectTable(props) {
                         })}
                     </tbody>
                 </table>
+
+                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono projektów"} />}
+
             </div>
             <TableSummary
                 tableLoader={props.tableLoader}

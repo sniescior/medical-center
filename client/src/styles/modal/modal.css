@@ -5,17 +5,19 @@
   right: 0;
   bottom: 0;
   width: 100%;
-  background-color: rgba(226, 226, 226, 0.6);
   z-index: 1000;
-  -webkit-backdrop-filter: blur(1px);
-          backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
   overflow-y: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 1;
+  transition: 0.2s ease-in-out;
 }
 .overlay.hidden {
-  display: none;
+  pointer-events: none;
+  opacity: 0;
 }
 .overlay .modal {
   min-width: 600px;
@@ -31,6 +33,7 @@
   position: relative;
   box-sizing: border-box;
   overflow-y: scroll;
+  padding-bottom: 20px;
 }
 .overlay .modal .modal-message {
   padding: 16px 20px;
@@ -65,6 +68,9 @@
   align-items: center;
   padding: 18px 22px;
   gap: 20px;
+}
+.overlay .modal .modal-header h2 {
+  margin-left: 0;
 }
 .overlay .modal .modal-header .header-text h2 {
   font-weight: 500;
@@ -126,6 +132,17 @@
   padding: 10px 20px;
   align-items: center;
 }
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper {
+  display: grid;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper span {
+  color: #be0000;
+  margin-top: 6px;
+  text-align: center;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper .input-error-wrapper span.no-error {
+  display: none;
+}
 .overlay .modal .modal-content-wrapper .input-wrapper label {
   text-align: right;
 }
@@ -133,10 +150,19 @@
 .overlay .modal .modal-content-wrapper .input-wrapper input {
   padding: 8px 12px;
   background-color: rgba(221, 221, 221, 0.4431372549);
-  border: none;
+  border: 2px solid transparent;
   border-radius: 6px;
   transition: 0.3s ease-in-out;
   min-width: 1px;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper textarea.error,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error {
+  border: 2px solid #be0000;
+}
+.overlay .modal .modal-content-wrapper .input-wrapper textarea.error:focus, .overlay .modal .modal-content-wrapper .input-wrapper textarea.error:hover,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error:focus,
+.overlay .modal .modal-content-wrapper .input-wrapper input.error:hover {
+  box-shadow: 0 0 0 2pt #fff;
 }
 .overlay .modal .modal-content-wrapper .input-wrapper textarea.day::-moz-placeholder, .overlay .modal .modal-content-wrapper .input-wrapper input.day::-moz-placeholder {
   color: #182747;
@@ -249,11 +275,18 @@
     width: 100%;
     height: 100%;
     max-height: 100vh;
+    border-radius: 0;
+    border: none;
   }
   .overlay .modal.alert {
+    border-radius: 8px;
+    border: 2px solid #dddddd;
     min-width: unset;
     width: 80%;
     height: unset;
+  }
+  .overlay .modal.alert .close-modal-button {
+    display: none;
   }
   .overlay .modal.alert .modal-header {
     display: inline;
@@ -266,7 +299,7 @@
   }
 }
 .overlay .modal .button-wrapper {
-  padding: 12px 20px 12px 20px;
+  padding: 12px 20px 0 20px;
   width: 100%;
   justify-content: flex-end;
   box-sizing: border-box;

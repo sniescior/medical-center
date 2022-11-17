@@ -3,6 +3,7 @@ import { INPUT_ELEMENTS, INPUT_TYPES } from "../../constants/inputs";
 import { addItem, deleteItem, getArrayQuery, updateItem } from "../../database/ordersQuery";
 import '../../styles/modal/modal.css';
 import ModalBody from "../utility/ModalBody";
+import ModalButtons from "../utility/ModalButtons";
 import ModalForm from "../utility/ModalForm";
 import SelectableList from "../utility/SelectableList";
 import ExaminationOrderModal from "./ExaminationOrderModal";
@@ -87,10 +88,6 @@ function ExaminationsTab(props) {
 
     useEffect(() => {
         let ignore = false;
-
-        console.log('Refreshing list');
-        console.log(addedItems);
-        console.log(items);
 
         setItems([]);
         setAddedItems([]);
@@ -192,19 +189,22 @@ export default function OrderModal(props) {
     }
 
     const deleteOrderAction = () => {
-        if(!orderCompleted(modalData.completion_date)) {
+        console.log(modalData);
+        if(!orderCompleted(modalData.completion_date) || modalData.completion_date === null) {
             deleteItem(`/api/orders/${modalData.order_id}`, { orderID: modalData.order_id }, setToastMessage, setLoader)
             .then((data) => { 
                 setToastMessage("Usunięto zlecenie");
+                setModalOpened(false);
+                setLoader(false);
                 setTableRefresh(!tableRefresh);
             });
         }
     }
 
-    const saveOrderAction = () => { 
+    const saveOrderAction = (data) => { 
         if(modalData.order_id) {
             if(modalData.consent !== 0) {
-                updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: name, completionDate: completionDate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
+                updateItem('/api/orders/update-order', { orderID: modalData.order_id, title: data.ordername, completionDate: data.completiondate, examinations: Array.from(selectedItems) }, setToastMessage, setLoader)
                 .then((data) => {
                     setToastMessage(data.message);
                     setRefreshState(!refreshState);
@@ -214,7 +214,7 @@ export default function OrderModal(props) {
             }
             
         } else {
-            const params = { title: name, completionDate: completionDate, examinations: Array.from(selectedItems), participantID: participantID };
+            const params = { title: data.ordername, completionDate: data.completiondate, examinations: Array.from(selectedItems), participantID: participantID };
             addItem('/api/orders/add?', params, setToastMessage, setLoader)
             .then((data) => {
                 setToastMessage(data.message);
@@ -271,20 +271,24 @@ export default function OrderModal(props) {
 
     const inputs = [
         {
+            title: 'ordername',
             label: 'Nazwa zlecenia',
             state: name,
             placeholder: 'Nazwa zlecenia',
             setState: setName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'completiondate',
             label: 'Data realizacji',
             state: completionDate,
             placeholder: 'Nazwa zlecenia',
             setState: setCompletionDate,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.DATE
+            type: INPUT_TYPES.DATE,
+            required: false
         }
     ];
 
@@ -293,7 +297,7 @@ export default function OrderModal(props) {
             id: 0,
             title: 'Ogólne',
             icon: 'bi bi-pen',
-            component: <ModalForm tabs={[]} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
+            component: <ModalForm modalOpened={modalOpened} tabs={[]} saveAction={saveOrderAction} deleteAction={deleteOrderAction} setModalOpened={setModalOpened} elementIDState={modalData.order_id} inputs={inputs} loader={loader} />
         },
         {
             id: 1,
@@ -307,6 +311,7 @@ export default function OrderModal(props) {
         <>
             <div className={props.modalOpened ? "overlay" : "overlay hidden"}>
                 <ModalBody
+                    modalOpened={modalOpened}
                     deleteDisabled={completed}
                     deleteTooltip={completed ? deleteTooltip : ""}
                     modalMessage={modalMessage}

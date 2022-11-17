@@ -14,7 +14,7 @@ export default function AlertModal(props) {
                         </span>
                     </h2>
                     <button 
-                        className={loader ? "hidden" : ""}
+                        className="close-modal-button"
                         onClick={() => { props.setModalOpened(false); }}>
                         <i className="bi bi-x-lg"></i>
                     </button>

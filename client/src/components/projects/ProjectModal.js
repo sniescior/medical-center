@@ -30,12 +30,14 @@ export default function ProjectModal(props) {
 
     const inputs = [
         {
+            title: 'projectname',
             label: 'Nazwa',
             state: name,
             setState: setName,
             inputElement: INPUT_ELEMENTS.INPUT,
             type: INPUT_TYPES.TEXT,
-            placeholder: 'Nazwa'
+            placeholder: 'Nazwa',
+            required: true
         }
     ];
 
@@ -67,7 +69,7 @@ export default function ProjectModal(props) {
 
     return (
         <div className={modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody title={modalTitle} saveAction={saveProjectAction} deleteAction={deleteProjectAction} setModalOpened={setModalOpened} elementIDState={projectID} inputs={inputs} loader={loader}  />
+            <ModalBody modalOpened={modalOpened} title={modalTitle} saveAction={saveProjectAction} deleteAction={deleteProjectAction} setModalOpened={setModalOpened} elementIDState={projectID} inputs={inputs} loader={loader}  />
         </div>
     );
 };

@@ -1,55 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/dashboard/dashboard.css';
+import { getItemsCount } from '../database/ordersQuery';
+import PatientsChart from '../components/charts/PatientsChart';
+import { useNavigate } from 'react-router-dom';
+
+function SummaryCard(props) {
+    const { title, count, link, subtitle } = props;
+    const navigate = useNavigate();
+    return (
+        <div className='summary-card'>
+            <div className='card-header'>
+                <div className='action-header'>
+                    {subtitle ? 
+                    <div className='extended-title'>
+                        <h2>{title}</h2>
+                        <h4>{subtitle}</h4>
+                    </div>
+                    : <h2>{title}</h2>
+                    }
+                    { link && <button className="button-action-right" onClick={() => navigate(link)}><i className="bi bi-arrow-right"></i></button> }
+                </div>
+            </div>
+            <h3>{count}</h3>
+        </div>
+    );
+}
 
 export default function DashboardView(props) {
 
-    const [patientsCount, setPatientsCount] = useState(null);
-    const [projectsCount, setProjectsCount] = useState(null);
+    const [projectsCount, setProjectsCount] = useState(0);
+    const [ordersCount, setOrdersCount] = useState(0);
+    const [examinationsCount, setExaminationsCount] = useState(0);
 
     useEffect(() => {
-        fetch('/api/patients/count-patients').then(
-            response => response.json()
-        ).then(
-            data => { setPatientsCount(data.data.count); }
-        );
+        getItemsCount('/api/projects/count-projects', new URLSearchParams({}), setProjectsCount, () => {}, () => {});
+        
+        getItemsCount('/api/orders/count', new URLSearchParams({}), setOrdersCount, () => {}, () => {});
 
-        fetch('/api/projects/count-projects').then(
-            response => response.json()
-        ).then(
-            data => { setProjectsCount(data.data.projectsCount); }
-        );
+        getItemsCount('/api/examinations/count-examinations', new URLSearchParams({}), setExaminationsCount, () => {}, () => {});
     }, []);
 
     return (
-        <div className='content'>
-            <h2>Podsumowanie</h2>
+        <div className='content dashboard'>
+            <div className='content-header'>
+                <h2>Podsumowanie</h2>
+            </div>
             <div className='summary-wrapper'>
-                <div className={patientsCount ? 'card tile' : 'card tile loading'}>
-                    <div className='header'>
-                        <h3>Pacjenci</h3>
-                        <button onClick={() => { props.setCurrentPage('patients'); }}>
-                            <i className="bi bi-arrow-right-short"></i>
-                        </button>
-                    </div>
-                    <span className='divider'></span>
-                    <div className='details'>
-                        <h2>{patientsCount}</h2>
-                        <h2 className='text-danger dummy'>-10</h2>
-                    </div>
-                </div>
-                <div className={projectsCount ? 'card tile' : 'card tile loading'}>
-                    <div className='header'>
-                        <h3>Projekty</h3>
-                        <button onClick={() => { props.setCurrentPage('projects'); }}>
-                            <i className="bi bi-arrow-right-short"></i>
-                        </button>
-                    </div>
-                    <span className='divider'></span>
-                    <div className='details'>
-                        <h2>{projectsCount}</h2>
-                        <h2 className='text-success dummy'>+56</h2>
-                    </div>
-                </div>
+                <PatientsChart />
+                <SummaryCard title={"Badania"} count={examinationsCount} link={'/examinations'} />
+                <SummaryCard title={"Projekty"} count={projectsCount} link={'/projects'} />
+                <SummaryCard 
+                    title={"Zlecenia"}
+                    count={ordersCount}
+                    subtitle={"Przejdź do widoku projektu, aby przeglądać zlecenia"} />
             </div>
         </div>
     );

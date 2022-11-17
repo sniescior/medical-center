@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ModalButtons(props) {
-    const { elementIDState, setModalOpened, loader, deleteAction, saveAction } = props;
+    const { elementIDState, reset, setModalOpened, loader, deleteAction, saveAction } = props;
 
     return (
         <div className="button-wrapper">
@@ -14,13 +14,8 @@ export default function ModalButtons(props) {
             </button>
 
             <div className="button-wrapper between">
-                <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { setModalOpened(false); }}>Odrzuć zmiany</button>
-                <button 
-                    type="button" 
-                    className={!loader ? "button-primary" : "button-primary button-disabled"}
-                    onClick={(e) => saveAction()}>
-                        Zapisz
-                </button>
+                <button type="button" className={!loader ? "button-secondary" : "button-secondary button-disabled"} onClick={() => { reset(); setModalOpened(false); }}>Odrzuć zmiany</button>
+                <button type="submit" className={!loader ? "button-primary" : "button-primary button-disabled"}>Zapisz</button>
             </div>
         </div>
     );

@@ -17,6 +17,7 @@
         ).then(data => {
             setLoader(false);
             setItem(data.data.item);
+            resolve(data);
         }).catch((error) => {
             setError({
                 statusCode: error
@@ -63,6 +64,7 @@ export const getItemsCount = (urlString, params, setCount, setError, setLoader) 
         ).then(data => {
             setLoader(false);
             setCount(data.data.count);
+            resolve(data);
         }).catch((error) => {
             setError({
                 statusCode: error

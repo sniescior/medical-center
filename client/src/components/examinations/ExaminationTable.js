@@ -1,4 +1,5 @@
 import React from "react";
+import EmptyTable from "../utility/EmptyTable";
 import TableHeaderRow from "../utility/TableHeaderRow";
 import TableLoader from "../utility/TableLoader";
 import TableSearchRow from "../utility/TableSearchRow";
@@ -29,6 +30,9 @@ export default function ExaminationTable(props) {
                     </tbody>
                     <tfoot></tfoot>
                 </table>
+
+                {props.items.length < 1 && !props.tableLoader &&  <EmptyTable message={"Nie znaleziono badań"} />}
+
             </div>
             <TableSummary
                 tableLoader={props.tableLoader}

@@ -48,62 +48,76 @@ export default function PatientModal(props) {
 
     const inputs = [
         {
+            title: 'name',
             label: 'Imię',
             state: firstName,
             placeholder: 'Imię',
             setState: setFirstName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'lastname',
             label: 'Nazwisko',
             state: lastName,
             placeholder: 'Nazwisko',
             setState: setLastName,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'email',
             label: 'E-mail',
             state: email,
             placeholder: 'E-mail',
             setState: setEmail,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.EMAIL
+            type: INPUT_TYPES.EMAIL,
+            required: true
         },
         {
+            title: 'address',
             label: 'Adres',
             state: address,
             placeholder: 'Adres',
             setState: setAddress,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true,
         },
         {
+            title: 'city',
             label: 'Miasto',
             state: city,
             placeholder: 'Miasto',
             setState: setCity,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'country',
             label: 'Państwo',
             state: country,
             placeholder: 'Państwo',
             setState: setCountry,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.TEXT
+            type: INPUT_TYPES.TEXT,
+            required: true
         },
         {
+            title: 'birthdate',
             label: 'Data urodzenia',
             state: dateOfBirth,
             placeholder: 'Data urodzenia',
             setState: setDateOfBirth,
             inputElement: INPUT_ELEMENTS.INPUT,
-            type: INPUT_TYPES.DATE
+            type: INPUT_TYPES.DATE,
+            required: true
         },
-    ]
+    ];
 
     const deletePatientAction = () => {
         deleteItem(`/api/patients/${props.modalData.id}`, {}, setToastMessage, setLoader)
@@ -115,8 +129,8 @@ export default function PatientModal(props) {
         });
     }
     
-    const savePatientAction = () => {
-        const params = { firstName: firstName, lastName: lastName, email: email, address: address, city: city, country: country, dateOfBirth: dateOfBirth };
+    const savePatientAction = (data) => {
+        const params = { firstName: data.name, lastName: data.lastname, email: data.email, address: data.address, city: data.city, country: data.country, dateOfBirth: data.birthdate };
         if(patientID) {
             updateItem(`/api/patients/${patientID}`, params, setToastMessage, setLoader)
             .then((data) => {
@@ -144,10 +158,9 @@ export default function PatientModal(props) {
 		}
 	}, [patientID]);
 
-
     return (
         <div className={modalOpened ? "overlay" : "overlay hidden"}>
-            <ModalBody title={modalTitle} saveAction={savePatientAction} deleteAction={deletePatientAction} setModalOpened={setModalOpened} elementIDState={patientID} inputs={inputs} loader={loader} />
+            <ModalBody modalOpened={modalOpened} title={modalTitle} saveAction={savePatientAction} deleteAction={deletePatientAction} setModalOpened={setModalOpened} elementIDState={patientID} inputs={inputs} loader={loader} />
         </div>
     );
 };
