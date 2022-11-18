@@ -57,3 +57,8 @@ Docker zadba o inicjalizację bazy danych wraz z przykładowymi danymi. Pliki ko
 ## Rozwiązywanie błędów
 Może się zdarzyć, że aplikacja klienta otworzy się zanim serwer zostanie skonfigurowany. Objawi się to wyświetleniem błędu 500. W takim przypadku należy zrestartować kontener serwera (nodeservercontainer) oraz klienta (reactappcontainer), upewniając się, że przed uruchomieniem klienta, serwer jest aktywny.
 
+W przypadku błędów związanych z docker-compose zalecane jest zainstalowanie jednej z podanych wersji
+ - docker-compose v2.12.1
+ - docker-compose v1.29.2
+
+ 

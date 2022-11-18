@@ -42,7 +42,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_CONNECTION_LIMIT: ${DB_CONNECTION_LIMIT}
       SERVICE_TAGS: dev
-      SERVICE_NAME: nodeserverservice
+      SERVICE_NAME: node_server
     depends_on:
       mysql_db:
         condition: service_healthy
