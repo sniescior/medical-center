@@ -48,7 +48,7 @@ You can now view medical-center in the browser.
     Local:            http://localhost:3000
     On Your Network:  http://10.5.0.7:3000
 ```
-Oznacza to, że instalacja przebiegła pomyślnie i można otworzyć w witrynę http://localhost:3000
+Oznacza to, że instalacja przebiegła pomyślnie i można otworzyć witrynę http://localhost:3000
 
 ## Baza danych
 Docker zadba o inicjalizację bazy danych wraz z przykładowymi danymi. Pliki konfiguracyjne bazy danych znajdują się w katalogu [server/database](https://github.com/sniescior/medical-center/tree/main/server/database).
