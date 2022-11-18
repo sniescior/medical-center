@@ -26,7 +26,7 @@ export default function ProjectModal(props) {
         } else {
             setModalTitle('Dodaj nowy projekt');
         }
-    }, [modalData]);
+    }, [modalData, modalOpened]);
 
     const inputs = [
         {

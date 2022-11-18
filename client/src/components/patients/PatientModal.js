@@ -44,7 +44,7 @@ export default function PatientModal(props) {
             setDateOfBirth('');
         }
             
-    }, [modalData]);
+    }, [modalData, modalOpened]);
 
     const inputs = [
         {
