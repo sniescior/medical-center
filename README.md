@@ -29,7 +29,7 @@ git clone https://github.com/sniescior/medical-center.git
 
 Następnie, otwierając nowy terminal w folderze głównym projektu wywołać polecenie
 ```
-docker-compose --env-file ./server/.env up
+docker-compose --env-file ./server/.env up -d
 ```
 
 W przypadku, jeżeli plik .env został przeniesiony do innego miejsca - zamiast *./server/.env* należy podać ścieżkę do tego pliku.
@@ -44,9 +44,9 @@ I tyle...
 
 Jeżeli w terminalu wyświetlił się komunikat:
 ```
-You can now view medical-center in the browser.
-    Local:            http://localhost:3000
-    On Your Network:  http://10.5.0.7:3000
+ ⠿ Container    mysqlcontainer          Healthy
+ ⠿ Container    nodeservercontainer     Started
+ ⠿ Container    reactappcontainer       Started
 ```
 Oznacza to, że instalacja przebiegła pomyślnie i można otworzyć witrynę http://localhost:3000
 
@@ -60,5 +60,3 @@ Może się zdarzyć, że aplikacja klienta otworzy się zanim serwer zostanie sk
 W przypadku błędów związanych z docker-compose zalecane jest zainstalowanie jednej z podanych wersji
  - docker-compose v2.12.1
  - docker-compose v1.29.2
-
- 
