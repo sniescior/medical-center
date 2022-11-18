@@ -48,6 +48,7 @@ router.post('/add-participant', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+
     database.query(queries.CREATE_PROJECT, Object.values(req.body), (err, result) => {
         try {
             if(!result) {
@@ -57,6 +58,7 @@ router.post('/', async (req, res) => {
                 res.status(HttpStatus.CREATED.code).send(new Response(HttpStatus.CREATED.code, HttpStatus.CREATED.status, 'Stworzono nowy projekt', { itemID: result.insertId }));
             }
         } catch(err) {
+            console.log('Error');
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
         }

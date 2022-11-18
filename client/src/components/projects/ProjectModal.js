@@ -56,14 +56,14 @@ export default function ProjectModal(props) {
                 setModalOpened(false);
                 setToastMessage(data.message);
                 setRefreshState(!refreshState);
-            })
+            });
         } else {
             addItem('/api/projects', { name: name }, setLoader, setToastMessage)
             .then((data) => {
                 setLoader(false);
                 setToastMessage(data.message)
                 navigate(`/projects/${data.data.itemID}`)
-            })
+            });
         }
     }
 

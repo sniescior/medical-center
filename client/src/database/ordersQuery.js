@@ -127,7 +127,7 @@ export const deleteItem = (urlString, params, setToastMessage, setLoader) => {
             setToastMessage(`Wystąpił błąd podczas przetwarzania żądania (${error})`)
             setLoader(false);
         });
-    })
+    });
 }
 
 /**

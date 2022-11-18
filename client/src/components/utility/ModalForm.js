@@ -21,6 +21,7 @@ function SwitchRender(props) {
                         <div className="input-error-wrapper">
                             <input 
                                 defaultValue={input.state}
+                                onKeyUp={(e) => { input.setState(e.target.value); }}
                                 className={errors[title] ? "error" : "no-error"} 
                                 {...register(title, { required: input.required, pattern: input.pattern })} 
                                 placeholder={input.placeholder} 

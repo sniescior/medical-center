@@ -23,6 +23,7 @@ CREATE TABLE `patients` (
     `country`         VARCHAR(255) DEFAULT NULL,
     `date_of_birth`   DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `join_date`       DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,   -- data dołączenia do systemu
+    
     PRIMARY KEY (`id`),
     CONSTRAINT `UQ_Patients_Email` UNIQUE (`email`)
 );
@@ -31,7 +32,9 @@ CREATE TABLE `patients` (
 CREATE TABLE `projects` (
     `id`              BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name`            VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+
+    PRIMARY KEY (`id`),
+    CONSTRAINT `UQ_Project_name` UNIQUE (`name`)
 );
 
 

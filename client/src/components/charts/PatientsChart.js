@@ -28,7 +28,7 @@ export default function PatientsChart(props) {
     }, []);
 
     // #0d6efd
-    const [selectedChart, setSelectedChart] = useState(0);
+    const [selectedChart, setSelectedChart] = useState(2);
 
     var data = {
         labels: patientsChart?.map(_ => _.label),
