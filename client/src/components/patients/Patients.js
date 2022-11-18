@@ -45,6 +45,11 @@ export default function Patients(props) {
     useEffect(() => {
         props.countAction(searchParams, setPatientsCount);
     }, [tableRefresh]);
+
+    useEffect(() => {
+        let size = localStorage.getItem('pageSize')
+        if(size) { setPageSize(size); }
+    }, []);
     
     useEffect(() => {
         setPagesCount(Math.ceil(patientsCount / pageSize));
@@ -143,6 +148,11 @@ export default function Patients(props) {
         }
     }, [props.headerData]);
 
+    const setSize = (value) => {
+        setPageSize(value);
+        localStorage.setItem('pageSize', value);
+    }
+
     return (
         <PatientTable
             tableLoader={tableLoader}
@@ -158,7 +168,7 @@ export default function Patients(props) {
             currentPage={pageNumber}
             pageSize={pageSize}
             
-            setPageSize={setPageSize}
+            setPageSize={setSize}
 
             order={order} 
             setOrder={setOrder} 

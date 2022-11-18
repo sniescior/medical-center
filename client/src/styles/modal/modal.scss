@@ -21,6 +21,16 @@ $dimmed_font_color: #1827479b;
     &.hidden {
         pointer-events: none;
         opacity: 0;
+        z-index: -10;
+
+        .modal {
+            pointer-events: none;
+        }
+
+        &.high {
+            pointer-events: none;
+            z-index: -1000;
+        }
     }
 
     .modal {

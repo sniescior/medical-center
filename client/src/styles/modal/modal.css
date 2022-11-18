@@ -18,6 +18,14 @@
 .overlay.hidden {
   pointer-events: none;
   opacity: 0;
+  z-index: -10;
+}
+.overlay.hidden .modal {
+  pointer-events: none;
+}
+.overlay.hidden.high {
+  pointer-events: none;
+  z-index: -1000;
 }
 .overlay .modal {
   min-width: 600px;

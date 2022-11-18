@@ -34,6 +34,9 @@ export default function Projects(props) {
 
     useEffect(() => {
         getProjectsCount(searchParams, setProjectsCount, props.setLoader, props.setError);
+
+        let size = localStorage.getItem('pageSize')
+        if(size) { setPageSize(size); }
     }, []);
     
     useEffect(() => {
@@ -83,6 +86,11 @@ export default function Projects(props) {
         }
     ];
 
+    const setSize = (value) => {
+        setPageSize(value);
+        localStorage.setItem('pageSize', value);
+    }
+
     return (
         <ProjectTable
             tableLoader={tableLoader}
@@ -96,7 +104,7 @@ export default function Projects(props) {
             currentPage={pageNumber}
             pageSize={pageSize}
             
-            setPageSize={setPageSize}
+            setPageSize={setSize}
 
             orderByColumn={orderByColumn}
             setOrderByColumn={setOrderByColumn}

@@ -82,6 +82,8 @@ export default function Orders(props) {
     }, [tableRefresh]);
 
     useEffect(() => {
+        let size = localStorage.getItem('pageSize')
+        if(size) { setPageSize(size); }
     }, []);
     
     useEffect(() => {
@@ -110,6 +112,11 @@ export default function Orders(props) {
         setPageNumber(1);
     }, [ordersCount, pageSize]);
 
+    const setSize = (value) => {
+        setPageSize(value);
+        localStorage.setItem('pageSize', value);
+    }
+
     return (
         <OrderTable
             tableLoader={tableLoader}
@@ -126,7 +133,7 @@ export default function Orders(props) {
             currentPage={pageNumber}
             pageSize={pageSize}
             
-            setPageSize={setPageSize}
+            setPageSize={setSize}
 
             order={order}
             setOrder={setOrder}

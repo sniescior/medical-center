@@ -30,6 +30,9 @@ export default function Examinations(props) {
 
     useEffect(() => {
         props.countAction(searchParams, setExaminationsCount);
+
+        let size = localStorage.getItem('pageSize')
+        if(size) { setPageSize(size); }
     }, []);
 
     useEffect(() => {
@@ -70,6 +73,11 @@ export default function Examinations(props) {
         }
     ];
 
+    const setSize = (value) => {
+        setPageSize(value);
+        localStorage.setItem('pageSize', value);
+    }
+
     return (
         <ExaminationTable
             tableLoader={tableLoader}
@@ -84,7 +92,7 @@ export default function Examinations(props) {
             currentPage={pageNumber}
             pageSize={pageSize}
             
-            setPageSize={setPageSize}
+            setPageSize={setSize}
 
             order={order}
             setOrder={setOrder}
