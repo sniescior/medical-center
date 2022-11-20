@@ -3,6 +3,7 @@ import '../styles/dashboard/dashboard.css';
 import { getItemsCount } from '../database/ordersQuery';
 import PatientsChart from '../components/charts/PatientsChart';
 import { useNavigate } from 'react-router-dom';
+import ErrorPage from '../components/utility/ErrorPage';
 
 function SummaryCard(props) {
     const { title, count, link, subtitle } = props;
@@ -31,29 +32,34 @@ export default function DashboardView(props) {
     const [projectsCount, setProjectsCount] = useState(0);
     const [ordersCount, setOrdersCount] = useState(0);
     const [examinationsCount, setExaminationsCount] = useState(0);
+    const [error, setError] = useState({});
 
     useEffect(() => {
-        getItemsCount('/api/projects/count-projects', new URLSearchParams({}), setProjectsCount, () => {}, () => {});
+        getItemsCount('/api/projects/count-projects', new URLSearchParams({}), setProjectsCount, setError, () => {});
         
-        getItemsCount('/api/orders/count', new URLSearchParams({}), setOrdersCount, () => {}, () => {});
+        getItemsCount('/api/orders/count', new URLSearchParams({}), setOrdersCount, setError, () => {});
 
-        getItemsCount('/api/examinations/count-examinations', new URLSearchParams({}), setExaminationsCount, () => {}, () => {});
+        getItemsCount('/api/examinations/count-examinations', new URLSearchParams({}), setExaminationsCount, setError, () => {});
     }, []);
-
-    return (
-        <div className='content dashboard'>
-            <div className='content-header'>
-                <h2>Podsumowanie</h2>
+ 
+    if(error.statusCode) {
+        return ( <ErrorPage error={error} /> );
+    } else {
+        return (
+            <div className='content dashboard'>
+                <div className='content-header'>
+                    <h2>Podsumowanie</h2>
+                </div>
+                <div className='summary-wrapper'>
+                    <PatientsChart setError={setError} />
+                    <SummaryCard title={"Badania"} count={examinationsCount} link={'/examinations'} />
+                    <SummaryCard title={"Projekty"} count={projectsCount} link={'/projects'} />
+                    <SummaryCard 
+                        title={"Zlecenia"}
+                        count={ordersCount}
+                        subtitle={"Przejdź do widoku projektu, aby przeglądać zlecenia"} />
+                </div>
             </div>
-            <div className='summary-wrapper'>
-                <PatientsChart />
-                <SummaryCard title={"Badania"} count={examinationsCount} link={'/examinations'} />
-                <SummaryCard title={"Projekty"} count={projectsCount} link={'/projects'} />
-                <SummaryCard 
-                    title={"Zlecenia"}
-                    count={ordersCount}
-                    subtitle={"Przejdź do widoku projektu, aby przeglądać zlecenia"} />
-            </div>
-        </div>
-    );
+        );
+    }
 }

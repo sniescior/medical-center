@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function PatientsChart(props) {
 
+    const { setError } = props;
+
     const navigate = useNavigate();
 
     const [patientsChart, setPatientsChart] = useState([]);
@@ -14,14 +16,14 @@ export default function PatientsChart(props) {
     const [patientsCount, setPatientsCount] = useState(0);
 
     useEffect(() => {
-        getArrayQuery('/api/summary/patients?', new URLSearchParams({ byYear: 1, byMonth: 0 }), () => {}, () => {})
+        getArrayQuery('/api/summary/patients?', new URLSearchParams({ byYear: 1, byMonth: 0 }), setError, () => {})
             .then((data) => {
                 setPatientsChart(data);
             });
 
-        getItemsCount('/api/patients/count-patients?', new URLSearchParams({}), setPatientsCount, () => {}, () => {})
+        getItemsCount('/api/patients/count-patients?', new URLSearchParams({}), setPatientsCount, setError, () => {})
 
-        getArrayQuery('/api/summary/participants?', new URLSearchParams({ byYear: 1, byMonth: 0 }), () => {}, () => {})
+        getArrayQuery('/api/summary/participants?', new URLSearchParams({ byYear: 1, byMonth: 0 }), setError, () => {})
             .then((data) => {
                 setParticipantsChart(data);
             });

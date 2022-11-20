@@ -169,7 +169,6 @@ router.get('/:projectID/get-participant/:patientID', async (req, res) => {
     database.query(queries.GET_PARTICIPANT_INFO, [parseInt(req.params.patientID), parseInt(req.params.projectID)], (err, result) => {
         try {
             if (result.length < 1) {
-                console.log(result);
                 res.status(HttpStatus.NOT_FOUND.code).send(new Response(HttpStatus.NOT_FOUND.code, HttpStatus.NOT_FOUND.status, '404 not found'));
                 return;
             }
@@ -207,8 +206,12 @@ router.get('/participants-count', async (req, res) => {
 
     database.query(query, (err, result) => {
         try {
-            const normalResult = normalizeResult(result);
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                const normalResult = normalizeResult(result);
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+            }
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
@@ -242,8 +245,12 @@ router.get('/not-participants-count', async (req, res) => {
 
     database.query(query, (err, result) => {
         try {
-            const normalResult = normalizeResult(result);
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                const normalResult = normalizeResult(result);
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { patientsCount: normalResult.patientsCount }));
+            }
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
@@ -365,8 +372,12 @@ router.get('/count-projects', async (req, res) => {
 
     database.query(query, (err, result) => {
         try {
-            const normalResult = normalizeResult(result);
-            res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { count: normalResult.projectsCount }));
+            if(!result) {
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
+            } else {
+                const normalResult = normalizeResult(result);
+                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'OK', { count: normalResult.projectsCount }));
+            }
         } catch(err) {
             console.log(err);
             res.status(HttpStatus.BAD_REQUEST.code).send(new Response(HttpStatus.BAD_REQUEST.code, HttpStatus.BAD_REQUEST.status, 'Bad request'));
@@ -426,7 +437,7 @@ router.get('/*', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             if(!result) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No projects found'));
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Projects retrieved', { items: result }));
             }

@@ -24,7 +24,7 @@ router.get('/participants', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             if(!result) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No data found'));
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Data retrieved', { items: result }));
             }
@@ -51,7 +51,7 @@ router.get('/patients', async (req, res) => {
     database.query(query, (err, result) => {
         try {
             if(!result) {
-                res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'No data found'));
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR.code).send(new Response(HttpStatus.INTERNAL_SERVER_ERROR.code, HttpStatus.INTERNAL_SERVER_ERROR.status, 'Internal Server Error'));
             } else {
                 res.status(HttpStatus.OK.code).send(new Response(HttpStatus.OK.code, HttpStatus.OK.status, 'Data retrieved', { items: result }));
             }

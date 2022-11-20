@@ -25,7 +25,7 @@ export default function PatientsView(props) {
 
     const refreshPatients = (searchParams) => {
         return new Promise((resolve, reject) => {
-            getArrayQuery('/api/patients?', searchParams, props.setError, () => {})
+            getArrayQuery('/api/patients?', searchParams, setError, () => {})
             .then((data) => {
                 resolve(data)
             });
